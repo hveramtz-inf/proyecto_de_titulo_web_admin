@@ -48,8 +48,7 @@ function Cursos({ claveCurso }) {
 
   const handleViewSections = (cursoId) => {
     console.log(`Ver secciones del curso con ID: ${cursoId}`);
-    // Aquí puedes agregar la lógica para ver secciones, por ejemplo, redirigir a una página de secciones
-    // history.push(`/secciones/${cursoId}`);
+    navigate(`/secciones/${cursoId}`);
   };
 
   const handleEdit = (cursoId) => {
