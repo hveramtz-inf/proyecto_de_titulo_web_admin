@@ -54,23 +54,26 @@ const VerSeccionesCurso = () => {
 
     const handleEdit = (seccionId) => {
         console.log(`Editar seccion con ID: ${seccionId}`);
-        navigate(`/secciones/editar/${seccionId}`);
+        navigate(`/secciones/editar/${cursoId}/${seccionId}`);
     };
 
     const handleDelete = async (seccionId) => {
-        console.log(`Eliminar seccion con ID: ${seccionId}`);
-        try {
-            const response = await fetch(`http://localhost:3000/secciones/${seccionId}`, {
-                method: 'DELETE'
-            });
-            if (!response.ok) {
-                throw new Error('Error al eliminar la seccion');
+        const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar esta sección?');
+        if (confirmDelete === true) {
+            console.log(`Eliminar seccion con ID: ${seccionId}`);
+            try {
+                const response = await fetch(`http://localhost:3000/secciones/${cursoId}/${seccionId}`, {
+                    method: 'DELETE'
+                });
+                if (!response.ok) {
+                    throw new Error('Error al eliminar la seccion');
+                }
+                console.log('Seccion eliminada correctamente');
+                setSecciones(secciones.filter(seccion => seccion.id !== seccionId));
+            } catch (error) {
+                console.error('Error al eliminar la seccion:', error);
             }
-            console.log('Seccion eliminada correctamente');
-            setSecciones(secciones.filter(seccion => seccion.id !== seccionId));
-        } catch (error) {
-            console.error('Error al eliminar la seccion:', error);
-        }
+            }    
     }
 
     return (
