@@ -11,9 +11,12 @@ app.use(Express.json());
 // Importar las rutas
 const cursosRpoutes = require('./routes/rutaCursos'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo courses.js
 const seccionesCursosRoutes = require('./routes/rutaSecciones'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo secciones.js	
+const cuestionariosCursosRoutes = require('./routes/rutaCuestionarios'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo cuestionarios.js
+
 // Usar las rutas
 app.use('/cursos', cursosRpoutes);
 app.use('/secciones',seccionesCursosRoutes)
+app.use('/cuestionarios',cuestionariosCursosRoutes)
 
 app.listen(port, () => {
   console.log(`Servidor escuchando en http://localhost:${port}`);
