@@ -9,6 +9,7 @@ import Editarcurso from '../components/cursos/editarCurso.jsx'
 import VerSeccionesCurso from '../components/seccionesCurso/verSeccionesCurso.jsx'
 import AgregarSeccionCurso from '../components/seccionesCurso/agregarSeccionCurso.jsx'
 import EditarSeccionCurso from '../components/seccionesCurso/editarSeccionCurso.jsx'
+import AgregarCuestionario from '../components/cuestionarios/agregarCuestionario.jsx'
 
 const AppRoutes = () => (
   <Routes>
@@ -29,6 +30,7 @@ const AppRoutes = () => (
 
     // Rutas Cuestionarios 
     <Route path="/cuestionarios" element={<Cuestionarios />} />
+    <Route path="/cuestionarios/agregar/:cursoId" element={<AgregarCuestionario />} />
   </Routes>
 )
 

@@ -32,10 +32,22 @@ router.get('/:cursoId/:seccionId', async (req, res) => {
 router.post('/:cursoId', async (req, res) => {
     try {
         const { cursoId } = req.params;
-        const { contenido, descripcion, titulo } = req.body;
-        const nuevaSeccion = { contenido, descripcion, titulo };
-        const seccionRef = await db.collection('Curso').doc(cursoId).collection('cuestionario').add(nuevaSeccion);
-        res.status(201).json({ id: seccionRef.id, ...nuevaSeccion });
+        const { titulo, preguntas } = req.body; // Asegúrate de que el cuerpo de la solicitud incluya las preguntas
+        const nuevoCuestionario = { titulo };
+        const cuestionarioRef = await db.collection('Curso').doc(cursoId).collection('cuestionarios').add(nuevoCuestionario);
+
+        // Agregar preguntas y respuestas
+        for (const preguntaObj of preguntas) {
+            const { textoPregunta, respuestas } = preguntaObj;
+            const preguntaRef = await cuestionarioRef.collection('preguntas').add({ textoPregunta });
+
+            for (const respuestaObj of respuestas) {
+                const { textoRespuesta, valor } = respuestaObj;
+                await preguntaRef.collection('respuestas').add({ textoRespuesta, valor });
+            }
+        }
+
+        res.status(201).json({ id: cuestionarioRef.id, ...nuevoCuestionario });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

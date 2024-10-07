@@ -6,7 +6,16 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const cursosSnapshot = await db.collection('Curso').get();
-    const cursosList = cursosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const cursosList = await Promise.all(cursosSnapshot.docs.map(async doc => {
+      const cursoData = doc.data();
+      const subcollections = await doc.ref.listCollections();
+      const subcollectionsData = {};
+      for (const subcollection of subcollections) {
+        const subcollectionSnapshot = await subcollection.get();
+        subcollectionsData[subcollection.id] = subcollectionSnapshot.docs.map(subDoc => ({ id: subDoc.id, ...subDoc.data() }));
+      }
+      return { id: doc.id, ...cursoData, subcollections: subcollectionsData };
+    }));
     res.status(200).json(cursosList);
   } catch (error) {
     res.status(500).json({ error: error.message });
