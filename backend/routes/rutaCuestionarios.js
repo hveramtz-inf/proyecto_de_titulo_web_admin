@@ -57,10 +57,33 @@ router.post('/:cursoId', async (req, res) => {
 router.put('/:cursoId/:cuestionarioId', async (req, res) => {
     try {
         const { cursoId, cuestionarioId } = req.params;
-        const { contenido, descripcion, titulo } = req.body;
-        const cuestionarioAcutalizado = { contenido, descripcion, titulo };
-        await db.collection('Curso').doc(cursoId).collection('cuestionario').doc(cuestionarioId).update(cuestionarioAcutalizado);
-        res.status(200).json({ seccionId, ...seccionActualizada });
+        const { titulo, preguntas } = req.body;
+        const cuestionarioActualizado = { titulo };
+        const cuestionarioRef = db.collection('Curso').doc(cursoId).collection('cuestionarios').doc(cuestionarioId);
+
+        // Actualizar el cuestionario
+        await cuestionarioRef.update(cuestionarioActualizado);
+
+        // Eliminar preguntas y respuestas existentes
+        const preguntasSnapshot = await cuestionarioRef.collection('preguntas').get();
+        const batch = db.batch();
+        preguntasSnapshot.forEach(doc => {
+            batch.delete(doc.ref);
+        });
+        await batch.commit();
+
+        // Agregar nuevas preguntas y respuestas
+        for (const preguntaObj of preguntas) {
+            const { textoPregunta, respuestas } = preguntaObj;
+            const preguntaRef = await cuestionarioRef.collection('preguntas').add({ textoPregunta });
+
+            for (const respuestaObj of respuestas) {
+                const { textoRespuesta, valor } = respuestaObj;
+                await preguntaRef.collection('respuestas').add({ textoRespuesta, valor });
+            }
+        }
+
+        res.status(200).json({ id: cuestionarioId, ...cuestionarioActualizado });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

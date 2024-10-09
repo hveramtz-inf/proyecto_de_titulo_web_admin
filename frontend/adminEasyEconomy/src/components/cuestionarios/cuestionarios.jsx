@@ -27,9 +27,9 @@ const Cuestionarios = ({ claveCurso }) => {
     navigate(`/cuestionarios/agregar/${cursoId}`);
   };
 
-  const handleEdit = (cuestionarioId) => {
+  const handleEdit = async (cursoId,cuestionarioId) => {
     console.log('Editar cuestionario');
-    navigate(`/cuestionarios/editar/${cuestionarioId}`);
+    navigate(`/cuestionarios/editar/${cursoId}/${cuestionarioId}`);
   };
 
   const handleDelete = (cuestionarioId) => {
@@ -55,7 +55,7 @@ const Cuestionarios = ({ claveCurso }) => {
                 {curso.subcollections.cuestionarios.map((cuestionario, idx) => (
                   <ListGroup.Item key={idx}>
                     {cuestionario.titulo}
-                    <Button variant="warning" onClick={() => handleEdit(cuestionario.id)}>Editar</Button>
+                    <Button variant="warning" onClick={() => handleEdit(curso.id,cuestionario.id)}>Editar</Button>
                     <Button variant="danger" onClick={() => handleDelete(cuestionario.id)}>Eliminar</Button>
                   </ListGroup.Item>
                 ))}
