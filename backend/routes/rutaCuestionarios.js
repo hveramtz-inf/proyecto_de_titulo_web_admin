@@ -15,14 +15,33 @@ router.get('/:cursoId', async (req, res) => {
 });
 
 // Obtener una sección específica de un curso
-router.get('/:cursoId/:seccionId', async (req, res) => {
+router.get('/:cursoId/:cuestionarioId', async (req, res) => {
     try {
-        const { cursoId, seccionId } = req.params;
-        const seccionDoc = await db.collection('Curso').doc(cursoId).collection('cuestionario').doc(seccionId).get();
-        if (!seccionDoc.exists) {
-            return res.status(404).json({ error: 'Curestionario no encontrado' });
+        const { cursoId, cuestionarioId } = req.params;
+        const cuestionarioDoc = await db.collection('Curso').doc(cursoId).collection('cuestionarios').doc(cuestionarioId).get();
+        if (!cuestionarioDoc.exists) {
+            return res.status(404).json({ error: 'Cuestionario no encontrado' });
         }
-        res.status(200).json({ id: seccionDoc.id, ...seccionDoc.data() });
+
+        const cuestionarioData = { id: cuestionarioDoc.id, ...cuestionarioDoc.data() };
+
+        // Obtener las preguntas del cuestionario
+        const preguntasSnapshot = await db.collection('Curso').doc(cursoId).collection('cuestionarios').doc(cuestionarioId).collection('preguntas').get();
+        const preguntas = [];
+        for (const preguntaDoc of preguntasSnapshot.docs) {
+            const preguntaData = { id: preguntaDoc.id, ...preguntaDoc.data() };
+
+            // Obtener las respuestas de cada pregunta
+            const respuestasSnapshot = await preguntaDoc.ref.collection('respuestas').get();
+            const respuestas = respuestasSnapshot.docs.map(respuestaDoc => ({ id: respuestaDoc.id, ...respuestaDoc.data() }));
+            preguntaData.respuestas = respuestas;
+
+            preguntas.push(preguntaData);
+        }
+
+        cuestionarioData.preguntas = preguntas;
+
+        res.status(200).json(cuestionarioData);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -93,7 +112,7 @@ router.put('/:cursoId/:cuestionarioId', async (req, res) => {
 router.delete('/:cursoId/:cuestionarioId', async (req, res) => {
     try {
         const { cursoId, cuestionarioId } = req.params;
-        await db.collection('Curso').doc(cursoId).collection('cuestionario').doc(cuestionarioId).delete();
+        await db.collection('Curso').doc(cursoId).collection('cuestionarios').doc(cuestionarioId).delete();
         res.status(200).json({ message: 'Cuestionario eliminado correctamente' });
     } catch (error) {
         res.status(500).json({ error: error.message });

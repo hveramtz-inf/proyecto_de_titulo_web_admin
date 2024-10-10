@@ -4,8 +4,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './editarCurso.css'; // Importa el archivo CSS
 
-function Editarcurso() {
+function EditarCurso() {
     const { cursoId } = useParams();
     const [course, setCourse] = useState({ title: '', description: '', checked: false });
     const [error, setError] = useState('');
@@ -35,64 +36,55 @@ function Editarcurso() {
             Titulo: course.title,
             Descripcion: course.description
         })
-            .then(response => {
-                console.log('Course updated successfully:', response.data);
-                setError('');
-                navigate('/home');
-            })
-            .catch(error => {
-                console.error('There was an error updating the course!', error);
-                setError('Hubo un error al actualizar el curso.');
-            });
+        .then(response => {
+            console.log('Curso actualizado:', response.data);
+            navigate('/cursos');
+        })
+        .catch(error => {
+            console.error('There was an error updating the course!', error);
+            setError('Hubo un error al actualizar el curso.');
+        });
     };
 
-    const handleChange = (event) => {
-        const { name, value, type, checked } = event.target;
-        setCourse(prevCourse => ({
-            ...prevCourse,
-            [name]: type === 'checkbox' ? checked : value
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setCourse(prevState => ({
+            ...prevState,
+            [name]: value
         }));
     };
 
     return (
-        <div>
+        <div className="form-container">
+            <h2 className="form-title">Editar Curso</h2>
+            {error && <p className="error-message">{error}</p>}
             <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formBasicTitle">
-                    <Form.Label>Titulo</Form.Label>
+                <Form.Group className="form-group" controlId="formTitulo">
+                    <Form.Label className="form-label">Título del Curso</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="Enter title"
                         name="title"
+                        className="form-control"
                         value={course.title}
                         onChange={handleChange}
+                        required
                     />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicDescription">
-                    <Form.Label>Descripcion</Form.Label>
+                <Form.Group className="form-group" controlId="formDescripcion">
+                    <Form.Label className="form-label">Descripción del Curso</Form.Label>
                     <Form.Control
-                        type="text"
-                        placeholder="Enter description"
+                        as="textarea"
                         name="description"
+                        className="form-control"
                         value={course.description}
                         onChange={handleChange}
+                        required
                     />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check
-                        type="checkbox"
-                        label="Acepto los cambios"
-                        name="checked"
-                        checked={course.checked}
-                        onChange={handleChange}
-                    />
-                </Form.Group>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                <Button variant="warning" type="submit">
-                    Cambiar
-                </Button>
+                <Button type="submit" className="form-button">Actualizar Curso</Button>
             </Form>
         </div>
     );
 }
 
-export default Editarcurso;
+export default EditarCurso;

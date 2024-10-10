@@ -3,29 +3,39 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 
 const EditarCuestionario = () => {
-    const { cuestionarioId, cursoId } = useParams();
+    const { cursoId, cuestionarioId } = useParams(); // Asegúrate de tener ambos IDs en los parámetros
     const [cuestionario, setCuestionario] = useState(null);
     const [titulo, setTitulo] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [preguntas, setPreguntas] = useState([]);
-    const [aceptarCambios, setAceptarCambios] = useState(false); // Nuevo estado para el checkbox
+    const [loading, setLoading] = useState(true); // Estado para manejar la carga
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/cuestionarios/${cursoId}/${cuestionarioId}`)
-            .then(response => {
-                const data = response.data;
-                setCuestionario(data);
-                setTitulo(data.titulo);
-                setDescripcion(data.descripcion);
-                setPreguntas(data.preguntas);
-            })
-            .catch(error => {
-                console.error('There was an error fetching the cuestionario!', error);
-            });
-    }, [cuestionarioId]);
+        const fetchCuestionario = async () => {
+            try {
+                setLoading(true);
+                const response = await axios.get(`http://localhost:3000/cuestionarios/${cursoId}/${cuestionarioId}`);
+                if (response.status === 200) {
+                    const data = response.data;
+                    setCuestionario(data);
+                    setTitulo(data.titulo);
+                    setDescripcion(data.descripcion);
+                    setPreguntas(data.preguntas);
+                } else {
+                    console.error('Error al obtener el cuestionario');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCuestionario();
+    }, [cursoId, cuestionarioId]);
 
     const handlePreguntaChange = (index, value) => {
         const nuevasPreguntas = [...preguntas];
@@ -62,7 +72,11 @@ const EditarCuestionario = () => {
 
     return (
         <div>
-            {cuestionario ? (
+            {loading ? (
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            ) : (
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="formTitulo">
                         <Form.Label>Título del Cuestionario</Form.Label>
@@ -113,20 +127,10 @@ const EditarCuestionario = () => {
                             ))}
                         </div>
                     ))}
-                    <Form.Group className="mb-3" controlId="formAceptarCambios">
-                        <Form.Check
-                            type="checkbox"
-                            label="Aceptar los cambios"
-                            checked={aceptarCambios}
-                            onChange={(e) => setAceptarCambios(e.target.checked)}
-                        />
-                    </Form.Group>
-                    <Button variant="primary" type="submit" disabled={!aceptarCambios}>
+                    <Button variant="primary" type="submit">
                         Actualizar Cuestionario
                     </Button>
                 </Form>
-            ) : (
-                <p>Loading...</p>
             )}
         </div>
     );

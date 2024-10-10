@@ -1,55 +1,28 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate } from 'react-router-dom';
+import './cursos.css'; // Importa el archivo CSS
 
-function Cursos({ claveCurso }) {
+const Cursos = ({ claveCurso }) => {
   const [cursos, setCursos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Estado para manejar la carga
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCursos = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('http://localhost:3000/cursos'); // Cambia esta URL por la de tu API
-        if (!response.ok) {
-          throw new Error('Error al obtener los cursos');
-        }
-        const cursosData = await response.json();
-        console.log('Datos recibidos de la API:', cursosData); // Agrega este console.log
-        setCursos(cursosData);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCursos();
+    axios.get('http://localhost:3000/cursos')
+      .then(response => {
+        setCursos(response.data);
+        setLoading(false); // Desactivar el estado de carga
+      })
+      .catch(error => {
+        setError('Error fetching cursos');
+        setLoading(false); // Desactivar el estado de carga
+      });
   }, []);
-
-  if (loading) {
-    return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Cargando...</span>
-        </Spinner>
-      </div>
-    );
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
-
-  const handleViewSections = (cursoId) => {
-    console.log(`Ver secciones del curso con ID: ${cursoId}`);
-    navigate(`/secciones/${cursoId}`);
-  };
 
   const handleEdit = (cursoId) => {
     console.log(`Editar curso con ID: ${cursoId}`);
@@ -74,31 +47,38 @@ function Cursos({ claveCurso }) {
   const handleCreate = () => {
     console.log('Crear nuevo curso');
     navigate('/cursos/agregar');
-    // Aquí puedes agregar la lógica para redirigir a la página de creación de curso
-
   };
 
+  if (loading) {
+    return (
+      <div className="spinner-container">
+        <Spinner animation="border" role="status"></Spinner>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <h2>Lista de Cursos</h2>
+    <div className="cursos-container">
+      <h2 className="cursos-title">Lista de Cursos</h2>
       <p>Clave Curso: {claveCurso}</p>
-      <Button variant="success" onClick={handleCreate} className="mb-3">Crear Curso</Button>
+      <Button variant="success" onClick={handleCreate} className="curso-button create">Crear Curso</Button>
+      {error && <p>{error}</p>}
       <ListGroup>
         {cursos.map((curso) => (
-          <ListGroup.Item key={curso.id} className="d-flex justify-content-between align-items-center">
+          <ListGroup.Item key={curso.id} className="curso-item">
             <div>
-              <div><strong>Titulo:</strong> {curso.Titulo}</div>
+              <h5>{curso.Titulo}</h5>
+              <p>{curso.Descripcion}</p>
             </div>
-            <ButtonGroup>
-              <Button variant="primary" onClick={() => handleViewSections(curso.id)}>Ver Secciones</Button>
-              <Button variant="warning" onClick={() => handleEdit(curso.id)}>Editar</Button>
-              <Button variant="danger" onClick={() => handleDelete(curso.id)}>Eliminar</Button>
-            </ButtonGroup>
+            <div className="curso-actions">
+              <Button variant="warning" onClick={() => handleEdit(curso.id)} className="curso-button edit">Editar</Button>
+              <Button variant="danger" onClick={() => handleDelete(curso.id)} className="curso-button delete">Eliminar</Button>
+            </div>
           </ListGroup.Item>
         ))}
       </ListGroup>
     </div>
   );
-}
+};
 
 export default Cursos;
