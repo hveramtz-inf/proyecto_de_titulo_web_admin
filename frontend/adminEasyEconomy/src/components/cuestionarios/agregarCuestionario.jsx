@@ -18,6 +18,17 @@ function AgregarCuestionario() {
         setPreguntas(nuevasPreguntas);
     };
 
+    const eliminarPregunta = (preguntaIndex) => {
+        const nuevasPreguntas = preguntas.filter((_, index) => index !== preguntaIndex);
+        setPreguntas(nuevasPreguntas);
+    };
+
+    const eliminarRespuesta = (preguntaIndex, respuestaIndex) => {
+        const nuevasPreguntas = [...preguntas];
+        nuevasPreguntas[preguntaIndex].respuestas = nuevasPreguntas[preguntaIndex].respuestas.filter((_, index) => index !== respuestaIndex);
+        setPreguntas(nuevasPreguntas);
+    };
+
     const handlePreguntaChange = (index, value) => {
         const nuevasPreguntas = [...preguntas];
         nuevasPreguntas[index].texto = value;
@@ -66,11 +77,11 @@ function AgregarCuestionario() {
     };
 
     return (
-        <div>
-            <h2>Agregar Cuestionario</h2>
+        <div className="form-container">
+            <h2 className="form-title">Agregar Cuestionario</h2>
             <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formTitulo">
-                    <Form.Label>Título del Cuestionario</Form.Label>
+                <Form.Group controlId="formTitulo" className="form-group">
+                    <Form.Label className="form-label">Título del Cuestionario</Form.Label>
                     <Form.Control
                         type="text"
                         placeholder="Ingrese el título del cuestionario"
@@ -80,39 +91,53 @@ function AgregarCuestionario() {
                 </Form.Group>
 
                 {preguntas.map((pregunta, preguntaIndex) => (
-                    <div key={preguntaIndex}>
+                    <div key={preguntaIndex} className="pregunta-container" >
                         <Form.Group className="mb-3" controlId={`formPregunta${preguntaIndex}`}>
-                            <Form.Label>Pregunta {preguntaIndex + 1}</Form.Label>
+                            <Form.Label className="form-label" >Pregunta {preguntaIndex + 1}</Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder="Ingrese la pregunta"
                                 value={pregunta.texto}
                                 onChange={(e) => handlePreguntaChange(preguntaIndex, e.target.value)}
+                                className="form-control"
                             />
                         </Form.Group>
 
                         {pregunta.respuestas.map((respuesta, respuestaIndex) => (
-                            <Form.Group key={respuestaIndex} className="mb-3" controlId={`formRespuesta${preguntaIndex}-${respuestaIndex}`}>
-                                <Form.Label>Respuesta {respuestaIndex + 1}</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Ingrese la respuesta"
-                                    value={respuesta.texto}
-                                    onChange={(e) => handleRespuestaChange(preguntaIndex, respuestaIndex, 'texto', e.target.value)}
-                                />
-                                <Form.Check
-                                    type="switch"
-                                    id={`switchCorrecta${preguntaIndex}-${respuestaIndex}`}
-                                    label="Correcta"
-                                    checked={respuesta.correcta}
-                                    onChange={(e) => handleRespuestaChange(preguntaIndex, respuestaIndex, 'correcta', e.target.checked)}
-                                />
-                            </Form.Group>
+                            <div key={respuestaIndex} className="respuesta-container">
+                                <Form.Group className="mb-3" controlId={`formRespuesta${preguntaIndex}-${respuestaIndex}`}>
+                                    <Form.Label className="form-label">Respuesta {respuestaIndex + 1}</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Ingrese la respuesta"
+                                        value={respuesta.texto}
+                                        onChange={(e) => handleRespuestaChange(preguntaIndex, respuestaIndex, 'texto', e.target.value)}
+                                        className="form-control"
+                                    />
+                                    <Form.Check
+                                        type="switch"
+                                        id={`respuestaCorrecta${preguntaIndex}-${respuestaIndex}`}
+                                        label="Correcta"
+                                        checked={respuesta.correcta}
+                                        onChange={(e) => handleRespuestaChange(preguntaIndex, respuestaIndex, 'correcta', e.target.checked)}
+                                    />
+                                    {pregunta.respuestas.length > 1 && (
+                                        <Button variant="danger" onClick={() => eliminarRespuesta(preguntaIndex, respuestaIndex)} className="mt-2">
+                                            Eliminar Respuesta
+                                        </Button>
+                                    )}
+                                </Form.Group>
+                            </div>
                         ))}
 
                         <Button variant="secondary" onClick={() => agregarRespuesta(preguntaIndex)}>
                             Agregar Respuesta
                         </Button>
+                        {preguntas.length > 1 && (
+                            <Button variant="danger" onClick={() => eliminarPregunta(preguntaIndex)} className="mt-2">
+                                Eliminar Pregunta
+                            </Button>
+                        )}
                     </div>
                 ))}
 

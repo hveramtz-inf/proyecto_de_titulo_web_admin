@@ -32,9 +32,9 @@ const Cuestionarios = ({ claveCurso }) => {
     navigate(`/cuestionarios/agregar/${cursoId}`);
   };
 
-  const handleEdit = (cuestionarioId) => {
+  const handleEdit = (cursoId,cuestionarioId) => {
     console.log('Editar cuestionario');
-    navigate(`/cuestionarios/editar/${cuestionarioId}`);
+    navigate(`/cuestionarios/editar/${cursoId}/${cuestionarioId}`);
   };
 
   const handleDelete = async (cursoId, cuestionarioId) => {
@@ -94,7 +94,7 @@ const Cuestionarios = ({ claveCurso }) => {
                   <ListGroup.Item key={idx} className="cuestionario-item list-group-item">
                     {cuestionario.titulo}
                     <div className="cuestionario-actions">
-                      <Button variant="warning" onClick={() => handleEdit(cuestionario.id)} className="cuestionario-button edit">Editar</Button>
+                      <Button variant="warning" onClick={() => handleEdit(curso.id,cuestionario.id)} className="cuestionario-button edit">Editar</Button>
                       <Button variant="danger" onClick={() => handleDelete(curso.id, cuestionario.id)} className="cuestionario-button delete">Eliminar</Button>
                     </div>
                   </ListGroup.Item>
