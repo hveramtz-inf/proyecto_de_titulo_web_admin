@@ -71,6 +71,7 @@ const Cursos = ({ claveCurso }) => {
               <p>{curso.Descripcion}</p>
             </div>
             <div className="curso-actions">
+              <Button variant="primary" href={`/secciones/${curso.id}`} className="curso-button view">Secciones</Button>
               <Button variant="warning" onClick={() => handleEdit(curso.id)} className="curso-button edit">Editar</Button>
               <Button variant="danger" onClick={() => handleDelete(curso.id)} className="curso-button delete">Eliminar</Button>
             </div>
