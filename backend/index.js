@@ -13,13 +13,19 @@ app.use(Express.json());
 const cursosRoutes = require('./routes/rutaCursos'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo courses.js
 const estudiantesRoutes = require('./routes/rutaEstudiante'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo usuarios.js
 const clavepucvRoutes = require('./routes/rutaClavePucv'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo clavePucv.js
-const seccionesRoutes = require('./routes/rutaSecciones'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo secciones.js
+const seccionesRoutes = require('./routes/rutaSecciones'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo secciones.js}
+const cuestionarioRoutes = require('./routes/rutaCuestionarios'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo cuestionarios.js
+const preguntasRoutes = require('./routes/rutaPreguntas'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo preguntas.js
+const respuestasRoutes = require('./routes/rutaRespuestas'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo respuestas.js
 
 // Usar las rutas
 app.use('/cursos', cursosRoutes);
 app.use('/estudiantes', estudiantesRoutes);
 app.use('/clavepucv', clavepucvRoutes);
 app.use('/secciones', seccionesRoutes);
+app.use('/cuestionarios', cuestionarioRoutes);
+app.use('/preguntas', preguntasRoutes);
+app.use('/respuestas', respuestasRoutes);
 
 // Sincronizar modelos con la base de datos
 db.sync()

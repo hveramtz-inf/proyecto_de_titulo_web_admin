@@ -5,7 +5,6 @@ import { Button, Form } from 'react-bootstrap';
 
 const AgregarSeccionCurso = () => {
     const [titulo, setTitulo] = useState('');
-    const [descripcion, setDescripcion] = useState('');
     const [contenido, setContenido] = useState('');
     const [linkYoutube, setLinkYoutube] = useState('');
     const [error, setError] = useState('');
@@ -22,7 +21,6 @@ const AgregarSeccionCurso = () => {
             try {
                 const response = await axios.post(`http://localhost:3000/secciones/`, { 
                     titulo: titulo, 
-                    descripcion: descripcion, 
                     contenido: contenido, 
                     linkvideoyoutube: linkYoutube || null ,
                     idcurso: cursoId
@@ -50,16 +48,6 @@ const AgregarSeccionCurso = () => {
                         placeholder="Ingresa el título de la sección"
                         value={titulo}
                         onChange={(e) => setTitulo(e.target.value)}
-                    />
-                </Form.Group>
-
-                <Form.Group controlId="formDescripcion">
-                    <Form.Label>Descripción</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Ingresa la descripción de la sección"
-                        value={descripcion}
-                        onChange={(e) => setDescripcion(e.target.value)}
                     />
                 </Form.Group>
 
