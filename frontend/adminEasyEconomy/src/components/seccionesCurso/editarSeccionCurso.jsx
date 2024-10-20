@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function EditarSeccionCurso() {
-    const { cursoId,seccionId } = useParams();
-    const [seccion, setSeccion] = useState({ titulo: '',contenido:'', linkvideoyoutube:'', checked: false });
+    const { cursoId, seccionId } = useParams();
+    const [seccion, setSeccion] = useState({ titulo: '', contenido: '', linkvideoyoutube: '', checked: false });
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -16,28 +18,28 @@ function EditarSeccionCurso() {
             .then(response => {
                 setSeccion({
                     titulo: response.data.titulo,
-                    descripcion: response.data.descripcion,
                     contenido: response.data.contenido,
                     linkvideoyoutube: response.data.linkvideoyoutube
                 });
+                setLoading(false);
             })
             .catch(error => {
                 console.error('There was an error fetching the seccion data!', error);
+                setLoading(false);
             });
-    }, [cursoId]);
+    }, [cursoId, seccionId]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (seccion.title === '' || seccion.description === '') {
+        if (seccion.titulo === '' || seccion.descripcion === '') {
             setError('Todos los campos deben estar completos.');
             return;
         }
 
-        axios.put(`http://localhost:3000/secciones/${cursoId}/${seccionId}`, {
+        axios.put(`http://localhost:3000/secciones/${seccionId}`, {
             titulo: seccion.titulo,
             descripcion: seccion.descripcion,
             contenido: seccion.contenido
-
         })
             .then(response => {
                 console.log('seccion updated successfully:', response.data);
@@ -57,6 +59,12 @@ function EditarSeccionCurso() {
             [name]: type === 'checkbox' ? checked : value
         }));
     };
+
+    if (loading) {
+        return <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </Spinner>;
+    }
 
     return (
         <div>

@@ -62,7 +62,7 @@ const VerSeccionesCurso = () => {
         if (confirmDelete === true) {
             console.log(`Eliminar seccion con ID: ${seccionId}`);
             try {
-                const response = await fetch(`http://localhost:3000/secciones/${cursoId}/${seccionId}`, {
+                const response = await fetch(`http://localhost:3000/secciones/${seccionId}`, {
                     method: 'DELETE'
                 });
                 if (!response.ok) {
