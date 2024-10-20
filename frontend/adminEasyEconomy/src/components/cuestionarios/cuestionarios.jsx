@@ -10,6 +10,7 @@ import './cuestionarios.css'; // Importa el archivo CSS
 const Cuestionarios = ({ claveCurso }) => {
   const [cursos, setCursos] = useState([]); // Inicializar como array vacío
   const [cuestionarios, setCuestionarios] = useState([]); // Inicializar como array vacío
+  const [respuestas, setRespuestas] = useState([]); // Inicializar como array vacío
   const [loading, setLoading] = useState(true); // Estado para manejar la carga
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -19,11 +20,13 @@ const Cuestionarios = ({ claveCurso }) => {
       try {
         const [cursosResponse, cuestionariosResponse] = await Promise.all([
           axios.get('http://localhost:3000/cursos'),
-          axios.get('http://localhost:3000/cuestionarios')
+          axios.get('http://localhost:3000/cuestionarios'),
+          axios.get(`http://localhost:3000/respuestas`)
         ]);
 
         setCursos(cursosResponse.data);
         setCuestionarios(cuestionariosResponse.data);
+        setRespuestas(respuestas.data);
         setLoading(false); // Desactivar el estado de carga
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -40,8 +43,8 @@ const Cuestionarios = ({ claveCurso }) => {
     navigate(`/cuestionarios/agregar/${cursoId}`);
   };
 
-  const handleEdit = (cursoId, cuestionarioId) => {
-    console.log(`Editar cuestionario con ID: ${cuestionarioId} del curso con ID: ${cursoId}`);
+  const handleEdit = (cuestionarioId) => {
+    console.log(`Editar cuestionario con ID: ${cuestionarioId}`);
     navigate(`/cuestionarios/editar/${cuestionarioId}`);
   };
 
@@ -85,14 +88,8 @@ const Cuestionarios = ({ claveCurso }) => {
                   .filter(cuestionario => cuestionario.idcurso === curso.id)
                   .map(cuestionario => (
                     <ListGroup.Item key={cuestionario.id} className="cuestionario-item">
-                      <div>
-                        <h5>{cuestionario.pregunta}</h5>
-                        <p>{cuestionario.respuesta}</p>
-                      </div>
-                      <div className="cuestionario-actions">
-                        <Button variant="warning" onClick={() => handleEdit(curso.id, cuestionario.id)}>Editar</Button>
+                        <Button variant="warning" onClick={() => handleEdit(cuestionario.id)}>Editar</Button>
                         <Button variant="danger" onClick={() => handleDelete(cuestionario.id)}>Eliminar</Button>
-                      </div>
                     </ListGroup.Item>
                   ))}
               </ListGroup>

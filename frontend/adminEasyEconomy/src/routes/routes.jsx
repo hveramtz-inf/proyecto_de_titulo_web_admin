@@ -32,7 +32,7 @@ const AppRoutes = () => (
     // Rutas Cuestionarios 
     <Route path="/cuestionarios" element={<Cuestionarios />} />
     <Route path="/cuestionarios/agregar/:cursoId" element={<AgregarCuestionario />} />
-    <Route path="/cuestionarios/editar/:cursoId/:cuestionarioId" element={<EditarCuestionario />} />
+    <Route path="/cuestionarios/editar/:cuestionarioId" element={<EditarCuestionario />} />
   </Routes>
 )
 

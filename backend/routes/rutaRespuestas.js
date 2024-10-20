@@ -1,76 +1,89 @@
 const express = require('express');
 const router = express.Router();
-const PreguntaCuestionario = require('../models/PreguntaCuestionarioModel'); // Asegúrate de que la ruta sea correcta
+const RespuestaCuestionarioModel = require('../models/RespuestaCuestionarioModel'); // Asegúrate de que la ruta sea correcta
 
-// Obtener todas las preguntas
+// Obtener todas las respuestas
 router.get('/', async (req, res) => {
   try {
-    const preguntas = await PreguntaCuestionario.findAll();
-    res.json(preguntas);
+    const respuestas = await RespuestaCuestionarioModel.findAll();
+    res.json(respuestas);
   } catch (err) {
-    console.error('Error al obtener las preguntas', err);
-    res.status(500).json({ error: 'Error al obtener las preguntas' });
+    console.error('Error al obtener las respuestas', err);
+    res.status(500).json({ error: 'Error al obtener las respuestas' });
   }
 });
 
-// Obtener una pregunta por ID
+// Obtener una respuesta por ID
 router.get('/:id', async (req, res) => {
   try {
-    const pregunta = await PreguntaCuestionario.findByPk(req.params.id);
-    if (pregunta) {
-      res.json(pregunta);
+    const respuesta = await RespuestaCuestionarioModel.findByPk(req.params.id);
+    if (respuesta) {
+      res.json(respuesta);
     } else {
-      res.status(404).json({ error: 'Pregunta no encontrada' });
+      res.status(404).json({ error: 'Respuesta no encontrada' });
     }
   } catch (err) {
-    console.error('Error al obtener la pregunta', err);
-    res.status(500).json({ error: 'Error al obtener la pregunta' });
+    console.error('Error al obtener la respuesta', err);
+    res.status(500).json({ error: 'Error al obtener la respuesta' });
   }
 });
 
-// Crear una nueva pregunta
+// Obtener respuestas por idpregunta
+router.get('/pregunta/:id', async (req, res) => {
+  try {
+    const respuestas = await RespuestaCuestionarioModel.findAll({
+      where: { idpregunta: req.params.id }
+    });
+    res.json(respuestas);
+  } catch (err) {
+    console.error('Error al obtener las respuestas', err);
+    res.status(500).json({ error: 'Error al obtener las respuestas' });
+  }
+});
+
+// Crear una nueva respuesta
 router.post('/', async (req, res) => {
   try {
-    const nuevaPregunta = await PreguntaCuestionario.create(req.body);
-    res.status(201).json(nuevaPregunta);
+    const nuevaRespuesta = await RespuestaCuestionarioModel.create(req.body);
+    res.status(201).json(nuevaRespuesta);
   } catch (err) {
-    console.error('Error al crear la pregunta', err);
-    res.status(500).json({ error: 'Error al crear la pregunta' });
+    console.error('Error al crear la respuesta', err);
+    res.status(500).json({ error: 'Error al crear la respuesta' });
   }
 });
 
-// Actualizar una pregunta por ID
+// Actualizar una respuesta por ID
 router.put('/:id', async (req, res) => {
   try {
-    const [updated] = await PreguntaCuestionario.update(req.body, {
+    const [updated] = await RespuestaCuestionarioModel.update(req.body, {
       where: { id: req.params.id }
     });
     if (updated) {
-      const updatedPregunta = await PreguntaCuestionario.findByPk(req.params.id);
-      res.status(200).json(updatedPregunta);
+      const updatedRespuesta = await RespuestaCuestionarioModel.findByPk(req.params.id);
+      res.status(200).json(updatedRespuesta);
     } else {
-      res.status(404).json({ error: 'Pregunta no encontrada' });
+      res.status(404).json({ error: 'Respuesta no encontrada' });
     }
   } catch (err) {
-    console.error('Error al actualizar la pregunta', err);
-    res.status(500).json({ error: 'Error al actualizar la pregunta' });
+    console.error('Error al actualizar la respuesta', err);
+    res.status(500).json({ error: 'Error al actualizar la respuesta' });
   }
 });
 
-// Eliminar una pregunta por ID
+// Eliminar una respuesta por ID
 router.delete('/:id', async (req, res) => {
   try {
-    const deleted = await PreguntaCuestionario.destroy({
+    const deleted = await RespuestaCuestionarioModel.destroy({
       where: { id: req.params.id }
     });
     if (deleted) {
-      res.status(204).json({ message: 'Pregunta eliminada' });
+      res.status(204).json({ message: 'Respuesta eliminada' });
     } else {
-      res.status(404).json({ error: 'Pregunta no encontrada' });
+      res.status(404).json({ error: 'Respuesta no encontrada' });
     }
   } catch (err) {
-    console.error('Error al eliminar la pregunta', err);
-    res.status(500).json({ error: 'Error al eliminar la pregunta' });
+    console.error('Error al eliminar la respuesta', err);
+    res.status(500).json({ error: 'Error al eliminar la respuesta' });
   }
 });
 

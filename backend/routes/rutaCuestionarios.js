@@ -27,9 +27,9 @@ router.get('/', async (req, res) => {
 // Get a single cuestionario by ID
 router.get('/:id', async (req, res) => {
     try {
-        const cuestionario = await cuestionario.findById(req.params.id);
-        if (!cuestionario) return res.status(404).json({ message: 'Cuestionario not found' });
-        res.json(cuestionario);
+        const cuestionarios = await cuestionario.findByPk(req.params.id);
+        if (!cuestionarios) return res.status(404).json({ message: 'Cuestionario not found' });
+        res.json(cuestionarios);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -48,7 +48,7 @@ router.get('/curso/:idcurso', async (req, res) => {
 // Update a cuestionario by ID
 router.put('/:id', async (req, res) => {
     try {
-        const updatedCuestionario = await cuestionario.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const updatedCuestionario = await cuestionario.findByPk(req.params.id, req.body, { new: true });
         if (!updatedCuestionario) return res.status(404).json({ message: 'Cuestionario not found' });
         res.json(updatedCuestionario);
     } catch (err) {

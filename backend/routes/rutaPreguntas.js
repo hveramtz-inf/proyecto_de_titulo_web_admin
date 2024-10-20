@@ -28,6 +28,19 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Obtener preguntas por idcuestionario
+router.get('/cuestionario/:id', async (req, res) => {
+  try {
+    const preguntas = await PreguntaCuestionario.findAll({
+      where: { idcuestionario: req.params.id }
+    });
+    res.json(preguntas);
+  } catch (err) {
+    console.error('Error al obtener las preguntas', err);
+    res.status(500).json({ error: 'Error al obtener las preguntas' });
+  }
+});
+
 // Crear una nueva pregunta
 router.post('/', async (req, res) => {
   try {
