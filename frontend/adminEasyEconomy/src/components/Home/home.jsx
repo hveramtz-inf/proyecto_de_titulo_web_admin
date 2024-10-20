@@ -10,15 +10,15 @@ const Home = () => {
   const queryParams = new URLSearchParams(location.search);
   const claveCurso = queryParams.get('claveCurso');
 
-  const handleNavBarSelection = (option) => {
+  const handleNavBarSelection = (option, claveCurso) => {
     setSelectedOption(option);
   };
 
   return (
     <div>
-      <NavBar onSelect={handleNavBarSelection} />
+      <NavBar onSelect={handleNavBarSelection} claveCurso={claveCurso} />
       {selectedOption === 'Cursos' && <Cursos claveCurso={claveCurso} />}
-      {selectedOption === 'Cuestionarios' && <Cuestionarios claveCurso={claveCurso}/>}
+      {selectedOption === 'Cuestionarios' && <Cuestionarios claveCurso={claveCurso} />}
     </div>
   );
 };

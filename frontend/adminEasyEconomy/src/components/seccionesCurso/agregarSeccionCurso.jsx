@@ -7,6 +7,7 @@ const AgregarSeccionCurso = () => {
     const [titulo, setTitulo] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [contenido, setContenido] = useState('');
+    const [linkYoutube, setLinkYoutube] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const navigate = useNavigate();
@@ -19,7 +20,13 @@ const AgregarSeccionCurso = () => {
         } else {
             setError('');
             try {
-                const response = await axios.post(`http://localhost:3000/secciones/${cursoId}`, { titulo: titulo, descripcion: descripcion, contenido: contenido });
+                const response = await axios.post(`http://localhost:3000/secciones/`, { 
+                    titulo: titulo, 
+                    descripcion: descripcion, 
+                    contenido: contenido, 
+                    linkvideoyoutube: linkYoutube || null ,
+                    idcurso: cursoId
+                });
                 console.log('Formulario enviado', response.data);
                 setSuccess('Sección agregada exitosamente');
                 navigate(`/secciones/${cursoId}`);
@@ -63,6 +70,16 @@ const AgregarSeccionCurso = () => {
                         placeholder="Ingresa el contenido de la sección"
                         value={contenido}
                         onChange={(e) => setContenido(e.target.value)}
+                    />
+                </Form.Group>
+
+                <Form.Group controlId="formLinkYoutube">
+                    <Form.Label>Link YouTube</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Ingresa el link de YouTube (opcional)"
+                        value={linkYoutube}
+                        onChange={(e) => setLinkYoutube(e.target.value)}
                     />
                 </Form.Group>
 

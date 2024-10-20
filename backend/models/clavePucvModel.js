@@ -1,13 +1,13 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../database/db');
 
-const ClavePucv = sequelize.define('clavepucv', {
+const ClavePucv = sequelize.define('ClavePucv', {
     id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.UUID, // Usa UUID como tipo de dato
+        defaultValue: DataTypes.UUIDV4, // Genera automáticamente un UUID si no se proporciona
         primaryKey: true
     },
-    Clave: {
+    clave: {
         type: DataTypes.STRING,
         allowNull: false
     }

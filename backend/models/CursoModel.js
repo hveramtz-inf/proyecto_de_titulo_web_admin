@@ -1,29 +1,27 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../database/db');
-const ClavePucvModel = require('./clavePucvModel'); // Asegúrate de que la ruta sea correcta
 
-const Curso = sequelize.define('curso', {
-    id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    },
-    idclavepucv: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'clavepucv', // Nombre de la tabla referenciada
-            key: 'id'
-        }
-    },
-    titulo: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
+const Curso = sequelize.define('Curso', {
+  id: {
+    type: DataTypes.UUID, // Usa UUID como tipo de dato
+    defaultValue: DataTypes.UUIDV4, // Genera automáticamente un UUID si no se proporciona
+    primaryKey: true
+  },
+  nombre: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  descripcion: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  clavepucvid: { // Nueva columna sin referencia a otro modelo
+    type: DataTypes.UUID,
+    allowNull: false
+  }
 }, {
-    tableName: 'curso',
-    timestamps: false
+  tableName: 'curso',
+  timestamps: false
 });
-
-Curso.belongsTo(ClavePucvModel, { foreignKey: 'idclavepucv', as: 'ClavePucv' });
 
 module.exports = Curso;

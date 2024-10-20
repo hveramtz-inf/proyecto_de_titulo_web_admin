@@ -16,8 +16,8 @@ function EditarCurso() {
         axios.get(`http://localhost:3000/cursos/${cursoId}`)
             .then(response => {
                 setCourse({
-                    title: response.data.Titulo,
-                    description: response.data.Descripcion,
+                    title: response.data.nombre,
+                    description: response.data.descripcion,
                 });
             })
             .catch(error => {
@@ -33,8 +33,8 @@ function EditarCurso() {
         }
 
         axios.put(`http://localhost:3000/cursos/${cursoId}`, {
-            Titulo: course.title,
-            Descripcion: course.description
+            nombre: course.title,
+            descripcion: course.description
         })
         .then(response => {
             console.log('Curso actualizado:', response.data);

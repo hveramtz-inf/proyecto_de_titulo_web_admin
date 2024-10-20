@@ -7,17 +7,18 @@ import { useNavigate } from 'react-router-dom';
 
 function EditarSeccionCurso() {
     const { cursoId,seccionId } = useParams();
-    const [seccion, setSeccion] = useState({ titulo: '', descripcion: '',contenido:'', checked: false });
+    const [seccion, setSeccion] = useState({ titulo: '',contenido:'', linkvideoyoutube:'', checked: false });
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/secciones/${cursoId}/${seccionId}`)
+        axios.get(`http://localhost:3000/secciones/${seccionId}`)
             .then(response => {
                 setSeccion({
                     titulo: response.data.titulo,
                     descripcion: response.data.descripcion,
-                    contenido: response.data.contenido
+                    contenido: response.data.contenido,
+                    linkvideoyoutube: response.data.linkvideoyoutube
                 });
             })
             .catch(error => {
@@ -65,18 +66,8 @@ function EditarSeccionCurso() {
                     <Form.Control
                         type="text"
                         placeholder="Enter title"
-                        name="title"
+                        name="titulo"
                         value={seccion.titulo}
-                        onChange={handleChange}
-                    />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicDescription">
-                    <Form.Label>Descripcion</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter description"
-                        name="description"
-                        value={seccion.descripcion}
                         onChange={handleChange}
                     />
                 </Form.Group>
@@ -85,8 +76,18 @@ function EditarSeccionCurso() {
                     <Form.Control
                         type="text"
                         placeholder="Enter description"
-                        name="description"
-                        value={seccion.descripcion}
+                        name="contenido"
+                        value={seccion.contenido}
+                        onChange={handleChange}
+                    />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicLinkVideo">
+                    <Form.Label>Link de YouTube</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter YouTube link"
+                        name="linkvideoyoutube"
+                        value={seccion.linkvideoyoutube}
                         onChange={handleChange}
                     />
                 </Form.Group>

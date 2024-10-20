@@ -16,7 +16,7 @@ const VerSeccionesCurso = () => {
         const fetchSecciones = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`http://localhost:3000/secciones/${cursoId}`); // Cambia esta URL por la de tu API
+                const response = await fetch(`http://localhost:3000/secciones/curso/${cursoId}`); // Cambia esta URL por la de tu API
                 if (!response.ok) {
                     throw new Error('Error al obtener las secciones');
                 }

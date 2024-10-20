@@ -46,8 +46,9 @@ const Cursos = ({ claveCurso }) => {
 
   const handleCreate = () => {
     console.log('Crear nuevo curso');
-    navigate('/cursos/agregar');
+    navigate(`/cursos/agregar`, { state: { claveCurso } });
   };
+
 
   if (loading) {
     return (
@@ -67,8 +68,8 @@ const Cursos = ({ claveCurso }) => {
         {cursos.map((curso) => (
           <ListGroup.Item key={curso.id} className="curso-item">
             <div>
-              <h5>{curso.Titulo}</h5>
-              <p>{curso.Descripcion}</p>
+              <h5>{curso.nombre}</h5>
+              <p>{curso.descripcion}</p>
             </div>
             <div className="curso-actions">
               <Button variant="primary" href={`/secciones/${curso.id}`} className="curso-button view">Secciones</Button>

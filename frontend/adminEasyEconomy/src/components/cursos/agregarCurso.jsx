@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import './agregarCurso.css'; // Importa el archivo CSS
 
@@ -10,6 +10,8 @@ const AgregarCurso = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+  const claveCurso = location.state?.claveCurso || '';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +20,7 @@ const AgregarCurso = () => {
     } else {
       setError('');
       try {
-        const response = await axios.post('http://localhost:3000/cursos', { Titulo: titulo, Descripcion: descripcion });
+        const response = await axios.post('http://localhost:3000/cursos', { nombre: titulo, descripcion: descripcion, clavepucvid: claveCurso });
         setSuccess('Curso agregado exitosamente');
         console.log('Formulario enviado', response.data);
         navigate('/cursos');

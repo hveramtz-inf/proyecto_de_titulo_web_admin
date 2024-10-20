@@ -2,28 +2,30 @@ const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../database/db');
 
 const Seccion = sequelize.define('seccion', {
-    id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    },
-    idCurso: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'Curso', // Nombre de la tabla referenciada
-            key: 'id'
-        }
-    },
-    contenido: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    linkVideoYoutube: {
-        type: DataTypes.STRING,
-        allowNull: true
-    }
+  id: {
+    type: DataTypes.UUID, // Usa UUID como tipo de dato
+    defaultValue: DataTypes.UUIDV4, // Genera automáticamente un UUID si no se proporciona
+    primaryKey: true
+  },
+  idcurso: {
+    type: DataTypes.UUID,
+    allowNull: false
+  },
+  titulo: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  contenido: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  linkvideoyoutube: {
+    type: DataTypes.STRING,
+    allowNull: true
+  }
 }, {
-    tableName: 'seccion',
-})
+  tableName: 'seccion',
+  timestamps: false
+});
 
 module.exports = Seccion;
