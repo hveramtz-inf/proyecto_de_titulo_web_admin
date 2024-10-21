@@ -13,4 +13,19 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.post('/iniciarSesion', async (req, res) => {
+  try {
+    const { rut, contrasenia } = req.body;
+    const estudiante = await EstudianteModel.findOne({ where: { rut, contrasenia } });
+    if (estudiante) {
+      res.json(estudiante);
+    } else {
+      res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+  } catch (err) {
+    console.error('Error al obtener el usuario', err);
+    res.status(500).json({ error: 'Error al obtener el usuario' });
+  }
+});
+
 module.exports = router;
