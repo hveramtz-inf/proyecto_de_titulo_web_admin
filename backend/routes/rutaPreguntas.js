@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const PreguntaCuestionario = require('../models/PreguntaCuestionarioModel'); // Asegúrate de que la ruta sea correcta
+const PreguntaCuestionario = require('../models/PreguntaCuestionarioModel.js'); // Asegúrate de que la ruta sea correcta
 
 // Obtener todas las preguntas
 router.get('/', async (req, res) => {

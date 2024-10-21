@@ -1,17 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const ClavePucv = require('../models/clavePucvModel'); // Importa el modelo de Usuario
+const ClavePucv = require('../models/clavePucvModel.js'); // Asegúrate de que la ruta sea correcta
 
-// Obtener todos los registros
+// Ejemplo de una ruta que obtiene todas las claves
 router.get('/', async (req, res) => {
   try {
-    const clavepucv = await ClavePucv.findAll();
-    res.json(clavepucv);
+    const claves = await ClavePucv.findAll();
+    res.json(claves);
   } catch (err) {
-    console.error('Error al obtener los registros', err);
-    res.status(500).json({ error: 'Error al obtener los registros' });
+    console.error('Error al obtener las claves', err);
+    res.status(500).json({ error: 'Error al obtener las claves' });
   }
 });
+
 
 // Obtener un registro por claveCurso
 router.get('/:claveCurso', async (req, res) => {

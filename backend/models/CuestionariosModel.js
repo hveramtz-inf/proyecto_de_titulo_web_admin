@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../database/db');
-const CursoModel = require('./CursoModel'); // Asegúrate de que la ruta sea correcta
+const sequelize = require('../database/db.js');
+const CursoModel = require('./CursoModel.js'); // Asegúrate de que la ruta sea correcta
 
 const Cuestionario = sequelize.define('Cuestionario', {
   id: {

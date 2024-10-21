@@ -4,6 +4,9 @@ require('dotenv').config(); // Cargar las variables de entorno desde el archivo 
 // Verificar los valores de las variables de entorno
 console.log('PGDATABASE:', process.env.PGDATABASE);
 console.log('PGUSER:', process.env.PGUSER);
+console.log('PGPASSWORD:', process.env.PGPASSWORD);
+console.log('PGHOST:', process.env.PGHOST);
+console.log('PGPORT:', process.env.PGPORT);
 
 // Configuración de Sequelize usando las variables de entorno
 const db = new Sequelize(process.env.PGDATABASE, process.env.PGUSER, process.env.PGPASSWORD, {
@@ -20,15 +23,12 @@ const db = new Sequelize(process.env.PGDATABASE, process.env.PGUSER, process.env
 });
 
 // Probar la conexión
-const testConnection = async () => {
-  try {
-    await db.authenticate();
-    console.log('Conexión exitosa a la base de datos');
-  } catch (err) {
-    console.error('Error al conectar a la base de datos', err);
-  }
-};
-
-testConnection();
+db.authenticate()
+  .then(() => {
+    console.log('Conexión a la base de datos establecida correctamente.');
+  })
+  .catch(err => {
+    console.error('No se pudo conectar a la base de datos:', err);
+  });
 
 module.exports = db;

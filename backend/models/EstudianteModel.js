@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const db = require('../database/db');
+const db = require('../database/db.js');
 
 // Definir el modelo de Estudiante
 const EstudianteModel = db.define('Estudiante', {

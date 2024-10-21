@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const EstudianteModel = require('../models/EstudianteModel'); // Importa el modelo de Usuario
+const EstudianteModel = require('../models/EstudianteModel.js'); // Importa el modelo de Usuario
 
 // Ejemplo de una ruta que obtiene todos los usuarios
 router.get('/', async (req, res) => {

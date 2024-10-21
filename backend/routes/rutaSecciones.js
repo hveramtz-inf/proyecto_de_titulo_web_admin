@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Seccion = require('../models/SeccionesModel'); // Importa el modelo de Usuario
+const Seccion = require('../models/SeccionesModel.js'); // Importa el modelo de Usuario
 
 // Ejemplo de una ruta que obtiene todos los usuarios
 router.get('/', async (req, res) => {

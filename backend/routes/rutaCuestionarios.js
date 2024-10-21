@@ -1,4 +1,4 @@
-const cuestionario = require('../models/CuestionariosModel');
+const cuestionario = require('../models/CuestionariosModel.js');
 const express = require('express');
 const router = express.Router();
 

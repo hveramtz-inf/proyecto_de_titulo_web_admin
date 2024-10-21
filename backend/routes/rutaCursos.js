@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const CursoModel = require('../models/CursoModel'); // Importa el modelo de Curso
+const CursoModel = require('../models/CursoModel.js'); // Importa el modelo de Curso
 
 // Obtener todos los cursos
 router.get('/', async (req, res) => {
