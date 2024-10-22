@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
   } catch (err) {
     console.error('Error al obtener las respuestas', err);
     res.status(500).json({ error: 'Error al obtener las respuestas' });
-  }
+  } 
 });
 
 // Obtener una respuesta por ID
