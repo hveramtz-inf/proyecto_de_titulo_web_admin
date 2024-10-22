@@ -35,6 +35,15 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.get('/estudiante/:idestudiante', async (req, res) => {
+    try {
+        const cuestionarios = await cuestionario.findAll({ idestudiante: req.params.idestudiante });
+        res.json(cuestionarios);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 router.get('/curso/:idcurso', async (req, res) => {
     try {
         const cuestionarios = await cuestionario.findAll({ idcurso: req.params.idcurso });

@@ -18,6 +18,7 @@ const cuestionarioRoutes = require('./routes/rutaCuestionarios.js'); // Asegúra
 const preguntasRoutes = require('./routes/rutaPreguntas.js'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo preguntas.js
 const respuestasRoutes = require('./routes/rutaRespuestas.js'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo respuestas.js
 const apuntesRoutes = require('./routes/rutaApuntes.js'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo apuntes.js
+const puntajeCuestionarioRoutes = require('./routes/rutaPuntajeCuestionario.js'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo puntajeCuestionario.js
 
 // Usar las rutas
 app.use('/cursos', cursosRoutes);
@@ -28,6 +29,7 @@ app.use('/cuestionarios', cuestionarioRoutes);
 app.use('/preguntas', preguntasRoutes);
 app.use('/respuestas', respuestasRoutes);
 app.use('/apuntes', apuntesRoutes);
+app.use('/puntajeCuestionario', puntajeCuestionarioRoutes);
 
 // Sincronizar modelos con la base de datos
 db.sync()
