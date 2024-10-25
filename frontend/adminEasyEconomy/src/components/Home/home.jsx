@@ -1,24 +1,41 @@
-import React, { useState } from 'react';
-import NavBar from '../Navbar/NavBar';
+// frontend/adminEasyEconomy/src/components/Home/Home.jsx
+import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import Cursos from '../cursos/cursos'; // Asegúrate de importar el componente Cursos
+import NavBar from '../Navbar/NavBar';
+import Cursos from '../cursos/cursos';
 import Cuestionarios from '../cuestionarios/cuestionarios';
+import { ClaveCursoContext } from '../../context/ClaveCursoContext';
+import './home.css'; // Asegúrate de importar el archivo CSS
 
 const Home = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const claveCurso = queryParams.get('claveCurso');
+  const { setClaveCurso } = useContext(ClaveCursoContext);
 
-  const handleNavBarSelection = (option, claveCurso) => {
+  useEffect(() => {
+    if (claveCurso) {
+      setClaveCurso(claveCurso);
+    }
+  }, [claveCurso, setClaveCurso]);
+
+  useEffect(() => {
+    const hash = location.hash.replace('#', '');
+    if (hash) {
+      setSelectedOption(hash);
+    }
+  }, [location]);
+
+  const handleNavBarSelection = (option) => {
     setSelectedOption(option);
   };
 
   return (
-    <div>
+    <div className="home-container">
       <NavBar onSelect={handleNavBarSelection} claveCurso={claveCurso} />
-      {selectedOption === 'Cursos' && <Cursos claveCurso={claveCurso} />}
-      {selectedOption === 'Cuestionarios' && <Cuestionarios claveCurso={claveCurso} />}
+      {selectedOption === 'Cursos' && <Cursos />}
+      {selectedOption === 'Cuestionarios' && <Cuestionarios />}
     </div>
   );
 };

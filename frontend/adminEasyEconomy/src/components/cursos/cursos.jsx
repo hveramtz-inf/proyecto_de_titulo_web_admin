@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+// frontend/adminEasyEconomy/src/components/cursos/cursos.jsx
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate } from 'react-router-dom';
+import { ClaveCursoContext } from '../../context/ClaveCursoContext';
 import './cursos.css'; // Importa el archivo CSS
 
-const Cursos = ({ claveCurso }) => {
+const Cursos = () => {
   const [cursos, setCursos] = useState([]);
   const [loading, setLoading] = useState(true); // Estado para manejar la carga
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { claveCurso } = useContext(ClaveCursoContext);
 
   useEffect(() => {
     axios.get('http://localhost:3000/cursos')
@@ -48,7 +51,6 @@ const Cursos = ({ claveCurso }) => {
     console.log('Crear nuevo curso');
     navigate(`/cursos/agregar`, { state: { claveCurso } });
   };
-
 
   if (loading) {
     return (

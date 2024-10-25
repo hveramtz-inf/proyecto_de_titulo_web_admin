@@ -1,13 +1,18 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react'
-import AppRoutes from './routes/routes.jsx'
+// frontend/adminEasyEconomy/src/App.jsx
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ClaveCursoProvider } from './context/ClaveCursoContext';
+import AppRoutes from './routes/routes';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Importa Bootstrap CSS
 
-function App() {
+const App = () => {
   return (
-    <div>
-      <AppRoutes />
-    </div>
-  )
-}
+    <ClaveCursoProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </ClaveCursoProvider>
+  );
+};
 
-export default App
+export default App;
