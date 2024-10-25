@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const CursoModel = require('../models/CursoModel.js'); // Importa el modelo de Curso
+const SeccionModel = require('../models/SeccionesModel.js');
+const CuestionarioModel = require('../models/CuestionariosModel.js'); // Asegúrate de tener este modelo
+const PreguntaModel = require('../models/PreguntaCuestionarioModel.js'); // Asegúrate de tener este modelo
+const RespuestaCuestionario = require('../models/RespuestaCuestionarioModel.js'); // Asegúrate de tener este modelo
+
 
 // Obtener todos los cursos
 router.get('/', async (req, res) => {
@@ -59,10 +64,46 @@ router.put('/:id', async (req, res) => {
 
 // Eliminar un curso por ID
 router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
   try {
-    const deleted = await CursoModel.destroy({
-      where: { id: req.params.id }
+    // Obtener los cuestionarios asociados al curso
+    const cuestionarios = await CuestionarioModel.findAll({
+      where: { idcurso: id }
     });
+
+    // Eliminar respuestas asociadas a las preguntas de los cuestionarios
+    for (const cuestionario of cuestionarios) {
+      const preguntas = await PreguntaModel.findAll({
+        where: { idcuestionario: cuestionario.id }
+      });
+
+      for (const pregunta of preguntas) {
+        await RespuestaCuestionario.destroy({
+          where: { idpregunta: pregunta.id }
+        });
+      }
+
+      // Eliminar preguntas asociadas a los cuestionarios
+      await PreguntaModel.destroy({
+        where: { idcuestionario: cuestionario.id }
+      });
+    }
+
+    // Eliminar cuestionarios asociados al curso
+    await CuestionarioModel.destroy({
+      where: { idcurso: id }
+    });
+
+    // Eliminar secciones asociadas al curso
+    await SeccionModel.destroy({
+      where: { idcurso: id }
+    });
+
+    // Eliminar el curso
+    const deleted = await CursoModel.destroy({
+      where: { id }
+    });
+
     if (deleted) {
       res.status(204).json();
     } else {
@@ -73,5 +114,6 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar el curso' });
   }
 });
+
 
 module.exports = router;

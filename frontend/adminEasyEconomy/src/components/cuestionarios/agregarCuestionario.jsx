@@ -55,22 +55,57 @@ function AgregarCuestionario() {
         };
 
         try {
-            const response = await fetch(`http://localhost:3000/cuestionarios/${cursoId}`, {
+            // Crear el cuestionario
+            const responseCuestionario = await fetch(`http://localhost:3000/cuestionarios`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(cuestionario)
+                body: JSON.stringify({ titulo: cuestionario.titulo, idcurso: cursoId }) // Incluir el cursoId
             });
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Cuestionario agregado:', data);
-                // Redirigir o mostrar un mensaje de éxito
-                navigate('/cuestionarios');
-            } else {
-                console.error('Error al agregar el cuestionario');
+            if (!responseCuestionario.ok) {
+                throw new Error('Error al agregar el cuestionario');
             }
+
+            const dataCuestionario = await responseCuestionario.json();
+            const cuestionarioId = dataCuestionario.id;
+
+            // Crear las preguntas y respuestas asociadas
+            for (const pregunta of cuestionario.preguntas) {
+                const responsePregunta = await fetch(`http://localhost:3000/preguntas`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ idcuestionario: cuestionarioId, pregunta: pregunta.textoPregunta })
+                });
+
+                if (!responsePregunta.ok) {
+                    throw new Error('Error al agregar la pregunta');
+                }
+
+                const dataPregunta = await responsePregunta.json();
+                const preguntaId = dataPregunta.id;
+
+                // Crear las respuestas asociadas a la pregunta
+                for (const respuesta of pregunta.respuestas) {
+                    const responseRespuesta = await fetch(`http://localhost:3000/respuestas`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ idpregunta: preguntaId, respuesta: respuesta.textoRespuesta, valor: respuesta.valor })
+                    });
+
+                    if (!responseRespuesta.ok) {
+                        throw new Error('Error al agregar la respuesta');
+                    }
+                }
+            }
+
+            console.log('Cuestionario agregado con éxito');
+            navigate('/cuestionarios');
         } catch (error) {
             console.error('Error:', error);
         }

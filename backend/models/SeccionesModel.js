@@ -16,7 +16,7 @@ const Seccion = sequelize.define('seccion', {
     allowNull: false
   },
   contenido: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false
   },
   linkvideoyoutube: {

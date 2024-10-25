@@ -14,7 +14,7 @@ const AgregarSeccionCurso = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (titulo.trim() === '' || descripcion.trim() === '' || contenido.trim() === '') {
+        if (titulo.trim() === '' || contenido.trim() === '') {
             setError('Todos los campos son obligatorios');
         } else {
             setError('');
