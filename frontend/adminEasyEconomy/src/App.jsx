@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ClaveCursoProvider } from './context/ClaveCursoContext';
 import AppRoutes from './routes/routes';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importa Bootstrap CSS
+import './global.css'; // Importa el archivo CSS global
 
 const App = () => {
   return (

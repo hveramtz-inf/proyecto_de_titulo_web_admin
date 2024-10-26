@@ -1,9 +1,9 @@
-// frontend/adminEasyEconomy/src/components/Home/Home.jsx
 import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import NavBar from '../Navbar/NavBar';
 import Cursos from '../cursos/cursos';
 import Cuestionarios from '../cuestionarios/cuestionarios';
+import Calculadoras from '../calculadoras/calculadoras';
 import { ClaveCursoContext } from '../../context/ClaveCursoContext';
 import './home.css'; // Asegúrate de importar el archivo CSS
 
@@ -33,9 +33,12 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <NavBar onSelect={handleNavBarSelection} claveCurso={claveCurso} />
-      {selectedOption === 'Cursos' && <Cursos />}
-      {selectedOption === 'Cuestionarios' && <Cuestionarios />}
+      <NavBar onSelect={handleNavBarSelection} claveCurso={claveCurso} className="navbar-fixed" />
+      <div className="content">
+        {selectedOption === 'Cursos' && <Cursos />}
+        {selectedOption === 'Cuestionarios' && <Cuestionarios />}
+        {selectedOption === 'Calculadoras' && <Calculadoras />}
+      </div>
     </div>
   );
 };

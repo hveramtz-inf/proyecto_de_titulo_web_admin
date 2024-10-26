@@ -1,0 +1,11 @@
+/* home.css */
+.navbar-fixed {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Asegúrate de que el NavBar esté por encima de otros elementos */
+  background-color: #fff; /* Asegúrate de que el fondo sea visible */
+}
+.content {
+  padding-top: 60px; /* Ajusta este valor según la altura de tu NavBar */
+}

@@ -1,0 +1,45 @@
+/* frontend/adminEasyEconomy/src/components/calculadoras/calculadoras.css */
+
+.calculadoras-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%; /* Ajusta el ancho del contenedor */
+  max-width: 40rem; /* Opcional: establece un ancho máximo */
+  margin: auto; /* Centra el contenedor horizontalmente */
+  background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco con 80% de opacidad */
+  border-radius: 10px; /* Opcional: agrega bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: agrega una sombra para darle profundidad */
+}
+
+.calculadoras-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #f2f2f2;
+}
+
+.calculadora-card {
+  width: 30rem;
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco con 80% de opacidad */
+  border-radius: 10px; /* Opcional: agrega bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: agrega una sombra para darle profundidad */
+  position: relative; /* Necesario para posicionar el spinner absolutamente */
+}
+
+.card {
+  background-color: #f2f2f2 !important;
+}
+
+.calculadora-button {
+  margin-right: 10px;
+}
+
+.spinner-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10; /* Asegura que el spinner esté sobre los placeholders */
+}

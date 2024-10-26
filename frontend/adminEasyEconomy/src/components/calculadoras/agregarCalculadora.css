@@ -1,0 +1,34 @@
+/* frontend/adminEasyEconomy/src/components/agregarCalculadora/agregarCalculadora.css */
+
+.agregar-calculadora-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%; /* Ajusta el ancho del contenedor */
+  max-width: 40rem; /* Opcional: establece un ancho máximo */
+  margin: auto; /* Centra el contenedor horizontalmente */
+  background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco con 20% de opacidad */
+  border-radius: 10px; /* Opcional: agrega bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: agrega una sombra para darle profundidad */
+}
+
+.agregar-calculadora-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #f2f2f2;
+}
+
+.agregar-calculadora-form {
+  width: 100%;
+}
+
+.agregar-calculadora-button {
+  margin-top: 20px;
+}
+
+.latex-preview
+{
+    margin-top: 2rem;
+    color: #f2f2f2;
+}
