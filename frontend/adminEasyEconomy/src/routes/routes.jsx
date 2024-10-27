@@ -14,6 +14,7 @@ import AgregarCuestionario from '../components/cuestionarios/agregarCuestionario
 import EditarCuestionario from '../components/cuestionarios/editarCuestionario.jsx';
 import Calculadoras from '../components/calculadoras/calculadoras.jsx';
 import AgregarCalculadora from '../components/calculadoras/agregarCalculadora.jsx';
+import EditarCalculadora from '../components/calculadoras/editarCalculadora.jsx';
 
 const AppRoutes = () => (
   <Routes>
@@ -31,6 +32,7 @@ const AppRoutes = () => (
     <Route path="/cuestionarios/editar/:cuestionarioId" element={<EditarCuestionario />} />
     <Route path="/calculadoras" element={<Calculadoras />} />
     <Route path="/calculadoras/crear" element={<AgregarCalculadora/>} />
+    <Route path="/calculadoras/editar/:id" element={<EditarCalculadora />} />
   </Routes>
 );
 

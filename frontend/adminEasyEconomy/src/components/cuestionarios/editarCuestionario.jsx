@@ -141,7 +141,7 @@ const EditarCuestionario = () => {
             }));
 
             console.log('Cuestionario actualizado exitosamente');
-            navigate(`/cuestionarios`);
+            navigate(`/home#Cuestionarios`);
         } catch (error) {
             console.error('Error:', error);
         }

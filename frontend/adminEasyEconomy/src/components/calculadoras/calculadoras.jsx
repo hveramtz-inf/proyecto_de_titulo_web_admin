@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 const Calculadoras = () => {
   const [calculadoras, setCalculadoras] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [deletingId, setDeletingId] = React.useState(null);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -33,9 +34,30 @@ const Calculadoras = () => {
     fetchCalculadoras();
   }, []);
 
-  const handleCreateCalculadora = async () => {
+  const handleCreateCalculadora = () => {
     navigate('/calculadoras/crear');
   };
+
+  const handleDeleteCalculadora = async (id) => {
+    setDeletingId(id);
+    try {
+      const response = await fetch(`http://localhost:3000/calculadoras/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      setCalculadoras((prevCalculadoras) => prevCalculadoras.filter((calculadora) => calculadora.id !== id));
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const handleEditCalculadora = (id) => {
+    navigate(`/calculadoras/editar/${id}`);
+  }
 
   return (
     <div className="calculadoras-container">
@@ -90,8 +112,14 @@ const Calculadoras = () => {
                 </Card.Text>
               </Card.Body>
               <Card.Body>
-                <Button variant="warning" className="calculadora-button">Editar</Button>
-                <Button variant="danger">Eliminar</Button>
+                <Button variant="warning" className="calculadora-button" onClick={()=> handleEditCalculadora(calculadora.id)} >Editar</Button>
+                <Button 
+                  variant="danger" 
+                  onClick={() => handleDeleteCalculadora(calculadora.id)}
+                  disabled={deletingId === calculadora.id}
+                >
+                  {deletingId === calculadora.id ? <Spinner animation="border" size="sm" /> : 'Eliminar'}
+                </Button>
               </Card.Body>
             </Card>
           </div>

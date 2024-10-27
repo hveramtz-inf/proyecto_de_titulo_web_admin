@@ -1,86 +1,63 @@
 /* Estilos para centrar el spinner */
 .spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Altura completa de la ventana */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Altura completa de la ventana */
+  flex-direction: column; /* Organizar los placeholders en columnas */
 }
 
 /* Estilos para el contenedor de cuestionarios */
 .cuestionarios-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%; /* Ajusta el ancho del contenedor */
+  max-width: 40rem; /* Opcional: establece un ancho máximo */
+  margin: auto; /* Centra el contenedor horizontalmente */
+  background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco con 80% de opacidad */
+  border-radius: 10px; /* Opcional: agrega bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: agrega una sombra para darle profundidad */
 }
 
 .cuestionarios-title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 28px;
-    color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #f2f2f2;
 }
 
-.cuestionario-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
+.cuestionario-card {
+  width: 30rem;
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco con 80% de opacidad */
+  border-radius: 10px; /* Opcional: agrega bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: agrega una sombra para darle profundidad */
+  position: relative; /* Necesario para posicionar el spinner absolutamente */
 }
 
-.cuestionario-item:last-child {
-    border-bottom: none;
-}
-
-.cuestionario-actions {
-    display: flex;
-    gap: 10px;
+.card {
+  background-color: #f2f2f2 !important;
 }
 
 .cuestionario-button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  margin-right: 10px;
 }
 
-.cuestionario-button.edit {
-    background-color: #ffc107;
-    color: white;
+.spinner-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10; /* Asegura que el spinner esté sobre los placeholders */
 }
 
-.cuestionario-button.delete {
-    background-color: #dc3545;
-    color: white;
-}
-
-.cuestionario-button.create {
-    background-color: #28a745;
-    color: white;
-    margin-bottom: 20px;
-}
-
-.contenedor-boton-cuestionarios {
-    display: flex; /* Cambiar a flex para usar Flexbox */
-    justify-content: center; /* Centrar horizontalmente */
-    align-items: center; /* Centrar verticalmente */
-    width: 50%;
-    margin: 0 auto; /* Centrar el contenedor en la página */
-    flex-direction: column;
-}
-
-.contenedor-boton-cuestionarios > button
-{
-    margin: 2%;
-}
-
-.cuestionarios{
-    width: 100%;
-    margin: 2%;
-}
-.card{
-    margin: 2%;
+/* Estilos para los placeholders */
+.placeholder-card {
+  width: 30rem;
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco con 80% de opacidad */
+  border-radius: 10px; /* Opcional: agrega bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: agrega una sombra para darle profundidad */
+  position: relative; /* Necesario para posicionar el spinner absolutamente */
 }
