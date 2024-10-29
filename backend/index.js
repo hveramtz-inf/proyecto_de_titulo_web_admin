@@ -22,6 +22,8 @@ const puntajeCuestionarioRoutes = require('./routes/rutaPuntajeCuestionario.js')
 const calculadoraRoutes = require('./routes/rutaCalculadora.js'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo calculadora.js
 const historialRoutes = require('./routes/rutaHistorial.js'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo historial.js
 const variableHistorial = require('./routes/rutaVariableHistorial.js'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo variableHistorial.js
+const favoritosCalculadoraRoutes = require('./routes/rutaFavoritoCalculadora.js'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo favoritosCalculadora.js
+const favoritosCuestionarioRoutes = require('./routes/rutaFavoritoCuestionario.js'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo favoritosCuestionario.js
 
 // Usar las rutas
 app.use('/cursos', cursosRoutes);
@@ -36,6 +38,10 @@ app.use('/puntajeCuestionario', puntajeCuestionarioRoutes);
 app.use('/calculadoras', calculadoraRoutes);
 app.use('/historialCalculadora', historialRoutes);
 app.use('/variableHistorial', variableHistorial);
+app.use('/favoritosCalculadora', favoritosCalculadoraRoutes);
+app.use('/favoritosCuestionario', favoritosCuestionarioRoutes);
+
+
 
 // Sincronizar modelos con la base de datos
 db.sync()
