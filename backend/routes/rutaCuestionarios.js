@@ -1,6 +1,8 @@
 const cuestionario = require('../models/CuestionariosModel.js');
 const PreguntaCuestionarioModel = require('../models/PreguntaCuestionarioModel.js');
 const RespuestaCuestionarioModel = require('../models/RespuestaCuestionarioModel.js');
+const Curso = require('../models/CursoModel.js');
+const Cuestionario = require('../models/CuestionariosModel.js');
 const express = require('express');
 const router = express.Router();
 
@@ -40,6 +42,22 @@ router.get('/:id', async (req, res) => {
 router.get('/estudiante/:idestudiante', async (req, res) => {
     try {
         const cuestionarios = await cuestionario.findAll({ idestudiante: req.params.idestudiante });
+        res.json(cuestionarios);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+router.get('/clavepucv/:clavepucv', async (req, res) => {
+    try {
+        const cursos = await Curso.findAll({ where: { clavepucvid: req.params.clavepucv } });
+        const cursoIds = cursos.map(curso => curso.id);
+
+        if (cursoIds.length === 0) {
+            return res.json([]); // Si no hay cursos, devolver un array vacío
+        }
+
+        const cuestionarios = await Cuestionario.findAll({ where: { idcurso: cursoIds } });
         res.json(cuestionarios);
     } catch (err) {
         res.status(500).json({ message: err.message });
