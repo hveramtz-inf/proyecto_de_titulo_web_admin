@@ -1,5 +1,7 @@
 const express = require('express');
 const SeccionRevisada = require('../models/SeccionRevisadaModel');
+const Seccion = require('../models/SeccionesModel');
+const ProgresoCurso = require('../models/ProgesoCursoModel');
 
 const router = express.Router();
 
@@ -43,8 +45,36 @@ router.get('/estudiante/:id/seccion/:idseccion', async (req, res) => {
 
 // Create new SeccionRevisada
 router.post('/', async (req, res) => {
+    const { idestudiante, idcurso, idseccion } = req.body;
+
     try {
-        const newSeccionRevisada = await SeccionRevisada.create(req.body);
+        // Crear una nueva entrada en SeccionRevisada
+        const newSeccionRevisada = await SeccionRevisada.create({ idestudiante, idcurso, idseccion });
+
+        // Buscar todas las secciones que tengan el idcurso proporcionado
+        const secciones = await Seccion.findAll({ where: { idcurso } });
+        const seccionIds = secciones.map(seccion => seccion.id);
+
+        // Obtener todas las entradas de SeccionRevisada que tengan el idestudiante proporcionado
+        const seccionesRevisadas = await SeccionRevisada.findAll({ where: { idestudiante } });
+
+        // Filtrar la lista de SeccionRevisada con los IDs de las secciones del curso
+        const seccionesRevisadasDelCurso = seccionesRevisadas.filter(seccionRevisada => seccionIds.includes(seccionRevisada.idseccion));
+
+        // Calcular el porcentaje de progreso
+        const progreso = (seccionesRevisadasDelCurso.length / secciones.length) * 100;
+
+        // Actualizar la tabla ProgresoCurso con el idestudiante y idcurso, actualizando el valor de progreso
+        const [progresoCurso, created] = await ProgresoCurso.findOrCreate({
+            where: { idestudiante, idcurso },
+            defaults: { progreso }
+        });
+
+        if (!created) {
+            progresoCurso.progreso = progreso;
+            await progresoCurso.save();
+        }
+
         res.status(201).json(newSeccionRevisada);
     } catch (error) {
         res.status(500).json({ error: error.message });

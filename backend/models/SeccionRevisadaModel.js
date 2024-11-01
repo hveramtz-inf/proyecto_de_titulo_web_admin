@@ -14,6 +14,10 @@ const SeccionRevisada = db.define('seccionrevisada', {
     idseccion: {
         type: DataTypes.UUID,
         allowNull: false
+    },
+    idcurso: {
+        type: DataTypes.UUID,
+        allowNull: false
     }
 }, {
     tableName: 'seccionrevisada',
