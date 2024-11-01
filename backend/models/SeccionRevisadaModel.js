@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db = require('../database/db');
 
-const SeccionRevisada = db.define('SeccionRevisada', {
+const SeccionRevisada = db.define('seccionrevisada', {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,

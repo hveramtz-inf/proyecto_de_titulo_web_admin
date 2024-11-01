@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db = require('../database/db');
 
-const ProgresoCurso = db.define('ProgresoCurso', {
+const ProgresoCurso = db.define('progresocurso', {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,

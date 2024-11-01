@@ -27,7 +27,8 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.get('estudiante/:id', async (req, res) => {
+// Get progress by student ID
+router.get('/estudiante/:id', async (req, res) => {
     try {
         const progress = await ProgresoCurso.findAll({
             where: {
@@ -39,7 +40,6 @@ router.get('estudiante/:id', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
 
 // Create new progress
 router.post('/', async (req, res) => {
