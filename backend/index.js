@@ -24,6 +24,8 @@ const historialRoutes = require('./routes/rutaHistorial.js'); // Asegúrate de a
 const variableHistorial = require('./routes/rutaVariableHistorial.js'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo variableHistorial.js
 const favoritosCalculadoraRoutes = require('./routes/rutaFavoritoCalculadora.js'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo favoritosCalculadora.js
 const favoritosCuestionarioRoutes = require('./routes/rutaFavoritoCuestionario.js'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo favoritosCuestionario.js
+const progresoCursoRoutes = require('./routes/rutaProgresoCurso.js'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo progresoCurso.js
+const seccionRevisadaRoutes = require('./routes/rutaSeccionRevisada.js'); // Asegúrate de ajustar la ruta según la ubicación de tu archivo seccionRevisada.js
 
 // Usar las rutas
 app.use('/cursos', cursosRoutes);
@@ -40,6 +42,8 @@ app.use('/historialCalculadora', historialRoutes);
 app.use('/variableHistorial', variableHistorial);
 app.use('/favoritosCalculadora', favoritosCalculadoraRoutes);
 app.use('/favoritosCuestionario', favoritosCuestionarioRoutes);
+app.use('/progresoCurso', progresoCursoRoutes);
+app.use('/seccionRevisada', seccionRevisadaRoutes);
 
 
 
