@@ -1,0 +1,42 @@
+/* inicioSesionDocente.css */
+
+.inicio-sesion-docente-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Altura completa de la ventana */
+  background-color: #ffffff2f; /* Color de fondo suave */
+}
+
+.inicio-sesion-docente-form {
+  background-color: #fff; /* Fondo blanco para el formulario */
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+  width: 100%;
+  max-width: 400px; /* Ancho máximo del formulario */
+}
+
+.inicio-sesion-docente-form .form-label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.inicio-sesion-docente-form .form-control {
+  margin-bottom: 20px;
+}
+
+.inicio-sesion-docente-form .btn-primary {
+  width: 100%; /* Botón de ancho completo */
+}
+
+@media (max-width: 768px) {
+  .inicio-sesion-docente-form {
+    padding: 20px; /* Reduce el padding en móviles */
+    max-width: 90%; /* Ancho máximo del formulario en móviles */
+  }
+
+  .inicio-sesion-docente-form .form-control {
+    margin-bottom: 15px; /* Reduce el margen inferior en móviles */
+  }
+}

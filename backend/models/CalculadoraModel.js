@@ -19,6 +19,11 @@ const Calculadora = sequelize.define('Calculadora', {
     {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    idclavepucv:
+    {
+        type: DataTypes.UUID,
+        allowNull: false
     }
 }, {
     tableName: 'calculadora',

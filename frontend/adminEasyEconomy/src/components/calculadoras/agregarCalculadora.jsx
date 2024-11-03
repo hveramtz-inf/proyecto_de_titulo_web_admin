@@ -28,7 +28,7 @@ const AgregarCalculadora = () => {
       const response = await axios.post('http://localhost:3000/calculadoras', {
         nombre,
         formula,
-        latexformula: latexFormula
+        latexformula: latexFormula,
       });
       console.log('Calculadora agregada:', response.data);
     } catch (error) {

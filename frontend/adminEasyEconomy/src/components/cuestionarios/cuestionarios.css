@@ -23,7 +23,7 @@
 
 .cuestionarios-title {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
   color: #f2f2f2;
 }
 
@@ -60,4 +60,62 @@
   border-radius: 10px; /* Opcional: agrega bordes redondeados */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: agrega una sombra para darle profundidad */
   position: relative; /* Necesario para posicionar el spinner absolutamente */
+}
+
+.cuestionario-item-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.list-group-item
+{
+  display: flex !important;
+}
+
+.btn
+{
+  margin-bottom: 10px !important;
+}
+
+.card-title
+{
+  margin-bottom: 1rem !important;
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.cuestionario-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.cuestionarios-list {
+  width: 100%;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .cuestionario-item {
+    flex-direction: column; /* Coloca los elementos en columna en móviles */
+    align-items: flex-start; /* Alinea los elementos al inicio en móviles */
+  }
+
+  .cuestionario-item-buttons {
+    flex-direction: column; /* Coloca los botones en columna en móviles */
+    gap: 5px; /* Reduce el espacio entre botones en móviles */
+    width: 100%; /* Ancho completo para los botones en móviles */
+    align-items: center; /* Centra los botones en móviles */
+  }
+
+  .btn {
+    width: 100%; /* Botones de ancho completo en móviles */
+  }
 }

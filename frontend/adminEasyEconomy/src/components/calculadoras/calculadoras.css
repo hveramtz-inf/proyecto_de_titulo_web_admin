@@ -43,3 +43,21 @@
   transform: translate(-50%, -50%);
   z-index: 10; /* Asegura que el spinner esté sobre los placeholders */
 }
+
+/* Estilos para móviles */
+@media (max-width: 768px) {
+  .calculadoras-container {
+    padding: 10px;
+    max-width: 100%; /* Ancho completo en móviles */
+  }
+
+  .calculadora-card {
+    width: 100%; /* Ancho completo en móviles */
+    margin-bottom: 15px;
+  }
+
+  .calculadora-button {
+    margin-right: 5px;
+    margin-bottom: 5px; /* Espacio entre botones en móviles */
+  }
+}

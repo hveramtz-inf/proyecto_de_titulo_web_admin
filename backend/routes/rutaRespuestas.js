@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const RespuestaCuestionarioModel = require('../models/RespuestaCuestionarioModel.js'); // Asegúrate de que la ruta sea correcta
+const PreguntaCuestionarioModel = require('../models/PreguntaCuestionarioModel.js'); // Asegúrate de que la ruta sea correcta
+const CuestionarioModel = require('../models/CuestionariosModel.js'); // Asegúrate de que la ruta sea correcta
+const CursoModel = require('../models/CursoModel.js'); // Asegúrate de que la ruta sea correcta
 
 // Obtener todas las respuestas
 router.get('/', async (req, res) => {
@@ -37,6 +40,46 @@ router.get('/pregunta/:id', async (req, res) => {
     res.json(respuestas);
   } catch (err) {
     console.error('Error al obtener las respuestas', err);
+    res.status(500).json({ error: 'Error al obtener las respuestas' });
+  }
+});
+
+router.get('/clavepucv/:clave', async (req, res) => {
+  try {
+    const { clave } = req.params;
+
+    // Obtener los cursos que tienen la clave PUCV
+    const cursos = await CursoModel.findAll({
+      where: { clavepucvid: clave },
+      attributes: ['id'] // Solo necesitamos los IDs de los cursos
+    });
+
+    const cursoIds = cursos.map(curso => curso.id);
+
+    // Obtener los cuestionarios que pertenecen a los cursos
+    const cuestionarios = await CuestionarioModel.findAll({
+      where: { idcurso: cursoIds },
+      attributes: ['id'] // Solo necesitamos los IDs de los cuestionarios
+    });
+
+    const cuestionarioIds = cuestionarios.map(cuestionario => cuestionario.id);
+
+    // Obtener las preguntas que pertenecen a los cuestionarios
+    const preguntas = await PreguntaCuestionarioModel.findAll({
+      where: { idcuestionario: cuestionarioIds },
+      attributes: ['id'] // Solo necesitamos los IDs de las preguntas
+    });
+
+    const preguntaIds = preguntas.map(pregunta => pregunta.id);
+
+    // Obtener las respuestas que pertenecen a las preguntas
+    const respuestas = await RespuestaCuestionarioModel.findAll({
+      where: { idpregunta: preguntaIds }
+    });
+
+    res.json(respuestas);
+  } catch (error) {
+    console.error('Error al obtener las respuestas:', error);
     res.status(500).json({ error: 'Error al obtener las respuestas' });
   }
 });

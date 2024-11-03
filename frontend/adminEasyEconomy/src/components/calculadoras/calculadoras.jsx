@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import 'katex/dist/katex.min.css';
@@ -7,17 +7,19 @@ import './calculadoras.css'; // Importa el archivo CSS
 import Placeholder from 'react-bootstrap/Placeholder';
 import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate } from 'react-router-dom';
+import { ClaveCursoContext } from '../../context/ClaveCursoContext';
 
 const Calculadoras = () => {
   const [calculadoras, setCalculadoras] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [deletingId, setDeletingId] = React.useState(null);
+  const { claveCurso } = useContext(ClaveCursoContext);
   const navigate = useNavigate();
 
   React.useEffect(() => {
     const fetchCalculadoras = async () => {
       try {
-        const response = await fetch('http://localhost:3000/calculadoras');
+        const response = await fetch(`http://localhost:3000/calculadoras/clavepucv/${claveCurso.id}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -32,7 +34,7 @@ const Calculadoras = () => {
     };
 
     fetchCalculadoras();
-  }, []);
+  }, [claveCurso.id]);
 
   const handleCreateCalculadora = () => {
     navigate('/calculadoras/crear');
@@ -102,28 +104,36 @@ const Calculadoras = () => {
           </Card>
         </div>
       ) : (
-        calculadoras.map((calculadora) => (
-          <div key={calculadora.id} className="calculadora-card">
-            <Card>
-              <Card.Body>
-                <Card.Title>{calculadora.nombre}</Card.Title>
-                <Card.Text>
-                  <BlockMath math={calculadora.latexformula} />
-                </Card.Text>
-              </Card.Body>
-              <Card.Body>
-                <Button variant="warning" className="calculadora-button" onClick={()=> handleEditCalculadora(calculadora.id)} >Editar</Button>
-                <Button 
-                  variant="danger" 
-                  onClick={() => handleDeleteCalculadora(calculadora.id)}
-                  disabled={deletingId === calculadora.id}
-                >
-                  {deletingId === calculadora.id ? <Spinner animation="border" size="sm" /> : 'Eliminar'}
-                </Button>
-              </Card.Body>
-            </Card>
-          </div>
-        ))
+        calculadoras.length === 0 ? (
+          <Card>
+            <Card.Body>
+              <Card.Title>No existen Calculadoras</Card.Title>
+            </Card.Body>
+          </Card>
+        ) : (
+          calculadoras.map((calculadora) => (
+            <div key={calculadora.id} className="calculadora-card">
+              <Card>
+                <Card.Body>
+                  <Card.Title>{calculadora.nombre}</Card.Title>
+                  <Card.Text>
+                    <BlockMath math={calculadora.latexformula} />
+                  </Card.Text>
+                </Card.Body>
+                <Card.Body>
+                  <Button variant="warning" className="calculadora-button" onClick={()=> handleEditCalculadora(calculadora.id)} >Editar</Button>
+                  <Button 
+                    variant="danger" 
+                    onClick={() => handleDeleteCalculadora(calculadora.id)}
+                    disabled={deletingId === calculadora.id}
+                  >
+                    {deletingId === calculadora.id ? <Spinner animation="border" size="sm" /> : 'Eliminar'}
+                  </Button>
+                </Card.Body>
+              </Card>
+            </div>
+          ))
+        )
       )}
     </div>
   );

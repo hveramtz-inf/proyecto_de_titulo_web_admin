@@ -4,7 +4,7 @@ import NavBar from '../Navbar/NavBar';
 import Cursos from '../cursos/cursos';
 import Cuestionarios from '../cuestionarios/cuestionarios';
 import Calculadoras from '../calculadoras/calculadoras';
-import { ClaveCursoContext } from '../../context/ClaveCursoContext';
+import { ClaveCursoContext } from '../../context/ClaveCursoContext'; // Asegúrate de que la ruta sea correcta
 import './home.css'; // Asegúrate de importar el archivo CSS
 
 const Home = () => {

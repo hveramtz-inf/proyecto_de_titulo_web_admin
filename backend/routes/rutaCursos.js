@@ -5,6 +5,7 @@ const SeccionModel = require('../models/SeccionesModel.js');
 const CuestionarioModel = require('../models/CuestionariosModel.js'); // Asegúrate de tener este modelo
 const PreguntaModel = require('../models/PreguntaCuestionarioModel.js'); // Asegúrate de tener este modelo
 const RespuestaCuestionario = require('../models/RespuestaCuestionarioModel.js'); // Asegúrate de tener este modelo
+const { route } = require('./rutaClavePucv.js');
 
 
 // Obtener todos los cursos
@@ -22,6 +23,22 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const curso = await CursoModel.findByPk(req.params.id);
+    if (curso) {
+      res.json(curso);
+    } else {
+      res.status(404).json({ error: 'Curso no encontrado' });
+    }
+  } catch (err) {
+    console.error('Error al obtener el curso', err);
+    res.status(500).json({ error: 'Error al obtener el curso' });
+  }
+});
+
+router.get('/clavepucv/:clave', async (req, res) => {
+  try {
+    const curso = await CursoModel.findAll({
+      where: { clavepucvid: req.params.clave }
+    });
     if (curso) {
       res.json(curso);
     } else {

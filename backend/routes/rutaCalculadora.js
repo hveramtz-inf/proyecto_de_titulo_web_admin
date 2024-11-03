@@ -27,6 +27,19 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.get('/clavepucv/:id', async (req, res) => {
+    try {
+        const calculadora = await Calculadora.findAll({ where: { idclavepucv: req.params.id } });
+        if (calculadora) {
+            res.json(calculadora);
+        } else {
+            res.status(404).json({ error: 'Calculadora no encontrada' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener la calculadora' });
+    }
+});
+
 // Crear una nueva calculadora
 router.post('/', async (req, res) => {
     try {

@@ -38,7 +38,7 @@ function EditarCurso() {
         })
         .then(response => {
             console.log('Curso actualizado:', response.data);
-            navigate('/cursos');
+            navigate('/home#Cursos');
         })
         .catch(error => {
             console.error('There was an error updating the course!', error);

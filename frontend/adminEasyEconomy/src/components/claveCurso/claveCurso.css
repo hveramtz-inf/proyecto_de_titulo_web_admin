@@ -1,43 +1,31 @@
 /* claveCurso.css */
+
 .clave-curso-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh; /* Altura completa de la ventana */
-  background-color: #a3a3a3; /* Color de fondo suave */
+  background-color: #ffffff2f; /* Color de fondo suave */
 }
 
-.clave-curso-form {
-  background-color: #f2f2f2; /* Fondo blanco para el formulario */
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+.clave-curso-list {
   width: 100%;
-  max-width: 400px; /* Ancho máximo del formulario */
+  max-width: 600px; /* Ancho máximo del contenedor */
 }
 
-.clave-curso-form .form-label {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.clave-curso-form .form-control {
+.clave-curso-card {
   margin-bottom: 20px;
 }
 
-.clave-curso-form .btn-primary {
-  width: 100%; /* Botón de ancho completo */
+.clave-curso-card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .spinner-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px; /* Espacio superior para separar del botón */
-  height: auto;
-}
-
-.error-message {
-  color: red;
-  text-align: center;
+  height: 100vh; /* Altura completa de la ventana */
 }

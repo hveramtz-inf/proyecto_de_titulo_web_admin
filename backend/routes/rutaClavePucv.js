@@ -31,6 +31,18 @@ router.get('/:claveCurso', async (req, res) => {
   }
 });
 
+router.get('/docente/:idDocente', async (req, res) => {
+  try {
+    const claves = await ClavePucv.findAll({
+      where: { iddocente: req.params.idDocente }
+    });
+    res.json(claves);
+  } catch (err) {
+    console.error('Error al obtener las claves', err);
+    res.status(500).json({ error: 'Error al obtener las claves' });
+  }
+});
+
 // Crear un nuevo registro
 router.post('/', async (req, res) => {
   try {

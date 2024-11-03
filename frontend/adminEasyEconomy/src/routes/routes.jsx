@@ -15,10 +15,12 @@ import EditarCuestionario from '../components/cuestionarios/editarCuestionario.j
 import Calculadoras from '../components/calculadoras/calculadoras.jsx';
 import AgregarCalculadora from '../components/calculadoras/agregarCalculadora.jsx';
 import EditarCalculadora from '../components/calculadoras/editarCalculadora.jsx';
+import InicioSesionDocente from '../components/inicioSecionDocente/inicioSesionDocente.jsx';
 
 const AppRoutes = () => (
   <Routes>
-    <Route path="/" element={<ClaveCurso />} />
+    <Route path="/" element={<InicioSesionDocente/>} />
+    <Route path="/claveCurso" element={<ClaveCurso />} />
     <Route path="/home" element={<Home />} />
     <Route path="*" element={<h1>Not Found</h1>} />
     <Route path="/cursos" element={<Cursos />} />

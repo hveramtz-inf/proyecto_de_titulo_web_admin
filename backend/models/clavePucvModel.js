@@ -10,6 +10,10 @@ const ClavePucv = sequelize.define('ClavePucv', {
     clave: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    iddocente: {
+        type: DataTypes.UUID,
+        allowNull: false
     }
 }, {
     tableName: 'clavepucv',
