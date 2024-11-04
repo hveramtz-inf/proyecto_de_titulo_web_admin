@@ -77,13 +77,25 @@ router.get('/curso/:idcurso', async (req, res) => {
 // Update a cuestionario by ID
 router.put('/:id', async (req, res) => {
     try {
-        const updatedCuestionario = await cuestionario.findByPk(req.params.id, req.body, { new: true });
-        if (!updatedCuestionario) return res.status(404).json({ message: 'Cuestionario not found' });
-        res.json(updatedCuestionario);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+      const { id } = req.params;
+      const { titulo, ocultar } = req.body;
+  
+      const cuestionario = await Cuestionario.findByPk(id);
+      if (!cuestionario) {
+        return res.status(404).json({ error: 'Cuestionario no encontrado' });
+      }
+  
+      cuestionario.titulo = titulo;
+      cuestionario.ocultar = ocultar;
+  
+      await cuestionario.save();
+  
+      res.json(cuestionario);
+    } catch (error) {
+      console.error('Error al actualizar el cuestionario:', error);
+      res.status(500).json({ error: 'Error al actualizar el cuestionario' });
     }
-});
+  });
 
 // Delete a cuestionario by ID
 router.delete('/:id', async (req, res) => {

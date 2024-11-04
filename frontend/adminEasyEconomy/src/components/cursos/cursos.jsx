@@ -5,12 +5,13 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import Placeholder from 'react-bootstrap/Placeholder';
 import { useNavigate } from 'react-router-dom';
-import { ClaveCursoContext } from '../../context/ClaveCursoContext'; // Asegúrate de que la ruta sea correcta
+import { ClaveCursoContext } from '../../context/claveCursoContext'; // Asegúrate de que la ruta sea correcta
 import './cursos.css'; // Importa el archivo CSS
 
 const Cursos = () => {
   const [cursos, setCursos] = useState([]);
   const [loading, setLoading] = useState(true); // Estado para manejar la carga
+  const [deletingId, setDeletingId] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { claveCurso } = useContext(ClaveCursoContext);
@@ -38,6 +39,7 @@ const Cursos = () => {
 
   const handleDelete = async (cursoId) => {
     console.log(`Eliminar curso con ID: ${cursoId}`);
+    setDeletingId(cursoId);
     try {
       const response = await fetch(`http://localhost:3000/cursos/${cursoId}`, { method: 'DELETE' });
       if (response.ok) {
@@ -47,48 +49,53 @@ const Cursos = () => {
       }
     } catch (error) {
       setError('Error deleting curso');
+    } finally {
+      setDeletingId(null);
     }
+  };
+
+  const handleViewSections = (cursoId) => {
+    navigate(`/secciones/${cursoId}`);
   };
 
   if (loading) {
     return (
-      <div className="spinner-container">
-        <Card className="placeholder-card">
-          <Card.Body>
-            <Placeholder as={Card.Title} animation="wave">
-              <Placeholder xs={6} />
-            </Placeholder>
-            <Placeholder as={Card.Text} animation="wave">
-              <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} /> <Placeholder xs={6} /> <Placeholder xs={8} />
-            </Placeholder>
-            <div className="cursos-list-item-buttons">
-              <Button variant="warning" disabled>
-                <Placeholder.Button xs={6} />
-              </Button>
-              <Button variant="danger" disabled>
-                <Placeholder.Button xs={6} />
-              </Button>
+      <div className="cursos-container">
+        <div className="cursos-title">
+          <h2>Lista de Cursos</h2>
+        </div>
+        <div style={{ marginBottom: '20px' }}>
+          <Button variant="success" disabled>
+            <Placeholder.Button xs={6} />
+          </Button>
+        </div>
+        <div className="cursos-list">
+          {[...Array(2)].map((_, index) => (
+            <div key={index} className="curso-card">
+              <Card>
+                <Card.Body>
+                  <Placeholder as={Card.Title} animation="wave">
+                    <Placeholder xs={6} />
+                  </Placeholder>
+                  <Placeholder as={Card.Text} animation="wave">
+                    <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} /> <Placeholder xs={6} /> <Placeholder xs={8} />
+                  </Placeholder>
+                </Card.Body>
+                <Card.Body>
+                  <Button variant="primary" disabled>
+                    <Placeholder.Button xs={6} />
+                  </Button>
+                  <Button variant="warning" disabled>
+                    <Placeholder.Button xs={6} />
+                  </Button>
+                  <Button variant="danger" disabled>
+                    <Placeholder.Button xs={6} />
+                  </Button>
+                </Card.Body>
+              </Card>
             </div>
-          </Card.Body>
-        </Card>
-        <Card className="placeholder-card">
-          <Card.Body>
-            <Placeholder as={Card.Title} animation="wave">
-              <Placeholder xs={6} />
-            </Placeholder>
-            <Placeholder as={Card.Text} animation="wave">
-              <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} /> <Placeholder xs={6} /> <Placeholder xs={8} />
-            </Placeholder>
-            <div className="cursos-list-item-buttons">
-              <Button variant="warning" disabled>
-                <Placeholder.Button xs={6} />
-              </Button>
-              <Button variant="danger" disabled>
-                <Placeholder.Button xs={6} />
-              </Button>
-            </div>
-          </Card.Body>
-        </Card>
+          ))}
+        </div>
         <div className="spinner-overlay">
           <Spinner animation="border" role="status">
             <span className="visually-hidden">Loading...</span>
@@ -119,15 +126,27 @@ const Cursos = () => {
       ) : (
         <div className="cursos-list">
           {cursos.map(curso => (
-            <Card key={curso.id} className="cursos-list-item">
-              <Card.Body className="cursos-list-item-body">
-                <Card.Title>{curso.nombre}</Card.Title>
-                <div className="cursos-list-item-buttons">
+            <div key={curso.id} className="curso-card">
+              <Card>
+                <Card.Body>
+                  <Card.Title>{curso.nombre}</Card.Title>
+                  <Card.Text className={curso.ocultar ? 'text-danger' : 'text-success'}>
+                    {curso.ocultar ? 'Este Curso está oculto' : 'Este Curso está visible'}
+                  </Card.Text>
+                </Card.Body>
+                <Card.Body>
+                  <Button variant="primary" onClick={() => handleViewSections(curso.id)}>Ver Secciones</Button>
                   <Button variant="warning" onClick={() => handleEdit(curso.id)}>Editar</Button>
-                  <Button variant="danger" onClick={() => handleDelete(curso.id)}>Eliminar</Button>
-                </div>
-              </Card.Body>
-            </Card>
+                  <Button 
+                    variant="danger" 
+                    onClick={() => handleDelete(curso.id)}
+                    disabled={deletingId === curso.id}
+                  >
+                    {deletingId === curso.id ? <Spinner animation="border" size="sm" /> : 'Eliminar'}
+                  </Button>
+                </Card.Body>
+              </Card>
+            </div>
           ))}
         </div>
       )}

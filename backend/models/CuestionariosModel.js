@@ -19,6 +19,10 @@ const Cuestionario = sequelize.define('Cuestionario', {
   titulo: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  ocultar: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
   }
 }, {
   tableName: 'cuestionario',

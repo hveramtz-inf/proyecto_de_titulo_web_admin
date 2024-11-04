@@ -24,6 +24,11 @@ const Calculadora = sequelize.define('Calculadora', {
     {
         type: DataTypes.UUID,
         allowNull: false
+    },
+    ocultar:
+    {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
     }
 }, {
     tableName: 'calculadora',

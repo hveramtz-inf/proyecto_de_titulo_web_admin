@@ -4,21 +4,13 @@ import NavBar from '../Navbar/NavBar';
 import Cursos from '../cursos/cursos';
 import Cuestionarios from '../cuestionarios/cuestionarios';
 import Calculadoras from '../calculadoras/calculadoras';
-import { ClaveCursoContext } from '../../context/ClaveCursoContext'; // Asegúrate de que la ruta sea correcta
+import BienvenidaHome from './bienvenidaHome';
 import './home.css'; // Asegúrate de importar el archivo CSS
 
 const Home = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const claveCurso = queryParams.get('claveCurso');
-  const { setClaveCurso } = useContext(ClaveCursoContext);
-
-  useEffect(() => {
-    if (claveCurso) {
-      setClaveCurso(claveCurso);
-    }
-  }, [claveCurso, setClaveCurso]);
+  
 
   useEffect(() => {
     const hash = location.hash.replace('#', '');
@@ -33,8 +25,9 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <NavBar onSelect={handleNavBarSelection} claveCurso={claveCurso} className="navbar-fixed" />
+      <NavBar onSelect={handleNavBarSelection} className="navbar-fixed" />
       <div className="content">
+        {selectedOption === 'home' && <BienvenidaHome />}
         {selectedOption === 'Cursos' && <Cursos />}
         {selectedOption === 'Cuestionarios' && <Cuestionarios />}
         {selectedOption === 'Calculadoras' && <Calculadoras />}

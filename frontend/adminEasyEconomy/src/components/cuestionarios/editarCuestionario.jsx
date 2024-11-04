@@ -10,6 +10,7 @@ const EditarCuestionario = () => {
     const { cuestionarioId } = useParams(); // Asegúrate de tener ambos IDs en los parámetros
     const [cuestionario, setCuestionario] = useState({});
     const [titulo, setTitulo] = useState('');
+    const [ocultar, setOcultar] = useState(false);
     const [preguntas, setPreguntas] = useState([]);
     const [respuestas, setRespuestas] = useState([]);
     const [loading, setLoading] = useState(true); // Estado para manejar la carga
@@ -23,6 +24,7 @@ const EditarCuestionario = () => {
                 const response = await axios.get(`http://localhost:3000/cuestionarios/${cuestionarioId}`);
                 setCuestionario(response.data);
                 setTitulo(response.data.titulo);
+                setOcultar(response.data.ocultar);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -95,6 +97,7 @@ const EditarCuestionario = () => {
         e.preventDefault();
         const cuestionarioActualizado = {
             titulo,
+            ocultar,
             preguntas: preguntas.map(p => ({
                 id: p.id,
                 pregunta: p.pregunta,
@@ -110,7 +113,7 @@ const EditarCuestionario = () => {
 
         try {
             // Actualizar el cuestionario
-            await axios.put(`http://localhost:3000/cuestionarios/${cuestionarioId}`, { titulo });
+            await axios.put(`http://localhost:3000/cuestionarios/${cuestionarioId}`, { titulo, ocultar });
 
             // Eliminar preguntas y respuestas
             await Promise.all([
@@ -167,6 +170,15 @@ const EditarCuestionario = () => {
                         value={titulo}
                         onChange={(e) => setTitulo(e.target.value)}
                         className="form-control"
+                    />
+                </Form.Group>
+                <Form.Group controlId="formOcultar" className="form-group">
+                    <Form.Check
+                        type="switch"
+                        label="Ocultar"
+                        checked={ocultar}
+                        onChange={(e) => setOcultar(e.target.checked)}
+                        className="form-switch"
                     />
                 </Form.Group>
 

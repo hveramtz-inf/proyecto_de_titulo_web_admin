@@ -1,9 +1,11 @@
-/* cuestionarios.css */
+/* bienvenidaHome.css */
 
-.cuestionarios-container {
+.bienvenida-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; /* Centra verticalmente */
+  height:93vh;
   padding: 20px;
   width: 100%;
   max-width: 800px; /* Ajusta el ancho máximo según tus necesidades */
@@ -13,56 +15,55 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
 }
 
-.cuestionarios-title {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #f2f2f2;
-}
-
-.cuestionarios-list {
+.bienvenida-card {
   width: 100%;
-}
-
-.cuestionario-card {
   margin-bottom: 20px;
-  background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco con 50% de opacidad */
+  background-color: rgba(255, 255, 255, 0.849) !important; /* Fondo blanco con 50% de opacidad */
   border-radius: 10px; /* Bordes redondeados */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
-}
-
-.cuestionario-item {
-  display: flex;
-  justify-content: space-between;
+  height: 100%;
   align-items: center;
-  width: 100%;
 }
 
-.cuestionario-item-buttons {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
+.card-body
+{
+    padding: 20px;
+    align-content: center;
+    align-items: center;
 }
 
-.text-danger {
-  color: red;
+
+.card-title
+{
+    font-size: 2rem;
+    color: #000;
 }
 
-.text-success {
-  color: green;
+.card-text
+{
+    font-size: 1.5rem;
+    color: #000;
 }
 
 @media (max-width: 768px) {
-  .cuestionarios-container {
+  .bienvenida-container {
     padding: 10px; /* Reduce el padding en móviles */
     max-width: 100%; /* Ancho completo en móviles */
   }
 
-  .cuestionario-card {
+  .bienvenida-card {
     margin-bottom: 15px; /* Reduce el margen inferior en móviles */
   }
 
-  .cuestionario-item-buttons {
-    flex-direction: column; /* Coloca los botones en columna en móviles */
-    gap: 5px; /* Reduce el espacio entre botones en móviles */
+  .bienvenida-card-body {
+    padding: 15px;
+  }
+
+  .bienvenida-card-title {
+    font-size: 1.3rem;
+  }
+
+  .bienvenida-card-text {
+    font-size: 1rem;
   }
 }

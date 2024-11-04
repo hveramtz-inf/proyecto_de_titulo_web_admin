@@ -2,13 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Button, Spinner, ListGroup, Placeholder } from 'react-bootstrap';
 import './cuestionarios.css'; // Importa el archivo CSS
-import { ClaveCursoContext } from '../../context/ClaveCursoContext'; // Importa el contexto ClaveCurso
+import { ClaveCursoContext } from '../../context/claveCursoContext'; // Importa el contexto ClaveCurso
 
 const Cuestionarios = () => {
   const [cursos, setCursos] = useState([]); // Inicializar como array vacío
   const [cuestionarios, setCuestionarios] = useState([]); // Inicializar como array vacío
-  const [respuestas, setRespuestas] = useState([]); // Inicializar como array vacío
   const [loading, setLoading] = useState(true); // Estado para manejar la carga
+  const [deletingId, setDeletingId] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { claveCurso } = useContext(ClaveCursoContext); // Usa el contexto ClaveCurso
@@ -23,10 +23,6 @@ const Cuestionarios = () => {
         const responseCuestionarios = await fetch(`http://localhost:3000/cuestionarios/clavepucv/${claveCurso.id}`);
         const dataCuestionarios = await responseCuestionarios.json();
         setCuestionarios(dataCuestionarios);
-
-        const responseRespuestas = await fetch(`http://localhost:3000/respuestas/clavepucv/${claveCurso.id}`);
-        const dataRespuestas = await responseRespuestas.json();
-        setRespuestas(dataRespuestas);
 
         setLoading(false);
       } catch (error) {
@@ -47,6 +43,7 @@ const Cuestionarios = () => {
   };
 
   const handleDelete = async (cuestionarioId) => {
+    setDeletingId(cuestionarioId);
     try {
       await fetch(`http://localhost:3000/cuestionarios/${cuestionarioId}`, {
         method: 'DELETE',
@@ -54,68 +51,46 @@ const Cuestionarios = () => {
       setCuestionarios(cuestionarios.filter(cuestionario => cuestionario.id !== cuestionarioId));
     } catch (error) {
       setError(error);
+    } finally {
+      setDeletingId(null);
     }
   };
 
   if (loading) {
     return (
-      <div className="spinner-container">
-        <Card className="placeholder-card">
-          <Card.Body>
-            <Placeholder as={Card.Title} animation="wave">
-              <Placeholder xs={6} />
-            </Placeholder>
-            <Placeholder as={Card.Text} animation="wave">
-              <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} /> <Placeholder xs={6} /> <Placeholder xs={8} />
-            </Placeholder>
-            <Button variant="success" disabled>
-              <Placeholder.Button xs={6} />
-            </Button>
-            <ListGroup className="cuestionarios-list">
-              <ListGroup.Item className="cuestionario-item">
-                <Placeholder as={Card.Title} animation="wave">
-                  <Placeholder xs={6} />
-                </Placeholder>
-                <div className="cuestionario-item-buttons">
+      <div className="cuestionarios-container">
+        <div className="cuestionarios-title">
+          <h2>Lista de Cuestionarios</h2>
+        </div>
+        <div style={{ marginBottom: '20px' }}>
+          <Button variant="success" disabled>
+            <Placeholder.Button xs={6} />
+          </Button>
+        </div>
+        <div className="cuestionarios-list">
+          {[...Array(2)].map((_, index) => (
+            <div key={index} className="cuestionario-card">
+              <Card>
+                <Card.Body>
+                  <Placeholder as={Card.Title} animation="wave">
+                    <Placeholder xs={6} />
+                  </Placeholder>
+                  <Placeholder as={Card.Text} animation="wave">
+                    <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} /> <Placeholder xs={6} /> <Placeholder xs={8} />
+                  </Placeholder>
+                </Card.Body>
+                <Card.Body>
                   <Button variant="warning" disabled>
                     <Placeholder.Button xs={6} />
                   </Button>
                   <Button variant="danger" disabled>
                     <Placeholder.Button xs={6} />
                   </Button>
-                </div>
-              </ListGroup.Item>
-            </ListGroup>
-          </Card.Body>
-        </Card>
-        <Card className="placeholder-card">
-          <Card.Body>
-            <Placeholder as={Card.Title} animation="wave">
-              <Placeholder xs={6} />
-            </Placeholder>
-            <Placeholder as={Card.Text} animation="wave">
-              <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} /> <Placeholder xs={6} /> <Placeholder xs={8} />
-            </Placeholder>
-            <Button variant="success" disabled>
-              <Placeholder.Button xs={6} />
-            </Button>
-            <ListGroup className="cuestionarios-list">
-              <ListGroup.Item className="cuestionario-item">
-                <Placeholder as={Card.Title} animation="wave">
-                  <Placeholder xs={6} />
-                </Placeholder>
-                <div className="cuestionario-item-buttons">
-                  <Button variant="warning" disabled>
-                    <Placeholder.Button xs={6} />
-                  </Button>
-                  <Button variant="danger" disabled>
-                    <Placeholder.Button xs={6} />
-                  </Button>
-                </div>
-              </ListGroup.Item>
-            </ListGroup>
-          </Card.Body>
-        </Card>
+                </Card.Body>
+              </Card>
+            </div>
+          ))}
+        </div>
         <div className="spinner-overlay">
           <Spinner animation="border" role="status">
             <span className="visually-hidden">Loading...</span>
@@ -141,37 +116,48 @@ const Cuestionarios = () => {
           </Card.Body>
         </Card>
       ) : (
-        <ListGroup className="cuestionarios-list">
+        <div className="cuestionarios-list">
           {cursos.map(curso => (
-            <Card key={curso.id} className="cuestionario-card">
-              <Card.Body className="center-content">
-                <Card.Title>{curso.nombre}</Card.Title>
-                <Button variant="success" onClick={() => handleCreate(curso.id)}>Crear Cuestionario</Button>
-                {cuestionarios.filter(cuestionario => cuestionario.idcurso === curso.id).length === 0 ? (
-                  <Card className="no-cuestionarios-card">
-                    <Card.Body>
-                      <Card.Title>No existen Cuestionarios en el Curso</Card.Title>
-                    </Card.Body>
-                  </Card>
-                ) : (
-                  <ListGroup className="cuestionarios-list">
-                    {cuestionarios
-                      .filter(cuestionario => cuestionario.idcurso === curso.id)
-                      .map(cuestionario => (
-                        <ListGroup.Item key={cuestionario.id} className="cuestionario-item">
-                          <Card.Title>{cuestionario.titulo}</Card.Title>
-                          <div className="cuestionario-item-buttons">
-                            <Button variant="warning" onClick={() => handleEdit(cuestionario.id)}>Editar</Button>
-                            <Button variant="danger" onClick={() => handleDelete(cuestionario.id)}>Eliminar</Button>
-                          </div>
-                        </ListGroup.Item>
-                      ))}
-                  </ListGroup>
-                )}
-              </Card.Body>
-            </Card>
+            <div key={curso.id} className="cuestionario-card">
+              <Card>
+                <Card.Body>
+                  <Card.Title>{curso.nombre}</Card.Title>
+                  <Button variant="success" onClick={() => handleCreate(curso.id)}>Crear Cuestionario</Button>
+                  {cuestionarios.filter(cuestionario => cuestionario.idcurso === curso.id).length === 0 ? (
+                    <Card className="no-cuestionarios-card">
+                      <Card.Body>
+                        <Card.Title>No existen Cuestionarios en el Curso</Card.Title>
+                      </Card.Body>
+                    </Card>
+                  ) : (
+                    <ListGroup className="cuestionarios-list">
+                      {cuestionarios
+                        .filter(cuestionario => cuestionario.idcurso === curso.id)
+                        .map(cuestionario => (
+                          <ListGroup.Item key={cuestionario.id} className="cuestionario-item">
+                            <Card.Title>{cuestionario.titulo}</Card.Title>
+                            <Card.Text className={cuestionario.ocultar ? 'text-danger' : 'text-success'}>
+                              {cuestionario.ocultar ? 'Este Cuestionario está oculto' : 'Este Cuestionario está visible'}
+                            </Card.Text>
+                            <div className="cuestionario-item-buttons">
+                              <Button variant="warning" onClick={() => handleEdit(cuestionario.id)}>Editar</Button>
+                              <Button 
+                                variant="danger" 
+                                onClick={() => handleDelete(cuestionario.id)}
+                                disabled={deletingId === cuestionario.id}
+                              >
+                                {deletingId === cuestionario.id ? <Spinner animation="border" size="sm" /> : 'Eliminar'}
+                              </Button>
+                            </div>
+                          </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                  )}
+                </Card.Body>
+              </Card>
+            </div>
           ))}
-        </ListGroup>
+        </div>
       )}
     </div>
   );

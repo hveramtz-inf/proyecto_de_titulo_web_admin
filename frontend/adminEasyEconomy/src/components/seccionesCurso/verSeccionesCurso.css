@@ -1,6 +1,6 @@
-/* cuestionarios.css */
+/* verSeccionesCurso.css */
 
-.cuestionarios-container {
+.ver-secciones-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,55 +13,40 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
 }
 
-.cuestionarios-title {
+.ver-secciones-title {
   text-align: center;
   margin-bottom: 20px;
-  color: #f2f2f2;
+  color: #333;
 }
 
-.cuestionarios-list {
+.ver-secciones-list {
   width: 100%;
 }
 
-.cuestionario-card {
+.ver-secciones-list-item {
   margin-bottom: 20px;
   background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco con 50% de opacidad */
   border-radius: 10px; /* Bordes redondeados */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
 }
 
-.cuestionario-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.cuestionario-item-buttons {
+.ver-secciones-list-item-buttons {
   display: flex;
   gap: 10px;
   justify-content: flex-end;
 }
 
-.text-danger {
-  color: red;
-}
-
-.text-success {
-  color: green;
-}
-
 @media (max-width: 768px) {
-  .cuestionarios-container {
+  .ver-secciones-container {
     padding: 10px; /* Reduce el padding en móviles */
     max-width: 100%; /* Ancho completo en móviles */
   }
 
-  .cuestionario-card {
+  .ver-secciones-list-item {
     margin-bottom: 15px; /* Reduce el margen inferior en móviles */
   }
 
-  .cuestionario-item-buttons {
+  .ver-secciones-list-item-buttons {
     flex-direction: column; /* Coloca los botones en columna en móviles */
     gap: 5px; /* Reduce el espacio entre botones en móviles */
   }

@@ -3,7 +3,9 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Spinner from 'react-bootstrap/Spinner';
+import Card from 'react-bootstrap/Card';
 import { useNavigate, useParams } from 'react-router-dom';
+import './verSeccionesCurso.css';
 
 const VerSeccionesCurso = () => {
     const { cursoId } = useParams();
@@ -73,26 +75,34 @@ const VerSeccionesCurso = () => {
             } catch (error) {
                 console.error('Error al eliminar la seccion:', error);
             }
-            }    
+        }
     }
 
     return (
-        <div>
-            <h2>Lista de Secciones del Curso</h2>
+        <div className="ver-secciones-container">
+            <h2 className="ver-secciones-title">Lista de Secciones del Curso</h2>
             <Button variant="success" onClick={handleCreate} className="mb-3">Crear Seccion</Button>
-            <ListGroup>
-                {secciones.map((seccion) => (
-                    <ListGroup.Item key={seccion.id} className="d-flex justify-content-between align-items-center">
-                        <div>
-                            <div><strong>Titulo:</strong> {seccion.titulo}</div>
-                        </div>
-                        <ButtonGroup>
-                            <Button variant="warning" onClick={() => handleEdit(seccion.id)}>Editar</Button>
-                            <Button variant="danger" onClick={() => handleDelete(seccion.id)}>Eliminar</Button>
-                        </ButtonGroup>
-                    </ListGroup.Item>
-                ))}
-            </ListGroup>
+            {secciones.length === 0 ? (
+                <Card className="no-secciones-card">
+                    <Card.Body>
+                        <Card.Title>No existen Secciones para este Curso</Card.Title>
+                    </Card.Body>
+                </Card>
+            ) : (
+                <ListGroup className="ver-secciones-list">
+                    {secciones.map((seccion) => (
+                        <ListGroup.Item key={seccion.id} className="ver-secciones-list-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <div><strong>Titulo:</strong> {seccion.titulo}</div>
+                            </div>
+                            <ButtonGroup className="ver-secciones-list-item-buttons">
+                                <Button variant="warning" onClick={() => handleEdit(seccion.id)}>Editar</Button>
+                                <Button variant="danger" onClick={() => handleDelete(seccion.id)}>Eliminar</Button>
+                            </ButtonGroup>
+                        </ListGroup.Item>
+                    ))}
+                </ListGroup>
+            )}
         </div>
     )
 }

@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Spinner from 'react-bootstrap/Spinner';
 import './inicioSesionDocente.css'; // Importa el archivo CSS
 import { DocenteContext } from './../../context/DocenteContext'; // Importa el contexto del usuario
 
@@ -9,6 +10,8 @@ function InicioSesionDocente() {
   const [rut, setRut] = useState('');
   const [contrasenia, setContrasenia] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const { setDocente } = useContext(DocenteContext); // Usa el contexto del usuario
   const navigate = useNavigate();
 
@@ -34,6 +37,8 @@ function InicioSesionDocente() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
     try {
       const response = await fetch('http://localhost:3000/docente/iniciosesion', {
         method: 'POST',
@@ -49,10 +54,15 @@ function InicioSesionDocente() {
 
       const data = await response.json();
       setDocente(data); // Almacena los datos del usuario en el contexto
-      navigate('/claveCurso'); // Redirige a la ruta /claveCurso
+      setSuccess(true);
+      setTimeout(() => {
+        navigate('/claveCurso'); // Redirige a la ruta /claveCurso
+      }, 1000);
     } catch (error) {
       console.error('Error:', error);
       setError('Rut o contraseña incorrectos');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -82,8 +92,18 @@ function InicioSesionDocente() {
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
           <Form.Check type="checkbox" label="Check me out" />
         </Form.Group>
-        <Button variant="primary" type="submit">
-          Iniciar Sesion
+        <Button
+          variant={success ? "success" : "primary"}
+          type="submit"
+          disabled={loading || success}
+        >
+          {loading ? (
+            <Spinner animation="border" size="sm" />
+          ) : success ? (
+            <span>&#10003; Inicio Correcto</span> // Símbolo de ticket
+          ) : (
+            'Iniciar Sesión'
+          )}
         </Button>
         {error && <p className="error-message">{error}</p>}
       </Form>

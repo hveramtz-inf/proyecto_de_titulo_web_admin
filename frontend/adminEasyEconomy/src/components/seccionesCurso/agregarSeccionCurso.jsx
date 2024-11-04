@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
+import './agregarSeccionCurso.css';
 
 const AgregarSeccionCurso = () => {
     const [titulo, setTitulo] = useState('');
@@ -36,11 +37,11 @@ const AgregarSeccionCurso = () => {
     };
 
     return (
-        <div>
-            <h2>Agregar Sección</h2>
+        <div className="agregar-seccion-container">
+            <h2 className="agregar-seccion-title">Agregar Sección</h2>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {success && <p style={{ color: 'green' }}>{success}</p>}
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} className="agregar-seccion-form">
                 <Form.Group controlId="formTitulo">
                     <Form.Label>Título de la Sección</Form.Label>
                     <Form.Control

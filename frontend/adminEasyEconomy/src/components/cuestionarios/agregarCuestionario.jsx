@@ -6,6 +6,7 @@ function AgregarCuestionario() {
     const { cursoId } = useParams();
     const [preguntas, setPreguntas] = useState([{ texto: '', respuestas: [{ texto: '', correcta: false }] }]);
     const [titulo, setTitulo] = useState('');
+    const [ocultar, setOcultar] = useState(false);
     const navigate = useNavigate();
 
     const agregarPregunta = () => {
@@ -61,8 +62,9 @@ function AgregarCuestionario() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ titulo: cuestionario.titulo, idcurso: cursoId }) // Incluir el cursoId
+                body: JSON.stringify({ titulo: cuestionario.titulo, idcurso: cursoId, ocultar: ocultar }) // Incluir el cursoId y ocultar
             });
+
 
             if (!responseCuestionario.ok) {
                 throw new Error('Error al agregar el cuestionario');
@@ -179,6 +181,17 @@ function AgregarCuestionario() {
                 <Button variant="secondary" onClick={agregarPregunta} className="mt-3">
                     Agregar Pregunta
                 </Button>
+
+                <Form.Group controlId="formOcultar" className="form-group">
+                    <Form.Check
+                        type="switch"
+                        label="Ocultar"
+                        checked={ocultar}
+                        onChange={(e) => setOcultar(e.target.checked)}
+                        className="form-switch"
+                    />
+                </Form.Group>
+
                 <Button variant="primary" type="submit" className="mt-3">
                     Agregar Cuestionario
                 </Button>

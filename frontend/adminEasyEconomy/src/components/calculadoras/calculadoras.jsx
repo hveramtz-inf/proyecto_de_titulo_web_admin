@@ -7,7 +7,7 @@ import './calculadoras.css'; // Importa el archivo CSS
 import Placeholder from 'react-bootstrap/Placeholder';
 import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate } from 'react-router-dom';
-import { ClaveCursoContext } from '../../context/ClaveCursoContext';
+import { ClaveCursoContext } from '../../context/claveCursoContext';
 
 const Calculadoras = () => {
   const [calculadoras, setCalculadoras] = React.useState([]);
@@ -118,6 +118,9 @@ const Calculadoras = () => {
                   <Card.Title>{calculadora.nombre}</Card.Title>
                   <Card.Text>
                     <BlockMath math={calculadora.latexformula} />
+                  </Card.Text>
+                  <Card.Text className={calculadora.ocultar ? 'text-danger' : 'text-success'}>
+                    {calculadora.ocultar ? 'Esta Calculadora está oculta' : 'Esta Calculadora está visible'}
                   </Card.Text>
                 </Card.Body>
                 <Card.Body>

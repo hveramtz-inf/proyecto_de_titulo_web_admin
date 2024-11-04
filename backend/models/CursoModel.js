@@ -18,6 +18,11 @@ const Curso = sequelize.define('Curso', {
   clavepucvid: { // Nueva columna sin referencia a otro modelo
     type: DataTypes.UUID,
     allowNull: false
+  },
+  ocultar:
+  {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
   }
 }, {
   tableName: 'curso',

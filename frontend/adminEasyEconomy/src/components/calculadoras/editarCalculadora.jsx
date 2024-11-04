@@ -11,6 +11,7 @@ const EditarCalculadora = () => {
   const [nombre, setNombre] = useState('');
   const [formula, setFormula] = useState('');
   const [latexFormula, setLatexFormula] = useState('');
+  const [ocultar, setOcultar] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams(); // Obtener el ID de la calculadora desde los parámetros de la URL
 
@@ -18,10 +19,11 @@ const EditarCalculadora = () => {
     const fetchCalculadora = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/calculadoras/${id}`);
-        const { nombre, formula, latexformula } = response.data;
+        const { nombre, formula, latexformula , ocultar} = response.data;
         setNombre(nombre);
         setFormula(formula);
         setLatexFormula(latexformula);
+        setOcultar(ocultar);
       } catch (error) {
         console.error('Error al obtener los datos de la calculadora:', error);
       }
@@ -45,7 +47,8 @@ const EditarCalculadora = () => {
       const response = await axios.put(`http://localhost:3000/calculadoras/${id}`, {
         nombre,
         formula,
-        latexformula: latexFormula
+        latexformula: latexFormula,
+        ocultar
       });
       console.log('Calculadora actualizada:', response.data);
     } catch (error) {
@@ -75,6 +78,15 @@ const EditarCalculadora = () => {
             placeholder="ej: ((Qf - Qi) / Qi) / ((Pf - Pi) / Pi)"
             value={formula}
             onChange={handleFormulaChange}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formOcultar">
+          <Form.Check
+            type="switch"
+            label="Ocultar"
+            checked={ocultar}
+            onChange={(e) => setOcultar(e.target.checked)}
           />
         </Form.Group>
 

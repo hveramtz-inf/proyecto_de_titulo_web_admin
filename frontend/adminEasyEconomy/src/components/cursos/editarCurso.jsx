@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Button, Form } from 'react-bootstrap';
 import './editarCurso.css'; // Importa el archivo CSS
 
 function EditarCurso() {
     const { cursoId } = useParams();
-    const [course, setCourse] = useState({ title: '', description: '', checked: false });
+    const [course, setCourse] = useState({ title: '', description: '', ocultar: false });
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -18,6 +16,7 @@ function EditarCurso() {
                 setCourse({
                     title: response.data.nombre,
                     description: response.data.descripcion,
+                    ocultar: response.data.ocultar
                 });
             })
             .catch(error => {
@@ -34,7 +33,8 @@ function EditarCurso() {
 
         axios.put(`http://localhost:3000/cursos/${cursoId}`, {
             nombre: course.title,
-            descripcion: course.description
+            descripcion: course.description,
+            ocultar: course.ocultar
         })
         .then(response => {
             console.log('Curso actualizado:', response.data);
@@ -46,39 +46,47 @@ function EditarCurso() {
         });
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setCourse(prevState => ({
-            ...prevState,
-            [name]: value
+    const handleChange = (event) => {
+        const { name, value, type, checked } = event.target;
+        setCourse(prevCourse => ({
+            ...prevCourse,
+            [name]: type === 'checkbox' ? checked : value
         }));
     };
 
     return (
-        <div className="form-container">
-            <h2 className="form-title">Editar Curso</h2>
+        <div className="editar-curso-container">
+            <h2 className="editar-curso-title">Editar Curso</h2>
             {error && <p className="error-message">{error}</p>}
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className="form-group" controlId="formTitulo">
-                    <Form.Label className="form-label">Título del Curso</Form.Label>
+            <Form onSubmit={handleSubmit} className="editar-curso-form">
+                <Form.Group controlId="formTitle" className="form-group">
+                    <Form.Label className="form-label">Título</Form.Label>
                     <Form.Control
                         type="text"
                         name="title"
-                        className="form-control"
                         value={course.title}
                         onChange={handleChange}
-                        required
+                        className="form-control"
                     />
                 </Form.Group>
-                <Form.Group className="form-group" controlId="formDescripcion">
-                    <Form.Label className="form-label">Descripción del Curso</Form.Label>
+                <Form.Group controlId="formDescription" className="form-group">
+                    <Form.Label className="form-label">Descripción</Form.Label>
                     <Form.Control
                         as="textarea"
                         name="description"
-                        className="form-control"
                         value={course.description}
                         onChange={handleChange}
-                        required
+                        className="form-control"
+                    />
+                </Form.Group>
+                <Form.Group controlId="formOcultar" className="form-group">
+                    <Form.Check
+                        type="switch"
+                        label="Ocultar"
+                        name="ocultar"
+                        checked={course.ocultar}
+                        onChange={handleChange}
+                        className="form-switch"
                     />
                 </Form.Group>
                 <Button type="submit" className="form-button">Actualizar Curso</Button>

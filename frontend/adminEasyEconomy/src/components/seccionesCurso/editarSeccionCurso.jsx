@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './editarSeccionCurso.css';
 
 function EditarSeccionCurso() {
     const { cursoId, seccionId } = useParams();
@@ -67,8 +68,9 @@ function EditarSeccionCurso() {
     }
 
     return (
-        <div>
-            <Form onSubmit={handleSubmit}>
+        <div className="editar-seccion-container">
+            <h2 className="editar-seccion-title">Editar Sección</h2>
+            <Form onSubmit={handleSubmit} className="editar-seccion-form">
                 <Form.Group className="mb-3" controlId="formBasicTitle">
                     <Form.Label>Titulo</Form.Label>
                     <Form.Control

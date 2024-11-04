@@ -12,6 +12,7 @@ const AgregarCalculadora = () => {
   const [nombre, setNombre] = useState('');
   const [formula, setFormula] = useState('');
   const [latexFormula, setLatexFormula] = useState('');
+  const [ocultar, setOcultar] = useState(false);
   const { claveCurso } = React.useContext(ClaveCursoContext);
   const navigate = useNavigate();
 
@@ -32,6 +33,7 @@ const AgregarCalculadora = () => {
         formula,
         latexformula: latexFormula,
         idclavepucv: claveCurso.id,
+        ocultar
       });
       console.log('Calculadora agregada:', response.data);
     } catch (error) {
@@ -64,6 +66,15 @@ const AgregarCalculadora = () => {
           />
         </Form.Group>
 
+        <Form.Group className="mb-3" controlId="formOcultar">
+          <Form.Check
+            type="switch"
+            label="Ocultar"
+            checked={ocultar}
+            onChange={(e) => setOcultar(e.target.checked)}
+          />
+        </Form.Group>
+
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
           <Form.Check type="checkbox" label="Acepto los datos ingresados" />
         </Form.Group>
@@ -71,6 +82,8 @@ const AgregarCalculadora = () => {
         <Button variant="primary" type="submit" className="agregar-calculadora-button">
           Submit
         </Button>
+
+
       </Form>
 
       <div className="latex-preview">

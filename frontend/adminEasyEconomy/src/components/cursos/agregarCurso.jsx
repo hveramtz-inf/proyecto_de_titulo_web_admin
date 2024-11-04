@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import './agregarCurso.css'; // Importa el archivo CSS
-import {ClaveCursoContext} from '../../context/claveCursoContext';
+import { ClaveCursoContext } from '../../context/claveCursoContext';
 
 const AgregarCurso = () => {
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
+  const [ocultar, setOcultar] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
-  const {claveCurso} = React.useContext(ClaveCursoContext);
+  const { claveCurso } = useContext(ClaveCursoContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +22,12 @@ const AgregarCurso = () => {
     } else {
       setError('');
       try {
-        const response = await axios.post('http://localhost:3000/cursos', { nombre: titulo, descripcion: descripcion, clavepucvid: claveCurso.id });
+        const response = await axios.post('http://localhost:3000/cursos', {
+          nombre: titulo,
+          descripcion: descripcion,
+          ocultar: ocultar,
+          clavepucvid: claveCurso.id
+        });
         setSuccess('Curso agregado exitosamente');
         console.log('Formulario enviado', response.data);
         navigate('/home#Cursos');
@@ -54,6 +60,15 @@ const AgregarCurso = () => {
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
             className="form-control"
+          />
+        </Form.Group>
+        <Form.Group controlId="formOcultar" className="form-group">
+          <Form.Check
+            type="switch"
+            label="Ocultar"
+            checked={ocultar}
+            onChange={(e) => setOcultar(e.target.checked)}
+            className="form-switch"
           />
         </Form.Group>
         <Button type="submit" className="form-button">Agregar Curso</Button>
