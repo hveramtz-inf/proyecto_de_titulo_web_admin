@@ -105,7 +105,7 @@ function AgregarCuestionario() {
             }
 
             console.log('Cuestionario agregado con éxito');
-            navigate('/cuestionarios');
+            navigate('/Home#Cuestionarios');
         } catch (error) {
             console.error('Error:', error);
         }

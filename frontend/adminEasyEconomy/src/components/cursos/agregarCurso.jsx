@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import './agregarCurso.css'; // Importa el archivo CSS
+import {ClaveCursoContext} from '../../context/claveCursoContext';
 
 const AgregarCurso = () => {
   const [titulo, setTitulo] = useState('');
@@ -11,7 +12,7 @@ const AgregarCurso = () => {
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
-  const claveCurso = location.state?.claveCurso || '';
+  const {claveCurso} = React.useContext(ClaveCursoContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,10 +21,10 @@ const AgregarCurso = () => {
     } else {
       setError('');
       try {
-        const response = await axios.post('http://localhost:3000/cursos', { nombre: titulo, descripcion: descripcion, clavepucvid: claveCurso });
+        const response = await axios.post('http://localhost:3000/cursos', { nombre: titulo, descripcion: descripcion, clavepucvid: claveCurso.id });
         setSuccess('Curso agregado exitosamente');
         console.log('Formulario enviado', response.data);
-        navigate('/cursos');
+        navigate('/home#Cursos');
       } catch (err) {
         setError('Error al agregar el curso');
         console.error(err);

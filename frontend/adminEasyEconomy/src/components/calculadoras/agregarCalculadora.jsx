@@ -6,11 +6,13 @@ import 'katex/dist/katex.min.css';
 import './agregarCalculadora.css'; // Importa el archivo CSS
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ClaveCursoContext } from '../../context/claveCursoContext';
 
 const AgregarCalculadora = () => {
   const [nombre, setNombre] = useState('');
   const [formula, setFormula] = useState('');
   const [latexFormula, setLatexFormula] = useState('');
+  const { claveCurso } = React.useContext(ClaveCursoContext);
   const navigate = useNavigate();
 
   const handleNombreChange = (e) => {
@@ -29,6 +31,7 @@ const AgregarCalculadora = () => {
         nombre,
         formula,
         latexformula: latexFormula,
+        idclavepucv: claveCurso.id,
       });
       console.log('Calculadora agregada:', response.data);
     } catch (error) {
