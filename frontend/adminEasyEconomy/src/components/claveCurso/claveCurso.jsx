@@ -6,7 +6,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Spinner from 'react-bootstrap/Spinner';
 import './claveCurso.css'; // Importar el archivo CSS
 import { DocenteContext } from '../../context/DocenteContext';
-import { ClaveCursoContext } from '../../context/ClaveCursoContext'; // Importar el contexto ClaveCurso
+import { ClaveCursoContext } from '../../context/claveCursoContext'; // Importar el contexto ClaveCurso
 import axios from 'axios';
 
 const ClaveCurso = () => {
@@ -34,7 +34,7 @@ const ClaveCurso = () => {
 
   const handleVerCursosDeClave = (clave) => {
     setClaveCurso(clave); // Establece la clave del curso en el contexto
-    navigate(`/home`); // Navega a la ruta /home
+    navigate(`/home#home`); // Navega a la ruta /home
   };
 
   return (
