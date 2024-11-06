@@ -1,5 +1,5 @@
 import React from 'react';
-import { ClaveCursoContext } from '../../context/claveCursoContext';
+import { ClaveCursoContext } from '../../context/ClaveCursoContext';
 import { DocenteContext } from '../../context/DocenteContext';
 import Card from 'react-bootstrap/Card';
 import './bienvenidaHome.css';

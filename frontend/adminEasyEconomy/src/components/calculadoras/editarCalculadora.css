@@ -19,6 +19,17 @@
   color: #f2f2f2;
 }
 
+.form-label
+{
+  color: #f2f2f2;
+}
+
+.form-check-label
+{
+  color: #f2f2f2;
+}
+
+
 .editar-calculadora-form {
   width: 100%;
 }

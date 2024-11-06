@@ -23,7 +23,7 @@ const AgregarSeccionCurso = () => {
                 const response = await axios.post(`http://localhost:3000/secciones/`, { 
                     titulo: titulo, 
                     contenido: contenido, 
-                    linkvideoyoutube: linkYoutube || null ,
+                    linkvideoyoutube: linkYoutube || null,
                     idcurso: cursoId
                 });
                 console.log('Formulario enviado', response.data);
@@ -36,45 +36,46 @@ const AgregarSeccionCurso = () => {
         }
     };
 
+    const handleVolver = () => {
+        navigate(`/secciones/${cursoId}`);
+    };
+
     return (
         <div className="agregar-seccion-container">
             <h2 className="agregar-seccion-title">Agregar Sección</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {success && <p style={{ color: 'green' }}>{success}</p>}
+            {error && <p className="error-message">{error}</p>}
+            {success && <p className="success-message">{success}</p>}
             <Form onSubmit={handleSubmit} className="agregar-seccion-form">
-                <Form.Group controlId="formTitulo">
-                    <Form.Label>Título de la Sección</Form.Label>
+                <Form.Group controlId="formTitulo" className="form-group">
+                    <Form.Label className="form-label">Título</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="Ingresa el título de la sección"
                         value={titulo}
                         onChange={(e) => setTitulo(e.target.value)}
+                        className="form-control"
                     />
                 </Form.Group>
-
-                <Form.Group controlId="formContenido">
-                    <Form.Label>Contenido</Form.Label>
+                <Form.Group controlId="formContenido" className="form-group">
+                    <Form.Label className="form-label">Contenido</Form.Label>
                     <Form.Control
-                        type="text"
-                        placeholder="Ingresa el contenido de la sección"
+                        as="textarea"
+                        rows={5}
                         value={contenido}
                         onChange={(e) => setContenido(e.target.value)}
+                        className="form-control"
                     />
                 </Form.Group>
-
-                <Form.Group controlId="formLinkYoutube">
-                    <Form.Label>Link YouTube</Form.Label>
+                <Form.Group controlId="formLinkYoutube" className="form-group">
+                    <Form.Label className="form-label">Link de YouTube</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="Ingresa el link de YouTube (opcional)"
                         value={linkYoutube}
                         onChange={(e) => setLinkYoutube(e.target.value)}
+                        className="form-control"
                     />
                 </Form.Group>
-
-                <Button variant="primary" type="submit">
-                    Agregar Sección
-                </Button>
+                <Button type="submit" className="form-button">Agregar Sección</Button>
+                <Button variant="secondary" onClick={handleVolver} className="form-button">Volver</Button>
             </Form>
         </div>
     );

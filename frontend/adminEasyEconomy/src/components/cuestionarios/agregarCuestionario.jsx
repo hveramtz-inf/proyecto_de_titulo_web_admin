@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
+import './agregarCuestionario.css';
 
 function AgregarCuestionario() {
     const { cursoId } = useParams();
@@ -65,7 +66,6 @@ function AgregarCuestionario() {
                 body: JSON.stringify({ titulo: cuestionario.titulo, idcurso: cursoId, ocultar: ocultar }) // Incluir el cursoId y ocultar
             });
 
-
             if (!responseCuestionario.ok) {
                 throw new Error('Error al agregar el cuestionario');
             }
@@ -107,15 +107,22 @@ function AgregarCuestionario() {
             }
 
             console.log('Cuestionario agregado con éxito');
-            navigate('/Home#Cuestionarios');
+            navigate('/home#Cuestionarios');
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
+    const handleVolver = () => {
+        navigate('/home#Cuestionarios');
+    };
+
     return (
         <div className="form-container">
             <h2 className="form-title">Agregar Cuestionario</h2>
+            <div className="center-button">
+                <Button variant="secondary" onClick={handleVolver} className="mb-3">Volver</Button>
+            </div>
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formTitulo" className="form-group">
                     <Form.Label className="form-label">Título del Cuestionario</Form.Label>

@@ -54,6 +54,10 @@ function EditarCurso() {
         }));
     };
 
+    const handleVolver = () => {
+        navigate('/home#Cursos');
+    };
+
     return (
         <div className="editar-curso-container">
             <h2 className="editar-curso-title">Editar Curso</h2>
@@ -73,6 +77,7 @@ function EditarCurso() {
                     <Form.Label className="form-label">Descripción</Form.Label>
                     <Form.Control
                         as="textarea"
+                        rows={5} // Ajusta el número de líneas del textarea
                         name="description"
                         value={course.description}
                         onChange={handleChange}
@@ -90,6 +95,7 @@ function EditarCurso() {
                     />
                 </Form.Group>
                 <Button type="submit" className="form-button">Actualizar Curso</Button>
+                <Button variant="secondary" onClick={handleVolver} className="form-button">Volver</Button>
             </Form>
         </div>
     );

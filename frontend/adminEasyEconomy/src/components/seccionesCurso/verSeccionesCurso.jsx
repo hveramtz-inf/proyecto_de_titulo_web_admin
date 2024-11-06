@@ -78,10 +78,15 @@ const VerSeccionesCurso = () => {
         }
     }
 
+    const handleVolver = () => {
+        navigate('/home#Cursos');
+    };
+
     return (
         <div className="ver-secciones-container">
             <h2 className="ver-secciones-title">Lista de Secciones del Curso</h2>
             <Button variant="success" onClick={handleCreate} className="mb-3">Crear Seccion</Button>
+            <Button variant="secondary" onClick={handleVolver} className="mb-3">Volver</Button>
             {secciones.length === 0 ? (
                 <Card className="no-secciones-card">
                     <Card.Body>

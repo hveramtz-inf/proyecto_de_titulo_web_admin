@@ -150,6 +150,10 @@ const EditarCuestionario = () => {
         }
     };
 
+    const handleVolver = () => {
+        navigate('/home#Cuestionarios');
+    };
+
     if (loading) {
         return (
             <div className="spinner-container">
@@ -160,9 +164,12 @@ const EditarCuestionario = () => {
     }
 
     return (
-        <div className="form-container">
-            <h2 className="form-title">Editar Cuestionario</h2>
-            <Form onSubmit={handleSubmit}>
+        <div className="editar-cuestionario-container">
+            <h2 className="editar-cuestionario-title">Editar Cuestionario</h2>
+            <div className="center-button">
+                <Button variant="secondary" onClick={handleVolver} className="mb-3">Volver</Button>
+            </div>
+            <Form onSubmit={handleSubmit} className="editar-cuestionario-form">
                 <Form.Group controlId="formTitulo" className="form-group">
                     <Form.Label className="form-label">Título</Form.Label>
                     <Form.Control

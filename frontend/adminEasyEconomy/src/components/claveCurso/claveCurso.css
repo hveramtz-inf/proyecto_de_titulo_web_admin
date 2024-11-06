@@ -2,19 +2,35 @@
 
 .clave-curso-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100vh; /* Altura completa de la ventana */
+  justify-content: center; /* Centra verticalmente */
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+  padding: 20px;
+  width: 100%;
+  max-width: 800px; /* Ajusta el ancho máximo según tus necesidades */
+  margin: auto;
   background-color: #ffffff2f; /* Color de fondo suave */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+}
+
+.clave-curso-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #f2f2f2;
 }
 
 .clave-curso-list {
   width: 100%;
-  max-width: 600px; /* Ancho máximo del contenedor */
+  position: relative; /* Necesario para posicionar el spinner absolutamente */
 }
 
 .clave-curso-card {
   margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco con 50% de opacidad */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
 }
 
 .clave-curso-card-body {
@@ -23,9 +39,25 @@
   align-items: center;
 }
 
-.spinner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* Altura completa de la ventana */
+.spinner-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10; /* Asegura que el spinner esté sobre los placeholders */
+}
+
+.cerrar-sesion-button {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .clave-curso-container {
+    padding: 10px; /* Reduce el padding en móviles */
+    max-width: 100%; /* Ancho completo en móviles */
+  }
+
+  .clave-curso-card {
+    margin-bottom: 15px; /* Reduce el margen inferior en móviles */
+  }
 }

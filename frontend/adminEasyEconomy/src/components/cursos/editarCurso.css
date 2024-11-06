@@ -57,7 +57,20 @@
 
 @media (max-width: 768px) {
   .editar-curso-container {
-    padding: 10px; /* Reduce el padding en móviles */
-    max-width: 100%; /* Ancho completo en móviles */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ocupa toda la altura de la ventana */
   }
+}
+
+.editar-curso-form
+{
+  width: 50%;
+}
+
+.form-button
+{
+  margin: 1%;
 }

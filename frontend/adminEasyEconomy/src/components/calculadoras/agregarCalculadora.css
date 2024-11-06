@@ -1,34 +1,114 @@
-/* frontend/adminEasyEconomy/src/components/agregarCalculadora/agregarCalculadora.css */
+/* agregarCalculadora.css */
 
-.agregar-calculadora-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  width: 100%; /* Ajusta el ancho del contenedor */
-  max-width: 40rem; /* Opcional: establece un ancho máximo */
-  margin: auto; /* Centra el contenedor horizontalmente */
-  background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco con 20% de opacidad */
-  border-radius: 10px; /* Opcional: agrega bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: agrega una sombra para darle profundidad */
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff2f;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.agregar-calculadora-title {
-  text-align: center;
-  margin-bottom: 20px;
+.form-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #f2f2f2;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.pregunta-container {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.respuesta-container {
+    margin-bottom: 10px;
+}
+
+.form-label
+{
   color: #f2f2f2;
 }
 
-.agregar-calculadora-form {
-  width: 100%;
-}
-
-.agregar-calculadora-button {
-  margin-top: 20px;
-}
-
-.latex-preview
+.form-check-label
 {
-    margin-top: 2rem;
-    color: #f2f2f2;
+  color: #f2f2f2;
+}
+
+.form-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.form-button:hover {
+    background-color: #0056b3;
+}
+
+.mt-2 {
+    margin-top: 10px;
+}
+
+.mt-3 {
+    margin-top: 15px;
+}
+
+.mb-3 {
+    margin-bottom: 15px;
+}
+
+.center-button {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px; /* Reduce el padding en móviles */
+        max-width: 100%; /* Ancho completo en móviles */
+        height: auto; /* Ajusta la altura automáticamente */
+    }
+
+    .pregunta-container {
+        width: 100%; /* Asegura que el contenedor de la pregunta ocupe todo el ancho disponible */
+    }
+
+    .respuesta-container {
+        width: 100%; /* Asegura que el contenedor de la respuesta ocupe todo el ancho disponible */
+    }
+    .agregar-calculadora-form
+    {
+      width: 80%;
+    }
 }

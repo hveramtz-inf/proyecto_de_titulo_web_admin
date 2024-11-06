@@ -1,82 +1,98 @@
-/* Estilos para centrar el spinner */
-.spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Altura completa de la ventana */
+/* editarCuestionario.css */
+
+.editar-cuestionario-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  max-width: 800px; /* Ajusta el ancho máximo según tus necesidades */
+  margin: auto;
+  background-color: #ffffff2f; /* Color de fondo suave */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
 }
 
-/* Estilos para el contenedor del formulario */
-.form-container {
-    margin: auto;
-    width: 50rem;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.form-title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
+.editar-cuestionario-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #f2f2f2;
 }
 
 .form-group {
-    margin-bottom: 15px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .form-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
+  font-weight: bold;
 }
 
 .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  width: 100%;
+}
+
+.form-switch {
+  display: flex;
+  align-items: center;
 }
 
 .form-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  width: 100%;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .form-button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .error-message {
-    color: red;
-    text-align: center;
-    margin-bottom: 15px;
+  color: red;
 }
 
-.success-message {
-    color: green;
-    text-align: center;
-    margin-bottom: 15px;
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-/* Estilos específicos para las preguntas y respuestas */
-.pregunta-container {
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #e9ecef;
-    border-radius: 4px;
+.center-button {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
-.respuesta-container {
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #f8f9fa;
-    border-radius: 4px;
+@media (max-width: 768px) {
+  .editar-cuestionario-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px; /* Reduce el padding en móviles */
+    max-width: 100%; /* Ancho completo en móviles */
+    height: auto; /* Ajusta la altura automáticamente */
+  }
+
+  .editar-cuestionario-form
+  {
+    width: 80%; /* Asegura que el formulario ocupe todo el ancho disponible */
+  }
+
+  .form-group {
+    width: 100%; /* Asegura que el grupo de formulario ocupe todo el ancho disponible */
+  }
+
+  .form-control {
+    width: 100%; /* Asegura que el control de formulario ocupe todo el ancho disponible */
+  }
+
+  .form-button {
+    width: 100%; /* Asegura que el botón ocupe todo el ancho disponible */
+  }
 }

@@ -30,6 +30,11 @@
   width: 100%; /* Botón de ancho completo */
 }
 
+.form-label
+{
+    color: #000;
+}
+
 @media (max-width: 768px) {
   .inicio-sesion-docente-form {
     padding: 20px; /* Reduce el padding en móviles */

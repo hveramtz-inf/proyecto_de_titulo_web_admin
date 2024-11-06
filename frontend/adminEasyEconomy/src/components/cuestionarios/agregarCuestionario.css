@@ -1,5 +1,7 @@
+/* agregarCuestionario.css */
+
 .form-container {
-    max-width: 600px;
+    width: 80%;
     margin: 0 auto;
     padding: 20px;
     background-color: #f9f9f9;
@@ -11,12 +13,14 @@
     text-align: center;
     margin-bottom: 20px;
     font-size: 24px;
-    color: #333;
+    color: #f2f2f2;
 }
 
 .form-group {
     margin-bottom: 15px;
 }
+
+
 
 .form-label {
     font-weight: bold;
@@ -34,9 +38,9 @@
 .pregunta-container {
     margin-bottom: 20px;
     padding: 15px;
-    border: 1px solid #ddd;
+    border: 1px solid #696969;
     border-radius: 4px;
-    background-color: #fff;
+    background-color: #ffffff2f !important;
 }
 
 .respuesta-container {
@@ -65,4 +69,34 @@
 
 .mt-3 {
     margin-top: 15px;
+}
+
+.mb-3 {
+    margin-bottom: 15px;
+}
+
+.center-button {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px; /* Reduce el padding en móviles */
+        max-width: 100%; /* Ancho completo en móviles */
+        height: auto; /* Ajusta la altura automáticamente */
+    }
+
+    .pregunta-container {
+        width: 100%; /* Asegura que el contenedor de la pregunta ocupe todo el ancho disponible */
+    }
+
+    .respuesta-container {
+        width: 100%; /* Asegura que el contenedor de la respuesta ocupe todo el ancho disponible */
+    }
 }

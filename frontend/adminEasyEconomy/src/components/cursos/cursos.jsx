@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import Placeholder from 'react-bootstrap/Placeholder';
 import { useNavigate } from 'react-router-dom';
-import { ClaveCursoContext } from '../../context/claveCursoContext'; // Asegúrate de que la ruta sea correcta
+import { ClaveCursoContext } from '../../context/ClaveCursoContext'; // Asegúrate de que la ruta sea correcta
 import './cursos.css'; // Importa el archivo CSS
 
 const Cursos = () => {
@@ -81,7 +81,7 @@ const Cursos = () => {
                     <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} /> <Placeholder xs={6} /> <Placeholder xs={8} />
                   </Placeholder>
                 </Card.Body>
-                <Card.Body>
+                <Card.Body className="cursos-list-item-buttons">
                   <Button variant="primary" disabled>
                     <Placeholder.Button xs={6} />
                   </Button>
@@ -134,7 +134,7 @@ const Cursos = () => {
                     {curso.ocultar ? 'Este Curso está oculto' : 'Este Curso está visible'}
                   </Card.Text>
                 </Card.Body>
-                <Card.Body>
+                <Card.Body className="cursos-list-item-buttons">
                   <Button variant="primary" onClick={() => handleViewSections(curso.id)}>Ver Secciones</Button>
                   <Button variant="warning" onClick={() => handleEdit(curso.id)}>Editar</Button>
                   <Button 

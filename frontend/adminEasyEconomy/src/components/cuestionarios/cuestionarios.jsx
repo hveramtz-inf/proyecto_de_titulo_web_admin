@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Button, Spinner, ListGroup, Placeholder } from 'react-bootstrap';
 import './cuestionarios.css'; // Importa el archivo CSS
-import { ClaveCursoContext } from '../../context/claveCursoContext'; // Importa el contexto ClaveCurso
+import { ClaveCursoContext } from '../../context/ClaveCursoContext'; // Importa el contexto ClaveCurso
 
 const Cuestionarios = () => {
   const [cursos, setCursos] = useState([]); // Inicializar como array vacío
@@ -122,7 +122,9 @@ const Cuestionarios = () => {
               <Card>
                 <Card.Body>
                   <Card.Title>{curso.nombre}</Card.Title>
-                  <Button variant="success" onClick={() => handleCreate(curso.id)}>Crear Cuestionario</Button>
+                  <div className="crear-cuestionario-button-container">
+                    <Button variant="success" onClick={() => handleCreate(curso.id)} className="crear-cuestionario-button">Crear Cuestionario</Button>
+                  </div>
                   {cuestionarios.filter(cuestionario => cuestionario.idcurso === curso.id).length === 0 ? (
                     <Card className="no-cuestionarios-card">
                       <Card.Body>

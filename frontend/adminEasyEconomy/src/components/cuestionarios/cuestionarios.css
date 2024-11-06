@@ -43,16 +43,20 @@
   justify-content: flex-end;
 }
 
-.text-danger {
-  color: red;
-}
-
-.text-success {
-  color: green;
+.crear-cuestionario-button-container
+{
+  display: flex;
+  justify-content: center;
+  margin: 20px;
 }
 
 @media (max-width: 768px) {
   .cuestionarios-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ocupa toda la altura de la ventana */
     padding: 10px; /* Reduce el padding en móviles */
     max-width: 100%; /* Ancho completo en móviles */
   }
@@ -62,7 +66,8 @@
   }
 
   .cuestionario-item-buttons {
-    flex-direction: column; /* Coloca los botones en columna en móviles */
+    flex-direction: row; /* Coloca los botones en columna en móviles */
+    align-items: center; /* Centra los botones horizontalmente */
     gap: 5px; /* Reduce el espacio entre botones en móviles */
   }
 }

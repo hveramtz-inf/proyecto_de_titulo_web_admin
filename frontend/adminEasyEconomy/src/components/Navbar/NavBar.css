@@ -1,0 +1,17 @@
+/* NavBar.css */
+
+.nav-buttons {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .nav-buttons {
+    flex-direction: column;
+    gap: 10px; /* Ajusta el espacio entre los botones */
+  }
+
+  .nav-buttons .btn {
+    width: 100%; /* Asegura que los botones ocupen todo el ancho disponible */
+  }
+}

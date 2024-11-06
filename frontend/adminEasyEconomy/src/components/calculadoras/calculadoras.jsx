@@ -7,7 +7,7 @@ import './calculadoras.css'; // Importa el archivo CSS
 import Placeholder from 'react-bootstrap/Placeholder';
 import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate } from 'react-router-dom';
-import { ClaveCursoContext } from '../../context/claveCursoContext';
+import { ClaveCursoContext } from '../../context/ClaveCursoContext';
 
 const Calculadoras = () => {
   const [calculadoras, setCalculadoras] = React.useState([]);

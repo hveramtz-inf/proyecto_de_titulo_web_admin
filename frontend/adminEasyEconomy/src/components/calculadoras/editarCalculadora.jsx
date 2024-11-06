@@ -57,9 +57,16 @@ const EditarCalculadora = () => {
     navigate('/home#Calculadoras');
   };
 
+  const handleVolver = () => {
+    navigate('/home#Calculadoras');
+  };
+
   return (
     <div className="editar-calculadora-container">
       <h1 className="editar-calculadora-title">Editar Calculadora</h1>
+      <div className="center-button">
+        <Button variant="secondary" onClick={handleVolver} className="mb-3">Volver</Button>
+      </div>
       <Form className="editar-calculadora-form" onSubmit={handleEdit}>
         <Form.Group className="mb-3" controlId="inputNombreFormula">
           <Form.Label>Nombre de la Calculadora</Form.Label>

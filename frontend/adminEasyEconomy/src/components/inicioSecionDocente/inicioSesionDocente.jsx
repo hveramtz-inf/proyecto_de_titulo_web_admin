@@ -84,13 +84,10 @@ function InicioSesionDocente() {
           <Form.Label>Contraseña</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder="Contraseña"
             value={contrasenia}
             onChange={handleContraseniaChange}
           />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
         </Form.Group>
         <Button
           variant={success ? "success" : "primary"}

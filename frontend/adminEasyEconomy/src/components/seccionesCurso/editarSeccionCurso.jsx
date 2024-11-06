@@ -49,7 +49,7 @@ function EditarSeccionCurso() {
             })
             .catch(error => {
                 console.error('There was an error updating the seccion!', error);
-                setError('Hubo un error al actualizar el curso.');
+                setError('Hubo un error al actualizar la sección.');
             });
     };
 
@@ -59,6 +59,10 @@ function EditarSeccionCurso() {
             ...prevseccion,
             [name]: type === 'checkbox' ? checked : value
         }));
+    };
+
+    const handleVolver = () => {
+        navigate(`/secciones/${cursoId}`);
     };
 
     if (loading) {
@@ -82,9 +86,10 @@ function EditarSeccionCurso() {
                     />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicDescription">
-                    <Form.Label>Contenido</Form.Label>
+                <Form.Label>Contenido</Form.Label>
                     <Form.Control
-                        type="text"
+                        as="textarea"
+                        rows={5}
                         placeholder="Enter description"
                         name="contenido"
                         value={seccion.contenido}
@@ -113,6 +118,9 @@ function EditarSeccionCurso() {
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 <Button variant="warning" type="submit">
                     Cambiar
+                </Button>
+                <Button variant="secondary" onClick={handleVolver} className="ms-2">
+                    Volver
                 </Button>
             </Form>
         </div>

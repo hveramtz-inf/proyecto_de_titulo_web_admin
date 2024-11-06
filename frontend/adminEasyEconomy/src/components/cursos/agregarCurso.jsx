@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import './agregarCurso.css'; // Importa el archivo CSS
-import { ClaveCursoContext } from '../../context/claveCursoContext';
+import { ClaveCursoContext } from '../../context/ClaveCursoContext';
 
 const AgregarCurso = () => {
   const [titulo, setTitulo] = useState('');
@@ -38,12 +38,19 @@ const AgregarCurso = () => {
     }
   };
 
+  const handleVolver = () => {
+    navigate('/home#Cursos');
+  };
+
   return (
     <div className="form-container">
       <h2 className="form-title">Agregar Curso</h2>
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>}
-      <Form onSubmit={handleSubmit}>
+      <div className="center-button">
+        <Button variant="secondary" onClick={handleVolver} className="mb-3">Volver</Button>
+      </div>
+      <Form onSubmit={handleSubmit} className='form-form'>
         <Form.Group controlId="formTitulo" className="form-group">
           <Form.Label className="form-label">Título</Form.Label>
           <Form.Control

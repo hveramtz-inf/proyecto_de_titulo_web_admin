@@ -6,7 +6,7 @@ import 'katex/dist/katex.min.css';
 import './agregarCalculadora.css'; // Importa el archivo CSS
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { ClaveCursoContext } from '../../context/claveCursoContext';
+import { ClaveCursoContext } from '../../context/ClaveCursoContext';
 
 const AgregarCalculadora = () => {
   const [nombre, setNombre] = useState('');
@@ -42,9 +42,16 @@ const AgregarCalculadora = () => {
     navigate('/home#Calculadoras');
   };
 
+  const handleVolver = () => {
+    navigate('/home#Calculadoras');
+  };
+
   return (
-    <div className="agregar-calculadora-container">
-      <h1 className="agregar-calculadora-title">Agregar Calculadora</h1>
+    <div className="form-container">
+      <h1 className="form-title">Agregar Calculadora</h1>
+      <div className="center-button">
+        <Button variant="secondary" onClick={handleVolver} className="mb-3">Volver</Button>
+      </div>
       <Form className="agregar-calculadora-form" onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="inputNombreFormula">
           <Form.Label>Nombre de la Calculadora</Form.Label>
@@ -79,11 +86,9 @@ const AgregarCalculadora = () => {
           <Form.Check type="checkbox" label="Acepto los datos ingresados" />
         </Form.Group>
 
-        <Button variant="primary" type="submit" className="agregar-calculadora-button">
-          Submit
+        <Button variant="primary" type="submit" className="form-button">
+          Agregar
         </Button>
-
-
       </Form>
 
       <div className="latex-preview">
