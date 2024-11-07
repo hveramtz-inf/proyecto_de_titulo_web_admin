@@ -23,10 +23,6 @@ const Seccion = sequelize.define('seccion', {
     type: DataTypes.STRING,
     allowNull: true
   },
-  ocultar: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false
-  }
 }, {
   tableName: 'seccion',
   timestamps: false

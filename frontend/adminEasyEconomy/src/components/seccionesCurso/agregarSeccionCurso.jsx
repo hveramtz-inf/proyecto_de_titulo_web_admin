@@ -72,6 +72,7 @@ const AgregarSeccionCurso = () => {
                         value={linkYoutube}
                         onChange={(e) => setLinkYoutube(e.target.value)}
                         className="form-control"
+                        placeholder='Opcional'
                     />
                 </Form.Group>
                 <Button type="submit" className="form-button">Agregar Sección</Button>

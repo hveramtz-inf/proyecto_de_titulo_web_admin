@@ -74,17 +74,22 @@ const EditarCuestionario = () => {
     };
 
     const agregarPregunta = () => {
-        setPreguntas([...preguntas, { pregunta: '', idcuestionario: cuestionarioId }]);
+        const nuevaPregunta = { id: Date.now(), pregunta: '', idcuestionario: cuestionarioId };
+        setPreguntas([...preguntas, nuevaPregunta]);
+        const nuevaRespuesta = { id: Date.now(), respuesta: '', valor: false, idpregunta: nuevaPregunta.id };
+        setRespuestas([...respuestas, nuevaRespuesta]);
     };
 
     const eliminarPregunta = (preguntaId, preguntaIndex) => {
         setPreguntasAEliminar([...preguntasAEliminar, preguntaId]);
         const nuevasPreguntas = preguntas.filter((_, index) => index !== preguntaIndex);
         setPreguntas(nuevasPreguntas);
+        const nuevasRespuestas = respuestas.filter((respuesta) => respuesta.idpregunta !== preguntaId);
+        setRespuestas(nuevasRespuestas);
     };
 
     const agregarRespuesta = (preguntaId) => {
-        setRespuestas([...respuestas, { respuesta: '', valor: false, idpregunta: preguntaId }]);
+        setRespuestas([...respuestas, { id: Date.now(), respuesta: '', valor: false, idpregunta: preguntaId }]);
     };
 
     const eliminarRespuesta = (respuestaId) => {
