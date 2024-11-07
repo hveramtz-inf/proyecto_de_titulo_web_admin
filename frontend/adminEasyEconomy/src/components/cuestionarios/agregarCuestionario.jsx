@@ -118,7 +118,7 @@ function AgregarCuestionario() {
     };
 
     return (
-        <div className="form-container">
+        <div className="form-container form-agregar-cuestionario">
             <h2 className="form-title">Agregar Cuestionario</h2>
             <div className="center-button">
                 <Button variant="secondary" onClick={handleVolver} className="mb-3">Volver</Button>
