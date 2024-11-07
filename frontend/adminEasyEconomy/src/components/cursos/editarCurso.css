@@ -1,76 +1,85 @@
 /* editarCurso.css */
 
-.editar-curso-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  width: 100%;
-  max-width: 800px; /* Ajusta el ancho máximo según tus necesidades */
-  margin: auto;
-  background-color: #ffffff2f; /* Color de fondo suave */
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centra el contenido verticalmente */
+    height: 100vh; /* Ocupa toda la altura de la ventana */
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.editar-curso-title {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #f2f2f2;
+.form-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
 }
 
 .form-group {
-  width: 100%;
-  margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .form-label {
-  font-weight: bold;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
 }
 
 .form-control {
-  width: 100%;
-}
-
-.form-switch {
-  display: flex;
-  align-items: center;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .form-button {
-  width: 100%;
-  background-color: #007bff;
-  border: none;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 .form-button:hover {
-  background-color: #0056b3;
+    background-color: #0056b3;
 }
 
 .error-message {
-  color: red;
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.success-message {
+    color: green;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.center-button {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {
-  .editar-curso-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Ocupa toda la altura de la ventana */
-  }
-}
-
-.editar-curso-form
-{
-  width: 50%;
-}
-
-.form-button
-{
-  margin: 1%;
+    .form-container {
+        display: flex ;
+        flex-direction: column ;
+        justify-content: center ;
+        align-items: center ;
+        height: 100vh !important; /* Ocupa toda la altura de la ventana */
+        width: 100% !important; /* Asegura que el contenedor ocupe todo el ancho disponible */
+        margin: 0 !important;
+    }
 }

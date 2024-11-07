@@ -6,13 +6,13 @@
   align-items: center;
   justify-content: center; /* Centra el contenido verticalmente */
   height: 100vh; /* Ocupa toda la altura de la ventana */
-  padding: 20px;
   width: 100%;
   max-width: 800px; /* Ajusta el ancho máximo según tus necesidades */
   margin: auto;
   background-color: #ffffff2f; /* Color de fondo suave */
   border-radius: 10px; /* Bordes redondeados */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+  padding: 20px;
 }
 
 .editar-seccion-title {
@@ -27,6 +27,11 @@
 
 @media (max-width: 768px) {
   .editar-seccion-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ocupa toda la altura de la ventana */
     padding: 10px; /* Reduce el padding en móviles */
     max-width: 100%; /* Ancho completo en móviles */
   }

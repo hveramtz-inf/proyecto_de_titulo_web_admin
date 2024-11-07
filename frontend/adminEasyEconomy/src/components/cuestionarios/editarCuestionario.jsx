@@ -21,7 +21,7 @@ const EditarCuestionario = () => {
     useEffect(() => {
         const fetchCuestionario = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/cuestionarios/${cuestionarioId}`);
+                const response = await axios.get(`https://easy-economy.fly.dev/cuestionarios/${cuestionarioId}`);
                 setCuestionario(response.data);
                 setTitulo(response.data.titulo);
                 setOcultar(response.data.ocultar);
@@ -32,7 +32,7 @@ const EditarCuestionario = () => {
 
         const fetchPreguntas = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/preguntas/cuestionario/${cuestionarioId}`);
+                const response = await axios.get(`https://easy-economy.fly.dev/preguntas/cuestionario/${cuestionarioId}`);
                 setPreguntas(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -41,7 +41,7 @@ const EditarCuestionario = () => {
 
         const fetchRespuestas = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/respuestas`);
+                const response = await axios.get(`https://easy-economy.fly.dev/respuestas`);
                 setRespuestas(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -113,32 +113,32 @@ const EditarCuestionario = () => {
 
         try {
             // Actualizar el cuestionario
-            await axios.put(`http://localhost:3000/cuestionarios/${cuestionarioId}`, { titulo, ocultar });
+            await axios.put(`https://easy-economy.fly.dev/cuestionarios/${cuestionarioId}`, { titulo, ocultar });
 
             // Eliminar preguntas y respuestas
             await Promise.all([
-                ...preguntasAEliminar.map(id => axios.delete(`http://localhost:3000/preguntas/${id}`)),
-                ...respuestasAEliminar.map(id => axios.delete(`http://localhost:3000/respuestas/${id}`))
+                ...preguntasAEliminar.map(id => axios.delete(`https://easy-economy.fly.dev/preguntas/${id}`)),
+                ...respuestasAEliminar.map(id => axios.delete(`https://easy-economy.fly.dev/respuestas/${id}`))
             ]);
 
             // Actualizar preguntas y respuestas
             await Promise.all(cuestionarioActualizado.preguntas.map(async (pregunta) => {
                 if (!pregunta.id) {
                     // Nueva pregunta
-                    const response = await axios.post('http://localhost:3000/preguntas', pregunta);
+                    const response = await axios.post('https://easy-economy.fly.dev/preguntas', pregunta);
                     pregunta.id = response.data.id;
                 } else {
                     // Pregunta existente
-                    await axios.put(`http://localhost:3000/preguntas/${pregunta.id}`, pregunta);
+                    await axios.put(`https://easy-economy.fly.dev/preguntas/${pregunta.id}`, pregunta);
                 }
 
                 await Promise.all(pregunta.respuestas.map(async (respuesta) => {
                     if (!respuesta.id) {
                         // Nueva respuesta
-                        await axios.post('http://localhost:3000/respuestas', respuesta);
+                        await axios.post('https://easy-economy.fly.dev/respuestas', respuesta);
                     } else {
                         // Respuesta existente
-                        await axios.put(`http://localhost:3000/respuestas/${respuesta.id}`, respuesta);
+                        await axios.put(`https://easy-economy.fly.dev/respuestas/${respuesta.id}`, respuesta);
                     }
                 }));
             }));
@@ -194,7 +194,8 @@ const EditarCuestionario = () => {
                         <Form.Group className="mb-3" controlId={`formPregunta${preguntaIndex}`}>
                             <Form.Label className="form-label">Pregunta {preguntaIndex + 1}</Form.Label>
                             <Form.Control
-                                type="text"
+                                as="textarea"
+                                rows={2}
                                 placeholder="Ingrese la pregunta"
                                 value={pregunta.pregunta}
                                 onChange={(e) => handlePreguntaChange(preguntaIndex, e.target.value)}
@@ -206,7 +207,8 @@ const EditarCuestionario = () => {
                                 <Form.Group className="mb-3" controlId={`formRespuesta${preguntaIndex}-${respuestaIndex}`}>
                                     <Form.Label className="form-label">Respuesta {respuestaIndex + 1}</Form.Label>
                                     <Form.Control
-                                        type="text"
+                                        as="textarea"
+                                        rows={2}
                                         placeholder="Ingrese la respuesta"
                                         value={respuesta.respuesta}
                                         onChange={(e) => handleRespuestaChange(preguntaIndex, respuesta.id, 'respuesta', e.target.value)}

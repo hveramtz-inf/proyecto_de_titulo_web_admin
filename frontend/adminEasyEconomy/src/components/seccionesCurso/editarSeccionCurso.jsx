@@ -15,7 +15,7 @@ function EditarSeccionCurso() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/secciones/${seccionId}`)
+        axios.get(`https://easy-economy.fly.dev/secciones/${seccionId}`)
             .then(response => {
                 setSeccion({
                     titulo: response.data.titulo,
@@ -37,7 +37,7 @@ function EditarSeccionCurso() {
             return;
         }
 
-        axios.put(`http://localhost:3000/secciones/${seccionId}`, {
+        axios.put(`https://easy-economy.fly.dev/secciones/${seccionId}`, {
             titulo: seccion.titulo,
             descripcion: seccion.descripcion,
             contenido: seccion.contenido

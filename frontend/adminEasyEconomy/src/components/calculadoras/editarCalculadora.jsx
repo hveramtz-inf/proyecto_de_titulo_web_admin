@@ -6,6 +6,7 @@ import 'katex/dist/katex.min.css';
 import './editarCalculadora.css'; // Importa el archivo CSS
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ClaveCursoContext } from '../../context/ClaveCursoContext';
 
 const EditarCalculadora = () => {
   const [nombre, setNombre] = useState('');
@@ -18,8 +19,8 @@ const EditarCalculadora = () => {
   useEffect(() => {
     const fetchCalculadora = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/calculadoras/${id}`);
-        const { nombre, formula, latexformula , ocultar} = response.data;
+        const response = await axios.get(`https://easy-economy.fly.dev/calculadoras/${id}`);
+        const { nombre, formula, latexformula, ocultar } = response.data;
         setNombre(nombre);
         setFormula(formula);
         setLatexFormula(latexformula);
@@ -44,7 +45,7 @@ const EditarCalculadora = () => {
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:3000/calculadoras/${id}`, {
+      const response = await axios.put(`https://easy-economy.fly.dev/calculadoras/${id}`, {
         nombre,
         formula,
         latexformula: latexFormula,
@@ -62,8 +63,8 @@ const EditarCalculadora = () => {
   };
 
   return (
-    <div className="editar-calculadora-container">
-      <h1 className="editar-calculadora-title">Editar Calculadora</h1>
+    <div className="form-container">
+      <h1 className="form-title">Editar Calculadora</h1>
       <div className="center-button">
         <Button variant="secondary" onClick={handleVolver} className="mb-3">Volver</Button>
       </div>

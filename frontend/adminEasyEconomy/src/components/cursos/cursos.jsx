@@ -17,7 +17,12 @@ const Cursos = () => {
   const { claveCurso } = useContext(ClaveCursoContext);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/cursos/clavepucv/${claveCurso.id}`)
+    if (!claveCurso) {
+      navigate('/');
+      return;
+    }
+
+    axios.get(`https://easy-economy.fly.dev/cursos/clavepucv/${claveCurso.id}`)
       .then(response => {
         setCursos(response.data);
         setLoading(false); // Desactivar el estado de carga
@@ -26,7 +31,7 @@ const Cursos = () => {
         setError('Error fetching cursos');
         setLoading(false); // Desactivar el estado de carga
       });
-  }, [claveCurso]);
+  }, [claveCurso, navigate]);
 
   const handleCreate = () => {
     navigate('/cursos/agregar');
@@ -41,7 +46,7 @@ const Cursos = () => {
     console.log(`Eliminar curso con ID: ${cursoId}`);
     setDeletingId(cursoId);
     try {
-      const response = await fetch(`http://localhost:3000/cursos/${cursoId}`, { method: 'DELETE' });
+      const response = await fetch(`https://easy-economy.fly.dev/cursos/${cursoId}`, { method: 'DELETE' });
       if (response.ok) {
         setCursos(cursos.filter(curso => curso.id !== cursoId));
       } else {

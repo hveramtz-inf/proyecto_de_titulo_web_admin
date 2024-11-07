@@ -1,12 +1,19 @@
 /* agregarCuestionario.css */
 
 .form-container {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centra el contenido verticalmente */
+    height: 100%; /* Ocupa toda la altura de la ventana */
+    width: 100%;
+    max-width: 800px !important; /* Ajusta el ancho máximo según tus necesidades */
+    margin: auto;
+    background-color: #ffffff2f; /* Color de fondo suave */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 3% !important;
+    margin-bottom: 3% !important;
 }
 
 .form-title {
@@ -19,13 +26,11 @@
 .form-group {
     margin-bottom: 15px;
 }
-
-
-
 .form-label {
     font-weight: bold;
     margin-bottom: 5px;
     display: block;
+    color: #f2f2f2 !important;
 }
 
 .form-control {
@@ -62,23 +67,9 @@
 .form-button:hover {
     background-color: #0056b3;
 }
-
-.mt-2 {
-    margin-top: 10px;
-}
-
-.mt-3 {
-    margin-top: 15px;
-}
-
-.mb-3 {
-    margin-bottom: 15px;
-}
-
 .center-button {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {
@@ -89,14 +80,11 @@
         align-items: center;
         padding: 10px; /* Reduce el padding en móviles */
         max-width: 100%; /* Ancho completo en móviles */
-        height: auto; /* Ajusta la altura automáticamente */
+        height: 100% !important;
     }
-
-    .pregunta-container {
-        width: 100%; /* Asegura que el contenedor de la pregunta ocupe todo el ancho disponible */
-    }
-
-    .respuesta-container {
-        width: 100%; /* Asegura que el contenedor de la respuesta ocupe todo el ancho disponible */
+    .form-form
+    {
+        width: 100%;
+        height: auto !important;
     }
 }

@@ -26,7 +26,7 @@ const ClaveCurso = () => {
 
     const fetchCursos = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/clavepucv/docente/${docente.id}`);
+        const response = await axios.get(`https://easy-economy.fly.dev/clavepucv/docente/${docente.id}`);
         setCursos(response.data);
         setLoading(false);
       } catch (error) {

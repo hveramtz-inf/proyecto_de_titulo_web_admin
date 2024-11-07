@@ -58,7 +58,7 @@ function AgregarCuestionario() {
 
         try {
             // Crear el cuestionario
-            const responseCuestionario = await fetch(`http://localhost:3000/cuestionarios`, {
+            const responseCuestionario = await fetch(`https://easy-economy.fly.dev/cuestionarios`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ function AgregarCuestionario() {
 
             // Crear las preguntas y respuestas asociadas
             for (const pregunta of cuestionario.preguntas) {
-                const responsePregunta = await fetch(`http://localhost:3000/preguntas`, {
+                const responsePregunta = await fetch(`https://easy-economy.fly.dev/preguntas`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -92,7 +92,7 @@ function AgregarCuestionario() {
 
                 // Crear las respuestas asociadas a la pregunta
                 for (const respuesta of pregunta.respuestas) {
-                    const responseRespuesta = await fetch(`http://localhost:3000/respuestas`, {
+                    const responseRespuesta = await fetch(`https://easy-economy.fly.dev/respuestas`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -123,7 +123,7 @@ function AgregarCuestionario() {
             <div className="center-button">
                 <Button variant="secondary" onClick={handleVolver} className="mb-3">Volver</Button>
             </div>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} className='form-form'>
                 <Form.Group controlId="formTitulo" className="form-group">
                     <Form.Label className="form-label">Título del Cuestionario</Form.Label>
                     <Form.Control
@@ -137,9 +137,10 @@ function AgregarCuestionario() {
                 {preguntas.map((pregunta, preguntaIndex) => (
                     <div key={preguntaIndex} className="pregunta-container" >
                         <Form.Group className="mb-3" controlId={`formPregunta${preguntaIndex}`}>
-                            <Form.Label className="form-label" >Pregunta {preguntaIndex + 1}</Form.Label>
+                            <Form.Label className="form-label">Pregunta {preguntaIndex + 1}</Form.Label>
                             <Form.Control
-                                type="text"
+                                as="textarea"
+                                rows={2}
                                 placeholder="Ingrese la pregunta"
                                 value={pregunta.texto}
                                 onChange={(e) => handlePreguntaChange(preguntaIndex, e.target.value)}
@@ -149,10 +150,11 @@ function AgregarCuestionario() {
 
                         {pregunta.respuestas.map((respuesta, respuestaIndex) => (
                             <div key={respuestaIndex} className="respuesta-container">
-                                <Form.Group className="mb-3" controlId={`formRespuesta${preguntaIndex}-${respuestaIndex}`}>
+                               <Form.Group className="mb-3" controlId={`formRespuesta${preguntaIndex}-${respuestaIndex}`}>
                                     <Form.Label className="form-label">Respuesta {respuestaIndex + 1}</Form.Label>
                                     <Form.Control
-                                        type="text"
+                                        as="textarea"
+                                        rows={2}
                                         placeholder="Ingrese la respuesta"
                                         value={respuesta.texto}
                                         onChange={(e) => handleRespuestaChange(preguntaIndex, respuestaIndex, 'texto', e.target.value)}

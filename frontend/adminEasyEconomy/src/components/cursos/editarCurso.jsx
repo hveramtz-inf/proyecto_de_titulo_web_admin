@@ -1,104 +1,100 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import './editarCurso.css'; // Importa el archivo CSS
+import { ClaveCursoContext } from '../../context/ClaveCursoContext';
 
-function EditarCurso() {
-    const { cursoId } = useParams();
-    const [course, setCourse] = useState({ title: '', description: '', ocultar: false });
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
+const EditarCurso = () => {
+  const { cursoId } = useParams();
+  const [titulo, setTitulo] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+  const [ocultar, setOcultar] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { claveCurso } = useContext(ClaveCursoContext);
 
-    useEffect(() => {
-        axios.get(`http://localhost:3000/cursos/${cursoId}`)
-            .then(response => {
-                setCourse({
-                    title: response.data.nombre,
-                    description: response.data.descripcion,
-                    ocultar: response.data.ocultar
-                });
-            })
-            .catch(error => {
-                console.error('There was an error fetching the course data!', error);
-            });
-    }, [cursoId]);
+  useEffect(() => {
+    axios.get(`https://easy-economy.fly.dev/cursos/${cursoId}`)
+      .then(response => {
+        setTitulo(response.data.nombre);
+        setDescripcion(response.data.descripcion);
+        setOcultar(response.data.ocultar);
+      })
+      .catch(error => {
+        console.error('There was an error fetching the course data!', error);
+      });
+  }, [cursoId]);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        if (course.title === '' || course.description === '') {
-            setError('Todos los campos deben estar completos.');
-            return;
-        }
-
-        axios.put(`http://localhost:3000/cursos/${cursoId}`, {
-            nombre: course.title,
-            descripcion: course.description,
-            ocultar: course.ocultar
-        })
-        .then(response => {
-            console.log('Curso actualizado:', response.data);
-            navigate('/home#Cursos');
-        })
-        .catch(error => {
-            console.error('There was an error updating the course!', error);
-            setError('Hubo un error al actualizar el curso.');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (titulo.trim() === '' || descripcion.trim() === '') {
+      setError('Todos los campos son obligatorios');
+    } else {
+      setError('');
+      try {
+        const response = await axios.put(`https://easy-economy.fly.dev/cursos/${cursoId}`, {
+          nombre: titulo,
+          descripcion: descripcion,
+          ocultar: ocultar,
+          clavepucvid: claveCurso.id
         });
-    };
-
-    const handleChange = (event) => {
-        const { name, value, type, checked } = event.target;
-        setCourse(prevCourse => ({
-            ...prevCourse,
-            [name]: type === 'checkbox' ? checked : value
-        }));
-    };
-
-    const handleVolver = () => {
+        setSuccess('Curso actualizado exitosamente');
+        console.log('Formulario enviado', response.data);
         navigate('/home#Cursos');
-    };
+      } catch (err) {
+        setError('Error al actualizar el curso');
+        console.error(err);
+      }
+    }
+  };
 
-    return (
-        <div className="editar-curso-container">
-            <h2 className="editar-curso-title">Editar Curso</h2>
-            {error && <p className="error-message">{error}</p>}
-            <Form onSubmit={handleSubmit} className="editar-curso-form">
-                <Form.Group controlId="formTitle" className="form-group">
-                    <Form.Label className="form-label">Título</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="title"
-                        value={course.title}
-                        onChange={handleChange}
-                        className="form-control"
-                    />
-                </Form.Group>
-                <Form.Group controlId="formDescription" className="form-group">
-                    <Form.Label className="form-label">Descripción</Form.Label>
-                    <Form.Control
-                        as="textarea"
-                        rows={5} // Ajusta el número de líneas del textarea
-                        name="description"
-                        value={course.description}
-                        onChange={handleChange}
-                        className="form-control"
-                    />
-                </Form.Group>
-                <Form.Group controlId="formOcultar" className="form-group">
-                    <Form.Check
-                        type="switch"
-                        label="Ocultar"
-                        name="ocultar"
-                        checked={course.ocultar}
-                        onChange={handleChange}
-                        className="form-switch"
-                    />
-                </Form.Group>
-                <Button type="submit" className="form-button">Actualizar Curso</Button>
-                <Button variant="secondary" onClick={handleVolver} className="form-button">Volver</Button>
-            </Form>
-        </div>
-    );
-}
+  const handleVolver = () => {
+    navigate('/home#Cursos');
+  };
+
+  return (
+    <div className="form-container">
+      <h2 className="form-title">Editar Curso</h2>
+      {error && <p className="error-message">{error}</p>}
+      {success && <p className="success-message">{success}</p>}
+      <div className="center-button">
+        <Button variant="secondary" onClick={handleVolver} className="mb-3">Volver</Button>
+      </div>
+      <Form onSubmit={handleSubmit} className='form-form'>
+        <Form.Group controlId="formTitulo" className="form-group">
+          <Form.Label className="form-label">Título</Form.Label>
+          <Form.Control
+            type="text"
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+            className="form-control"
+          />
+        </Form.Group>
+        <Form.Group controlId="formDescripcion" className="form-group">
+          <Form.Label className="form-label">Descripción</Form.Label>
+          <Form.Control
+            as="textarea"
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
+            className="form-control"
+          />
+        </Form.Group>
+        <Form.Group controlId="formOcultar" className="form-group">
+          <Form.Check
+            type="switch"
+            label="Ocultar"
+            checked={ocultar}
+            onChange={(e) => setOcultar(e.target.checked)}
+            className="form-switch"
+          />
+        </Form.Group>
+        <Button type="submit" className="form-button">Actualizar Curso</Button>
+      </Form>
+    </div>
+  );
+};
 
 export default EditarCurso;

@@ -22,7 +22,7 @@ const AgregarCurso = () => {
     } else {
       setError('');
       try {
-        const response = await axios.post('http://localhost:3000/cursos', {
+        const response = await axios.post('https://easy-economy.fly.dev/cursos', {
           nombre: titulo,
           descripcion: descripcion,
           ocultar: ocultar,

@@ -20,7 +20,7 @@ const AgregarSeccionCurso = () => {
         } else {
             setError('');
             try {
-                const response = await axios.post(`http://localhost:3000/secciones/`, { 
+                const response = await axios.post(`https://easy-economy.fly.dev/secciones/`, { 
                     titulo: titulo, 
                     contenido: contenido, 
                     linkvideoyoutube: linkYoutube || null,

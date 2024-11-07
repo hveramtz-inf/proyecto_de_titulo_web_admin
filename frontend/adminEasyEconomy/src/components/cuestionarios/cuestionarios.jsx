@@ -14,13 +14,18 @@ const Cuestionarios = () => {
   const { claveCurso } = useContext(ClaveCursoContext); // Usa el contexto ClaveCurso
 
   useEffect(() => {
+    if (!claveCurso) {
+      navigate('/');
+      return;
+    }
+
     const fetchData = async () => {
       try {
-        const responseCursos = await fetch(`http://localhost:3000/cursos/clavepucv/${claveCurso.id}`);
+        const responseCursos = await fetch(`https://easy-economy.fly.dev/cursos/clavepucv/${claveCurso.id}`);
         const dataCursos = await responseCursos.json();
         setCursos(dataCursos);
 
-        const responseCuestionarios = await fetch(`http://localhost:3000/cuestionarios/clavepucv/${claveCurso.id}`);
+        const responseCuestionarios = await fetch(`https://easy-economy.fly.dev/cuestionarios/clavepucv/${claveCurso.id}`);
         const dataCuestionarios = await responseCuestionarios.json();
         setCuestionarios(dataCuestionarios);
 
@@ -32,7 +37,7 @@ const Cuestionarios = () => {
     };
 
     fetchData();
-  }, [claveCurso]);
+  }, [claveCurso, navigate]);
 
   const handleCreate = (cursoId) => {
     navigate(`/cuestionarios/agregar/${cursoId}`);
@@ -45,7 +50,7 @@ const Cuestionarios = () => {
   const handleDelete = async (cuestionarioId) => {
     setDeletingId(cuestionarioId);
     try {
-      await fetch(`http://localhost:3000/cuestionarios/${cuestionarioId}`, {
+      await fetch(`https://easy-economy.fly.dev/cuestionarios/${cuestionarioId}`, {
         method: 'DELETE',
       });
       setCuestionarios(cuestionarios.filter(cuestionario => cuestionario.id !== cuestionarioId));

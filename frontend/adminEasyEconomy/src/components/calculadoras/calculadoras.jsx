@@ -17,9 +17,14 @@ const Calculadoras = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
+    if (!claveCurso) {
+      navigate('/');
+      return;
+    }
+
     const fetchCalculadoras = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/calculadoras/clavepucv/${claveCurso.id}`);
+        const response = await fetch(`https://easy-economy.fly.dev/calculadoras/clavepucv/${claveCurso.id}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -34,7 +39,7 @@ const Calculadoras = () => {
     };
 
     fetchCalculadoras();
-  }, [claveCurso.id]);
+  }, [claveCurso, navigate]);
 
   const handleCreateCalculadora = () => {
     navigate('/calculadoras/crear');
@@ -43,7 +48,7 @@ const Calculadoras = () => {
   const handleDeleteCalculadora = async (id) => {
     setDeletingId(id);
     try {
-      const response = await fetch(`http://localhost:3000/calculadoras/${id}`, {
+      const response = await fetch(`https://easy-economy.fly.dev/calculadoras/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

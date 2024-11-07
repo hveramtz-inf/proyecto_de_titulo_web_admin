@@ -1,12 +1,22 @@
 /* agregarCalculadora.css */
 
 .form-container {
-    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centra el contenido verticalmente */
+    height: 100%; /* Ocupa toda la altura de la ventana */
+    max-width: 800px !important;
     margin: 0 auto;
     padding: 20px;
     background-color: #ffffff2f;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.agregar-calculadora-form
+{
+    width: 100%;
 }
 
 .form-title {
@@ -33,28 +43,6 @@
     border-radius: 4px;
 }
 
-.pregunta-container {
-    margin-bottom: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #fff;
-}
-
-.respuesta-container {
-    margin-bottom: 10px;
-}
-
-.form-label
-{
-  color: #f2f2f2;
-}
-
-.form-check-label
-{
-  color: #f2f2f2;
-}
-
 .form-button {
     display: block;
     width: 100%;
@@ -71,15 +59,15 @@
     background-color: #0056b3;
 }
 
-.mt-2 {
-    margin-top: 10px;
+.error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
-.mt-3 {
-    margin-top: 15px;
-}
-
-.mb-3 {
+.success-message {
+    color: green;
+    text-align: center;
     margin-bottom: 15px;
 }
 
@@ -96,19 +84,7 @@
         justify-content: center;
         align-items: center;
         padding: 10px; /* Reduce el padding en móviles */
-        max-width: 100%; /* Ancho completo en móviles */
-        height: auto; /* Ajusta la altura automáticamente */
-    }
-
-    .pregunta-container {
-        width: 100%; /* Asegura que el contenedor de la pregunta ocupe todo el ancho disponible */
-    }
-
-    .respuesta-container {
-        width: 100%; /* Asegura que el contenedor de la respuesta ocupe todo el ancho disponible */
-    }
-    .agregar-calculadora-form
-    {
-      width: 80%;
+        width: 100% !important; /* Ancho completo en móviles */
+        height: 100vh !important; /* Ocupa toda la altura de la ventana */
     }
 }

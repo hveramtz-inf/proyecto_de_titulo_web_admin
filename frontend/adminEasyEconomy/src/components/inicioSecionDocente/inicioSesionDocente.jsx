@@ -40,7 +40,7 @@ function InicioSesionDocente() {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch('http://localhost:3000/docente/iniciosesion', {
+      const response = await fetch('https://easy-economy.fly.dev/docente/iniciosesion', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ function InicioSesionDocente() {
     <div className="inicio-sesion-docente-container">
       <Form className="inicio-sesion-docente-form" onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formBasicRut">
-          <Form.Label>Rut</Form.Label>
+          <Form.Label className='label-rut'>Rut</Form.Label>
           <Form.Control
             type="text"
             placeholder="12.34.678-9"
@@ -81,7 +81,7 @@ function InicioSesionDocente() {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Contraseña</Form.Label>
+          <Form.Label className='label-contraseña'>Contraseña</Form.Label>
           <Form.Control
             type="password"
             placeholder="Contraseña"

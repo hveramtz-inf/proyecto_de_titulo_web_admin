@@ -56,7 +56,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Ocupa toda la altura de la ventana */
     padding: 10px; /* Reduce el padding en móviles */
     max-width: 100%; /* Ancho completo en móviles */
   }

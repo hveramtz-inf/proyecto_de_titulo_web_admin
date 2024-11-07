@@ -30,9 +30,14 @@
   width: 100%; /* Botón de ancho completo */
 }
 
-.form-label
+.label-rut
 {
-    color: #000;
+  color: black !important;
+}
+
+.label-contraseña
+{
+  color: black !important;
 }
 
 @media (max-width: 768px) {

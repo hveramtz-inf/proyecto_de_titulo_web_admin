@@ -28,7 +28,7 @@ const AgregarCalculadora = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/calculadoras', {
+      const response = await axios.post('https://easy-economy.fly.dev/calculadoras', {
         nombre,
         formula,
         latexformula: latexFormula,

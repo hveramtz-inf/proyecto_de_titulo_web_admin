@@ -11,6 +11,8 @@
   background-color: #ffffff2f; /* Color de fondo suave */
   border-radius: 10px; /* Bordes redondeados */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+  margin-top: 3%;
+  margin-bottom: 3%;
 }
 
 .editar-cuestionario-title {
@@ -22,6 +24,11 @@
 .form-group {
   width: 100%;
   margin-bottom: 20px;
+}
+
+.editar-cuestionario-form
+{
+  width: 100%;
 }
 
 .form-label {
