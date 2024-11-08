@@ -1,90 +1,75 @@
 /* agregarCalculadora.css */
 
 .form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Centra el contenido verticalmente */
-    height: 100%; /* Ocupa toda la altura de la ventana */
-    max-width: 800px !important;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #ffffff2f;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.agregar-calculadora-form
-{
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centra el contenido verticalmente */
+  height: 100%; /* Ocupa toda la altura de la ventana */
+  width: 100%;
+  max-width: 800px !important; /* Ajusta el ancho máximo según tus necesidades */
+  margin: auto;
+  background-color: #ffffff2f; /* Color de fondo suave */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 3% !important;
+  margin-bottom: 3% !important;
 }
 
 .form-title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #f2f2f2;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
 }
 
 .form-group {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .form-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  color: #333;
 }
 
 .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .form-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .form-button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .error-message {
-    color: red;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.success-message {
-    color: green;
-    text-align: center;
-    margin-bottom: 15px;
+  color: red;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 .center-button {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
-@media (max-width: 768px) {
-    .form-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 10px; /* Reduce el padding en móviles */
-        width: 100% !important; /* Ancho completo en móviles */
-        height: 100vh !important; /* Ocupa toda la altura de la ventana */
-    }
+.latex-preview {
+  margin-top: 20px;
+  text-align: center;
 }

@@ -28,6 +28,7 @@ const favoritosCuestionarioRoutes = require('./routes/rutaFavoritoCuestionario.j
 const progresoCursoRoutes = require('./routes/rutaProgresoCurso.js');
 const seccionRevisadaRoutes = require('./routes/rutaSeccionRevisada.js');
 const docenteRoutes = require('./routes/rutaDocente.js');
+const verifyTokenRoute = require('./routes/verifyTokenRoute.js');
 
 // Usar las rutas
 app.use('/cursos', verifyToken, cursosRoutes);
@@ -46,6 +47,7 @@ app.use('/favoritosCuestionario', verifyToken, favoritosCuestionarioRoutes);
 app.use('/progresoCurso', verifyToken, progresoCursoRoutes);
 app.use('/seccionRevisada', verifyToken, seccionRevisadaRoutes);
 app.use('/docente', docenteRoutes); // Puedes proteger algunas rutas de docente si es necesario
+app.use('/verify-token',verifyTokenRoute);
 
 
 //rutas celular

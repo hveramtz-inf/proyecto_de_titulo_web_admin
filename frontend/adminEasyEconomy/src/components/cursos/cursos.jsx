@@ -52,24 +52,32 @@ const Cursos = () => {
   };
 
   const handleDelete = async (cursoId) => {
-    console.log(`Eliminar curso con ID: ${cursoId}`);
-    setDeletingId(cursoId);
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.delete(`https://easy-economy.fly.dev/cursos/${cursoId}`, {
-        headers: {
-          'Authorization': token,
-        },
-      });
-      if (response.status === 200) {
-        setCursos(cursos.filter(curso => curso.id !== cursoId));
-      } else {
+    const confirmDelete = window.confirm('Se va a eliminar todo lo relacionado con este curso, tanto como las secciones, cuestionarios, los apuntes de los alumnos, progresos, etc. ¿Estás seguro?');
+    if (confirmDelete) {
+      setDeletingId(cursoId);
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.delete(`https://easy-economy.fly.dev/cursos/${cursoId}`, {
+          headers: {
+            'Authorization': token,
+          },
+        });
+        if (response.status === 200) {
+          // Realizar una nueva solicitud fetch para obtener la lista actualizada de cursos
+          const updatedResponse = await axios.get(`https://easy-economy.fly.dev/cursos/clavepucv/${claveCurso.id}`, {
+            headers: {
+              'Authorization': token,
+            },
+          });
+          setCursos(updatedResponse.data);
+        } else {
+          setError('Error deleting curso');
+        }
+      } catch (error) {
         setError('Error deleting curso');
+      } finally {
+        setDeletingId(null);
       }
-    } catch (error) {
-      setError('Error deleting curso');
-    } finally {
-      setDeletingId(null);
     }
   };
 

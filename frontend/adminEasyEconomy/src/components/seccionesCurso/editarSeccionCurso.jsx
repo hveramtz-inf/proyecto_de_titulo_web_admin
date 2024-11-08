@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
+import Card from 'react-bootstrap/Card';
+import Placeholder from 'react-bootstrap/Placeholder';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './editarSeccionCurso.css';
@@ -78,9 +80,31 @@ function EditarSeccionCurso() {
     };
 
     if (loading) {
-        return <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-        </Spinner>;
+        return (
+            <div className="editar-seccion-container">
+                <h2 className="editar-seccion-title">Editar Sección</h2>
+                <div className="placeholder-container">
+                    <div className="spinner-overlay">
+                        <Spinner animation="border" role="status">
+                            <span className="visually-hidden">Cargando...</span>
+                        </Spinner>
+                    </div>
+                    <Card className="editar-seccion-placeholder">
+                        <Card.Body>
+                            <Placeholder as={Card.Title} animation="wave">
+                                <Placeholder xs={6} />
+                            </Placeholder>
+                            <Placeholder as={Card.Text} animation="wave">
+                                <Placeholder xs={12} />
+                                <Placeholder xs={12} />
+                                <Placeholder xs={12} />
+                            </Placeholder>
+                            <Placeholder.Button variant="primary" xs={4} />
+                        </Card.Body>
+                    </Card>
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -98,7 +122,7 @@ function EditarSeccionCurso() {
                     />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicDescription">
-                <Form.Label>Contenido</Form.Label>
+                    <Form.Label>Contenido</Form.Label>
                     <Form.Control
                         as="textarea"
                         rows={5}

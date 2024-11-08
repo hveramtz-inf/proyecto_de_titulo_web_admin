@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+import Card from 'react-bootstrap/Card';
+import Placeholder from 'react-bootstrap/Placeholder';
 import axios from 'axios';
 import './editarCuestionario.css'; // Importa el archivo CSS
 
@@ -16,68 +18,65 @@ const EditarCuestionario = () => {
     const [loading, setLoading] = useState(true); // Estado para manejar la carga
     const [preguntasAEliminar, setPreguntasAEliminar] = useState([]);
     const [respuestasAEliminar, setRespuestasAEliminar] = useState([]);
+    const [updating, setUpdating] = useState(false); // Estado para manejar el spinner al actualizar
     const navigate = useNavigate();
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+            return;
+        }
+        const fetchCuestionario = async () => {
+            try {
+                const response = await axios.get(`https://easy-economy.fly.dev/cuestionarios/${cuestionarioId}`, {
+                    headers: {
+                        'Authorization': token,
+                    },
+                });
+                setCuestionario(response.data);
+                setTitulo(response.data.titulo);
+                setOcultar(response.data.ocultar);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/login');
-        return;
-      }
-      const fetchCuestionario = async () => {
-        try {
-          const token = localStorage.getItem('token');
-          const response = await axios.get(`https://easy-economy.fly.dev/cuestionarios/${cuestionarioId}`, {
-            headers: {
-              'Authorization': token,
-            },
-          });
-          setCuestionario(response.data);
-          setTitulo(response.data.titulo);
-          setOcultar(response.data.ocultar);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
-    
-      const fetchPreguntas = async () => {
-        try {
-          const token = localStorage.getItem('token');
-          const response = await axios.get(`https://easy-economy.fly.dev/preguntas/cuestionario/${cuestionarioId}`, {
-            headers: {
-              'Authorization': token,
-            },
-          });
-          setPreguntas(response.data);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
-    
-      const fetchRespuestas = async () => {
-        try {
-          const token = localStorage.getItem('token');
-          const response = await axios.get(`https://easy-economy.fly.dev/respuestas`, {
-            headers: {
-              'Authorization': token,
-            },
-          });
-          setRespuestas(response.data);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
-    
-      const fetchData = async () => {
-        await fetchCuestionario();
-        await fetchPreguntas();
-        await fetchRespuestas();
-        setLoading(false);
-      };
-    
-      fetchData();
-    }, [cuestionarioId]);
+        const fetchPreguntas = async () => {
+            try {
+                const response = await axios.get(`https://easy-economy.fly.dev/preguntas/cuestionario/${cuestionarioId}`, {
+                    headers: {
+                        'Authorization': token,
+                    },
+                });
+                setPreguntas(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        const fetchRespuestas = async () => {
+            try {
+                const response = await axios.get(`https://easy-economy.fly.dev/respuestas`, {
+                    headers: {
+                        'Authorization': token,
+                    },
+                });
+                setRespuestas(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        const fetchData = async () => {
+            await fetchCuestionario();
+            await fetchPreguntas();
+            await fetchRespuestas();
+            setLoading(false);
+        };
+
+        fetchData();
+    }, [cuestionarioId, navigate]);
 
     const handlePreguntaChange = (index, value) => {
         const nuevasPreguntas = [...preguntas];
@@ -120,90 +119,93 @@ const EditarCuestionario = () => {
     };
 
     const handleSubmit = async (e) => {
-      e.preventDefault();
-      const cuestionarioActualizado = {
-        titulo,
-        ocultar,
-        preguntas: preguntas.map(p => ({
-          id: p.id,
-          pregunta: p.pregunta,
-          idcuestionario: p.idcuestionario,
-          respuestas: respuestas.filter(r => r.idpregunta === p.id).map(r => ({
-            id: r.id,
-            respuesta: r.respuesta,
-            valor: r.valor,
-            idpregunta: r.idpregunta
-          }))
-        }))
-      };
-    
-      try {
-        const token = localStorage.getItem('token');
-    
-        // Actualizar el cuestionario
-        await axios.put(`https://easy-economy.fly.dev/cuestionarios/${cuestionarioId}`, { titulo, ocultar }, {
-          headers: {
-            'Authorization': token,
-          },
-        });
-    
-        // Eliminar preguntas y respuestas
-        await Promise.all([
-          ...preguntasAEliminar.map(id => axios.delete(`https://easy-economy.fly.dev/preguntas/${id}`, {
-            headers: {
-              'Authorization': token,
-            },
-          })),
-          ...respuestasAEliminar.map(id => axios.delete(`https://easy-economy.fly.dev/respuestas/${id}`, {
-            headers: {
-              'Authorization': token,
-            },
-          }))
-        ]);
-    
-        // Actualizar preguntas y respuestas
-        await Promise.all(cuestionarioActualizado.preguntas.map(async (pregunta) => {
-          if (!pregunta.id) {
-            // Nueva pregunta
-            const response = await axios.post('https://easy-economy.fly.dev/preguntas', pregunta, {
-              headers: {
-                'Authorization': token,
-              },
-            });
-            pregunta.id = response.data.id;
-          } else {
-            // Pregunta existente
-            await axios.put(`https://easy-economy.fly.dev/preguntas/${pregunta.id}`, pregunta, {
-              headers: {
-                'Authorization': token,
-              },
-            });
-          }
-    
-          await Promise.all(pregunta.respuestas.map(async (respuesta) => {
-            if (!respuesta.id) {
-              // Nueva respuesta
-              await axios.post('https://easy-economy.fly.dev/respuestas', respuesta, {
+        e.preventDefault();
+        const cuestionarioActualizado = {
+            titulo,
+            ocultar,
+            preguntas: preguntas.map(p => ({
+                id: p.id,
+                pregunta: p.pregunta,
+                idcuestionario: p.idcuestionario,
+                respuestas: respuestas.filter(r => r.idpregunta === p.id).map(r => ({
+                    id: r.id,
+                    respuesta: r.respuesta,
+                    valor: r.valor,
+                    idpregunta: r.idpregunta
+                }))
+            }))
+        };
+
+        setUpdating(true); // Activar el spinner al actualizar
+        try {
+            const token = localStorage.getItem('token');
+
+            // Actualizar el cuestionario
+            await axios.put(`https://easy-economy.fly.dev/cuestionarios/${cuestionarioId}`, { titulo, ocultar }, {
                 headers: {
-                  'Authorization': token,
+                    'Authorization': token,
                 },
-              });
-            } else {
-              // Respuesta existente
-              await axios.put(`https://easy-economy.fly.dev/respuestas/${respuesta.id}`, respuesta, {
-                headers: {
-                  'Authorization': token,
-                },
-              });
-            }
-          }));
-        }));
-    
-        console.log('Cuestionario actualizado exitosamente');
-        navigate(`/home#Cuestionarios`);
-      } catch (error) {
-        console.error('Error:', error);
-      }
+            });
+
+            // Eliminar preguntas y respuestas
+            await Promise.all([
+                ...preguntasAEliminar.map(id => axios.delete(`https://easy-economy.fly.dev/preguntas/${id}`, {
+                    headers: {
+                        'Authorization': token,
+                    },
+                })),
+                ...respuestasAEliminar.map(id => axios.delete(`https://easy-economy.fly.dev/respuestas/${id}`, {
+                    headers: {
+                        'Authorization': token,
+                    },
+                }))
+            ]);
+
+            // Actualizar preguntas y respuestas
+            await Promise.all(cuestionarioActualizado.preguntas.map(async (pregunta) => {
+                if (!pregunta.id) {
+                    // Nueva pregunta
+                    const response = await axios.post('https://easy-economy.fly.dev/preguntas', pregunta, {
+                        headers: {
+                            'Authorization': token,
+                        },
+                    });
+                    pregunta.id = response.data.id;
+                } else {
+                    // Pregunta existente
+                    await axios.put(`https://easy-economy.fly.dev/preguntas/${pregunta.id}`, pregunta, {
+                        headers: {
+                            'Authorization': token,
+                        },
+                    });
+                }
+
+                await Promise.all(pregunta.respuestas.map(async (respuesta) => {
+                    if (!respuesta.id) {
+                        // Nueva respuesta
+                        await axios.post('https://easy-economy.fly.dev/respuestas', respuesta, {
+                            headers: {
+                                'Authorization': token,
+                            },
+                        });
+                    } else {
+                        // Respuesta existente
+                        await axios.put(`https://easy-economy.fly.dev/respuestas/${respuesta.id}`, respuesta, {
+                            headers: {
+                                'Authorization': token,
+                            },
+                        });
+                    }
+                }));
+            }));
+
+            console.log('Cuestionario actualizado exitosamente');
+            navigate(`/home#Cuestionarios`);
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setUpdating(false); // Desactivar el spinner al actualizar
+        }
     };
 
     const handleVolver = () => {
@@ -212,9 +214,25 @@ const EditarCuestionario = () => {
 
     if (loading) {
         return (
-            <div className="spinner-container">
-                <Spinner animation="border" role="status">
-                </Spinner>
+            <div className="placeholder-container">
+                <Card className="editar-cuestionario-placeholder">
+                    <Card.Body>
+                        <Placeholder as={Card.Title} animation="wave">
+                            <Placeholder xs={6} />
+                        </Placeholder>
+                        <Placeholder as={Card.Text} animation="wave">
+                            <Placeholder xs={12} />
+                            <Placeholder xs={12} />
+                            <Placeholder xs={12} />
+                        </Placeholder>
+                        <Placeholder.Button variant="primary" xs={4} />
+                    </Card.Body>
+                </Card>
+                <div className="spinner-overlay">
+                    <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Cargando...</span>
+                    </Spinner>
+                </div>
             </div>
         );
     }
@@ -298,8 +316,8 @@ const EditarCuestionario = () => {
                 <Button variant="secondary" onClick={agregarPregunta} className="mt-3">
                     Agregar Pregunta
                 </Button>
-                <Button variant="primary" type="submit" className="form-button mt-3">
-                    Actualizar Cuestionario
+                <Button variant="warning" type="submit" className="form-button mt-3" disabled={updating}>
+                    {updating ? <Spinner animation="border" size="sm" /> : 'Actualizar Cuestionario'}
                 </Button>
             </Form>
         </div>

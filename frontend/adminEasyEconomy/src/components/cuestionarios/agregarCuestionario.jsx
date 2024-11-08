@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Form, Button, Spinner } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import './agregarCuestionario.css';
-import { useEffect } from 'react';
 
 function AgregarCuestionario() {
     const { cursoId } = useParams();
     const [preguntas, setPreguntas] = useState([{ texto: '', respuestas: [{ texto: '', correcta: false }] }]);
     const [titulo, setTitulo] = useState('');
     const [ocultar, setOcultar] = useState(false);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false); // Estado para manejar el spinner
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -51,19 +52,31 @@ function AgregarCuestionario() {
         setPreguntas(nuevasPreguntas);
     };
 
-        const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const cuestionario = {
-            titulo,
-            preguntas: preguntas.map(p => ({
-                textoPregunta: p.texto,
-                respuestas: p.respuestas.map(r => ({
-                    textoRespuesta: r.texto,
-                    valor: r.correcta
-                }))
-            }))
-        };
-    
+
+        // Verificar que el título no esté vacío
+        if (titulo.trim() === '') {
+            setError('El título del cuestionario es obligatorio');
+            return;
+        }
+
+        // Verificar que todas las preguntas y respuestas no estén vacías
+        for (const pregunta of preguntas) {
+            if (pregunta.texto.trim() === '') {
+                setError('Todas las preguntas deben tener texto');
+                return;
+            }
+            for (const respuesta of pregunta.respuestas) {
+                if (respuesta.texto.trim() === '') {
+                    setError('Todas las respuestas deben tener texto');
+                    return;
+                }
+            }
+        }
+
+        setError(''); // Limpiar cualquier error previo
+        setLoading(true); // Activar el spinner
         try {
             const token = localStorage.getItem('token');
             // Crear el cuestionario
@@ -73,34 +86,34 @@ function AgregarCuestionario() {
                     'Content-Type': 'application/json',
                     'Authorization': token,
                 },
-                body: JSON.stringify({ titulo: cuestionario.titulo, idcurso: cursoId, ocultar: ocultar }) // Incluir el cursoId y ocultar
+                body: JSON.stringify({ titulo: titulo, idcurso: cursoId, ocultar: ocultar }) // Incluir el cursoId y ocultar
             });
-    
+
             if (!responseCuestionario.ok) {
                 throw new Error('Error al agregar el cuestionario');
             }
-    
+
             const dataCuestionario = await responseCuestionario.json();
             const cuestionarioId = dataCuestionario.id;
-    
+
             // Crear las preguntas y respuestas asociadas
-            for (const pregunta of cuestionario.preguntas) {
+            for (const pregunta of preguntas) {
                 const responsePregunta = await fetch(`https://easy-economy.fly.dev/preguntas`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': token,
                     },
-                    body: JSON.stringify({ idcuestionario: cuestionarioId, pregunta: pregunta.textoPregunta })
+                    body: JSON.stringify({ idcuestionario: cuestionarioId, pregunta: pregunta.texto })
                 });
-    
+
                 if (!responsePregunta.ok) {
                     throw new Error('Error al agregar la pregunta');
                 }
-    
+
                 const dataPregunta = await responsePregunta.json();
                 const preguntaId = dataPregunta.id;
-    
+
                 // Crear las respuestas asociadas a la pregunta
                 for (const respuesta of pregunta.respuestas) {
                     const responseRespuesta = await fetch(`https://easy-economy.fly.dev/respuestas`, {
@@ -109,19 +122,22 @@ function AgregarCuestionario() {
                             'Content-Type': 'application/json',
                             'Authorization': token,
                         },
-                        body: JSON.stringify({ idpregunta: preguntaId, respuesta: respuesta.textoRespuesta, valor: respuesta.valor })
+                        body: JSON.stringify({ idpregunta: preguntaId, respuesta: respuesta.texto, valor: respuesta.correcta })
                     });
-    
+
                     if (!responseRespuesta.ok) {
                         throw new Error('Error al agregar la respuesta');
                     }
                 }
             }
-    
+
             console.log('Cuestionario agregado con éxito');
             navigate('/home#Cuestionarios');
         } catch (error) {
             console.error('Error:', error);
+            setError('Error al agregar el cuestionario');
+        } finally {
+            setLoading(false); // Desactivar el spinner
         }
     };
 
@@ -132,6 +148,7 @@ function AgregarCuestionario() {
     return (
         <div className="form-container form-agregar-cuestionario">
             <h2 className="form-title">Agregar Cuestionario</h2>
+            {error && <p className="error-message">{error}</p>}
             <div className="center-button">
                 <Button variant="secondary" onClick={handleVolver} className="mb-3">Volver</Button>
             </div>
@@ -213,8 +230,8 @@ function AgregarCuestionario() {
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" className="mt-3">
-                    Agregar Cuestionario
+                <Button type="submit" className="form-button mt-3" disabled={loading}>
+                    {loading ? <Spinner animation="border" size="sm" /> : 'Agregar Cuestionario'}
                 </Button>
             </Form>
         </div>

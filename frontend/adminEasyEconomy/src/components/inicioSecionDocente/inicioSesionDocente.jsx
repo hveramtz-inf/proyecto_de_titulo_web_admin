@@ -15,7 +15,24 @@ function InicioSesionDocente() {
   const { setDocente } = useContext(DocenteContext);
   const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
+  const formatRut = (value) => {
+    // Eliminar todos los caracteres que no sean números o 'k'
+    let rut = value.replace(/[^0-9kK]/g, '').toUpperCase();
+
+    // Agregar puntos y guión
+    if (rut.length > 1) {
+      rut = rut.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '-' + rut.slice(-1);
+    }
+
+    return rut;
+  };
+
+  const handleRutChange = (e) => {
+    const formattedRut = formatRut(e.target.value);
+    setRut(formattedRut);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -27,11 +44,11 @@ function InicioSesionDocente() {
         },
         body: JSON.stringify({ rut, contrasenia }),
       });
-  
+
       if (!response.ok) {
         throw new Error('Error en la solicitud');
       }
-  
+
       const data = await response.json();
       setDocente(data.docente);
       localStorage.setItem('token', data.token);
@@ -52,9 +69,9 @@ function InicioSesionDocente() {
           <Form.Label className='label-rut'>Rut</Form.Label>
           <Form.Control
             type="text"
-            placeholder="12.34.678-9"
+            placeholder="12.345.678-9"
             value={rut}
-            onChange={(e) => setRut(e.target.value)}
+            onChange={handleRutChange}
           />
         </Form.Group>
 

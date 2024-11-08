@@ -1,10 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Spinner } from 'react-bootstrap';
 import './agregarCurso.css'; // Importa el archivo CSS
 import { ClaveCursoContext } from '../../context/ClaveCursoContext';
-import { useEffect } from 'react';
 
 const AgregarCurso = () => {
   const [titulo, setTitulo] = useState('');
@@ -12,6 +11,7 @@ const AgregarCurso = () => {
   const [ocultar, setOcultar] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false); // Estado para manejar el spinner
   const navigate = useNavigate();
   const location = useLocation();
   const { claveCurso } = useContext(ClaveCursoContext);
@@ -23,13 +23,13 @@ const AgregarCurso = () => {
     }
   }, [navigate]);
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (titulo.trim() === '' || descripcion.trim() === '') {
       setError('Todos los campos son obligatorios');
     } else {
       setError('');
+      setLoading(true); // Activar el spinner
       try {
         const token = localStorage.getItem('token');
         const response = await axios.post('https://easy-economy.fly.dev/cursos', {
@@ -48,6 +48,8 @@ const AgregarCurso = () => {
       } catch (err) {
         setError('Error al agregar el curso');
         console.error(err);
+      } finally {
+        setLoading(false); // Desactivar el spinner
       }
     }
   };
@@ -92,7 +94,9 @@ const AgregarCurso = () => {
             className="form-switch"
           />
         </Form.Group>
-        <Button type="submit" className="form-button">Agregar Curso</Button>
+        <Button type="submit" className="form-button" disabled={loading}>
+          {loading ? <Spinner animation="border" size="sm" /> : 'Agregar Curso'}
+        </Button>
       </Form>
     </div>
   );

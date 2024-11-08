@@ -1,4 +1,3 @@
-// frontend/adminEasyEconomy/src/routes/routes.jsx
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ClaveCurso from '../components/claveCurso/claveCurso.jsx';
@@ -19,7 +18,7 @@ import InicioSesionDocente from '../components/inicioSecionDocente/inicioSesionD
 
 const AppRoutes = () => (
   <Routes>
-    <Route path="/" element={<InicioSesionDocente/>} />
+    <Route path="/" element={<InicioSesionDocente />} />
     <Route path="/claveCurso" element={<ClaveCurso />} />
     <Route path="/home" element={<Home />} />
     <Route path="*" element={<h1>Not Found</h1>} />
@@ -33,7 +32,7 @@ const AppRoutes = () => (
     <Route path="/cuestionarios/agregar/:cursoId" element={<AgregarCuestionario />} />
     <Route path="/cuestionarios/editar/:cuestionarioId" element={<EditarCuestionario />} />
     <Route path="/calculadoras" element={<Calculadoras />} />
-    <Route path="/calculadoras/crear" element={<AgregarCalculadora/>} />
+    <Route path="/calculadoras/crear" element={<AgregarCalculadora />} />
     <Route path="/calculadoras/editar/:id" element={<EditarCalculadora />} />
   </Routes>
 );

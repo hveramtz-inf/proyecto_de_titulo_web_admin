@@ -1,72 +1,64 @@
-import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import React, { useState } from 'react';
+import { Form, Button, Spinner } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { BlockMath } from 'react-katex';
 import 'katex/dist/katex.min.css';
-import './agregarCalculadora.css'; // Importa el archivo CSS
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { ClaveCursoContext } from '../../context/ClaveCursoContext';
+import './agregarCalculadora.css';
 
 const AgregarCalculadora = () => {
   const [nombre, setNombre] = useState('');
   const [formula, setFormula] = useState('');
-  const [latexFormula, setLatexFormula] = useState('');
   const [ocultar, setOcultar] = useState(false);
-  const { claveCurso } = React.useContext(ClaveCursoContext);
+  const [aceptarDatos, setAceptarDatos] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); // Estado para manejar el spinner
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!claveCurso || !token) {
-      navigate('/');
-    }
-  }, [claveCurso, navigate]);
-
-  const handleNombreChange = (e) => {
-    setNombre(e.target.value);
-  };
-
-  const handleFormulaChange = (e) => {
-    setFormula(e.target.value);
-    setLatexFormula(e.target.value); // Aquí puedes transformar la fórmula si es necesario
-  };
+  const handleNombreChange = (e) => setNombre(e.target.value);
+  const handleFormulaChange = (e) => setFormula(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Verificar que todos los campos estén llenos y que se acepte los datos ingresados
+    if (nombre.trim() === '' || formula.trim() === '' || !aceptarDatos) {
+      setError('Todos los campos son obligatorios y debe aceptar los datos ingresados');
+      return;
+    }
+
+    setError(''); // Limpiar cualquier error previo
+    setLoading(true); // Activar el spinner
+
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post('https://easy-economy.fly.dev/calculadoras', {
         nombre,
         formula,
-        latexformula: latexFormula,
-        idclavepucv: claveCurso.id,
-        ocultar
+        ocultar,
       }, {
         headers: {
           'Authorization': token,
         },
       });
-      console.log('Calculadora agregada:', response.data);
+
+      console.log('Calculadora agregada con éxito', response.data);
       navigate('/home#Calculadoras');
     } catch (error) {
       console.error('Error al agregar la calculadora:', error);
+      setError('Error al agregar la calculadora');
+    } finally {
+      setLoading(false); // Desactivar el spinner
     }
-  };
-
-  const handleVolver = () => {
-    navigate('/home#Calculadoras');
   };
 
   return (
     <div className="form-container">
-      <h1 className="form-title">Agregar Calculadora</h1>
-      <div className="center-button">
-        <Button variant="secondary" onClick={handleVolver} className="mb-3">Volver</Button>
-      </div>
-      <Form className="agregar-calculadora-form" onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="inputNombreFormula">
-          <Form.Label>Nombre de la Calculadora</Form.Label>
+      <h2 className="form-title">Agregar Calculadora</h2>
+      {error && <p className="error-message">{error}</p>}
+      <Form onSubmit={handleSubmit} className="form-form">
+        <Form.Group className="mb-3" controlId="inputNombre">
+          <Form.Label>Nombre</Form.Label>
           <Form.Control
             type="text"
             placeholder="ej: Elasticidad de la demanda"
@@ -95,17 +87,22 @@ const AgregarCalculadora = () => {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Acepto los datos ingresados" />
+          <Form.Check
+            type="checkbox"
+            label="Acepto los datos ingresados"
+            checked={aceptarDatos}
+            onChange={(e) => setAceptarDatos(e.target.checked)}
+          />
         </Form.Group>
 
-        <Button variant="primary" type="submit" className="form-button">
-          Agregar
+        <Button variant="primary" type="submit" className="form-button" disabled={loading}>
+          {loading ? <Spinner animation="border" size="sm" /> : 'Agregar Calculadora'}
         </Button>
       </Form>
 
       <div className="latex-preview">
         <h2>Vista previa de la fórmula en LaTeX</h2>
-        <BlockMath math={latexFormula} />
+        <BlockMath math={formula} />
       </div>
     </div>
   );

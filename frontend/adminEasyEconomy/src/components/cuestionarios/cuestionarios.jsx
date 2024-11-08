@@ -59,22 +59,26 @@ const Cuestionarios = () => {
   };
 
   const handleDelete = async (cuestionarioId) => {
-    setDeletingId(cuestionarioId);
-    try {
-      const token = localStorage.getItem('token');
-      await fetch(`https://easy-economy.fly.dev/cuestionarios/${cuestionarioId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': token,
-        },
-      });
-      setCuestionarios(cuestionarios.filter(cuestionario => cuestionario.id !== cuestionarioId));
-    } catch (error) {
-      setError(error);
-    } finally {
-      setDeletingId(null);
+    const confirmDelete = window.confirm('Se va a eliminar todo lo relacionado con este cuestionario, incluyendo las preguntas, respuestas y puntajes de los alumnnos asociados ¿Estás seguro?');
+    if (confirmDelete) {
+      setDeletingId(cuestionarioId);
+      try {
+        const token = localStorage.getItem('token');
+        await fetch(`https://easy-economy.fly.dev/cuestionarios/${cuestionarioId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': token,
+          },
+        });
+        setCuestionarios(cuestionarios.filter(cuestionario => cuestionario.id !== cuestionarioId));
+      } catch (error) {
+        setError(error);
+      } finally {
+        setDeletingId(null);
+      }
     }
   };
+
 
   if (loading) {
     return (

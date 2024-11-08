@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Spinner } from 'react-bootstrap';
 import './agregarSeccionCurso.css';
 
 const AgregarSeccionCurso = () => {
@@ -10,6 +10,7 @@ const AgregarSeccionCurso = () => {
     const [linkYoutube, setLinkYoutube] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [loading, setLoading] = useState(false); // Estado para manejar el spinner
     const navigate = useNavigate();
     const { cursoId } = useParams();
 
@@ -19,6 +20,7 @@ const AgregarSeccionCurso = () => {
             setError('Todos los campos son obligatorios');
         } else {
             setError('');
+            setLoading(true); // Activar el spinner
             try {
                 const token = localStorage.getItem('token');
                 const response = await axios.post(`https://easy-economy.fly.dev/secciones/`, { 
@@ -37,6 +39,8 @@ const AgregarSeccionCurso = () => {
             } catch (err) {
                 setError('Error al agregar la sección');
                 console.error(err);
+            } finally {
+                setLoading(false); // Desactivar el spinner
             }
         }
     };
@@ -80,7 +84,9 @@ const AgregarSeccionCurso = () => {
                         placeholder='Opcional'
                     />
                 </Form.Group>
-                <Button type="submit" className="form-button">Agregar Sección</Button>
+                <Button type="submit" className="form-button" disabled={loading}>
+                    {loading ? <Spinner animation="border" size="sm" /> : 'Agregar Sección'}
+                </Button>
                 <Button variant="secondary" onClick={handleVolver} className="form-button">Volver</Button>
             </Form>
         </div>

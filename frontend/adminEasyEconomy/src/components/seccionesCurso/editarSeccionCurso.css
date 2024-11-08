@@ -13,6 +13,7 @@
   border-radius: 10px; /* Bordes redondeados */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
   padding: 20px;
+  position: relative; /* Para posicionar el spinner */
 }
 
 .editar-seccion-title {
@@ -23,6 +24,26 @@
 
 .editar-seccion-form {
   width: 100%;
+}
+
+.spinner-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10; /* Asegura que el spinner esté sobre los placeholders */
+}
+
+.placeholder-container {
+  width: 100%;
+  position: relative; /* Para posicionar el spinner */
+}
+
+.editar-seccion-placeholder {
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco con 50% de opacidad */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
 }
 
 @media (max-width: 768px) {

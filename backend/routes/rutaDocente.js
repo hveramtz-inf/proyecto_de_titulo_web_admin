@@ -38,7 +38,7 @@ router.post('/iniciosesion', async (req, res) => {
             }
         });
         if (docente) {
-            const token = jwt.sign({ id: docente.id }, secretKey, { expiresIn: '1h' });
+            const token = jwt.sign({ id: docente.id }, secretKey, { expiresIn: '1m' });
             res.json({ docente, token });
         } else {
             res.status(404).json({ error: 'Docente not found' });

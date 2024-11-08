@@ -26,8 +26,7 @@
   margin-bottom: 20px;
 }
 
-.editar-cuestionario-form
-{
+.editar-cuestionario-form {
   width: 100%;
 }
 
@@ -46,7 +45,7 @@
 
 .form-button {
   width: 100%;
-  background-color: #007bff;
+  background-color: #ffc107; /* Cambiar el color a amarillo */
   border: none;
   color: white;
   padding: 10px;
@@ -55,7 +54,7 @@
 }
 
 .form-button:hover {
-  background-color: #0056b3;
+  background-color: #e0a800;
 }
 
 .error-message {
@@ -75,6 +74,28 @@
   margin-bottom: 20px;
 }
 
+.placeholder-container {
+  width: 100%;
+  margin-top: 20px;
+  position: relative; /* Para posicionar el spinner */
+}
+
+.editar-cuestionario-placeholder {
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco con 50% de opacidad */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+  padding: 20px; /* Añadir padding para que coincida con el formato de los datos cargados */
+}
+
+.spinner-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10; /* Asegura que el spinner esté sobre los placeholders */
+}
+
 @media (max-width: 768px) {
   .editar-cuestionario-container {
     display: flex;
@@ -86,8 +107,7 @@
     height: auto; /* Ajusta la altura automáticamente */
   }
 
-  .editar-cuestionario-form
-  {
+  .editar-cuestionario-form {
     width: 80%; /* Asegura que el formulario ocupe todo el ancho disponible */
   }
 

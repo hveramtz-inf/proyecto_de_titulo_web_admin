@@ -47,11 +47,11 @@
     border-radius: 4px;
 }
 
-.form-button {
+.editar-calculadora-button {
     display: block;
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #ffc107; /* Cambiar el color a amarillo */
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -59,8 +59,8 @@
     font-size: 16px;
 }
 
-.form-button:hover {
-    background-color: #0056b3;
+.editar-calculadora-button:hover {
+    background-color: #e0a800;
 }
 
 .error-message {
@@ -84,6 +84,28 @@
 .latex-preview {
     margin-top: 2rem;
     color: #f2f2f2;
+}
+
+.placeholder-container {
+    width: 100%;
+    margin-top: 20px;
+    position: relative; /* Para posicionar el spinner */
+}
+
+.editar-calculadora-placeholder {
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco con 50% de opacidad */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+    padding: 20px; /* Añadir padding para que coincida con el formato de los datos cargados */
+}
+
+.spinner-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10; /* Asegura que el spinner esté sobre los placeholders */
 }
 
 @media (max-width: 768px) {

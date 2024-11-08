@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Spinner from 'react-bootstrap/Spinner';
 import Card from 'react-bootstrap/Card';
+import Placeholder from 'react-bootstrap/Placeholder';
 import { useNavigate, useParams } from 'react-router-dom';
 import './verSeccionesCurso.css';
 
@@ -40,20 +41,6 @@ const VerSeccionesCurso = () => {
         fetchSecciones();
     }, [cursoId]);
 
-    if (loading) {
-        return (
-            <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Cargando...</span>
-                </Spinner>
-            </div>
-        );
-    }
-
-    if (error) {
-        return <p>Error: {error}</p>;
-    }
-
     const handleCreate = () => {
         console.log('Crear Seccion');
         navigate(`/secciones/agregar/${cursoId}`);
@@ -65,7 +52,7 @@ const VerSeccionesCurso = () => {
     };
 
     const handleDelete = async (seccionId) => {
-        const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar esta sección?');
+        const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar esta sección?, Se eliminara todos sus datos, los apuntes de los alumnos, progresos, etc.');
         if (confirmDelete === true) {
             console.log(`Eliminar seccion con ID: ${seccionId}`);
             try {
@@ -96,12 +83,26 @@ const VerSeccionesCurso = () => {
             <h2 className="ver-secciones-title">Lista de Secciones del Curso</h2>
             <Button variant="success" onClick={handleCreate} className="mb-3">Crear Seccion</Button>
             <Button variant="secondary" onClick={handleVolver} className="mb-3">Volver</Button>
-            {secciones.length === 0 ? (
-                <Card className="no-secciones-card">
-                    <Card.Body>
-                        <Card.Title>No existen Secciones para este Curso</Card.Title>
-                    </Card.Body>
-                </Card>
+            {loading ? (
+                <div className="placeholder-container">
+                    {[...Array(3)].map((_, index) => (
+                        <Card key={index} className="ver-secciones-list-item">
+                            <Card.Body>
+                                <Placeholder as={Card.Title} animation="wave">
+                                    <Placeholder xs={6} />
+                                </Placeholder>
+                                <Placeholder.Button variant="primary" xs={4} />
+                            </Card.Body>
+                        </Card>
+                    ))}
+                    <div className="spinner-overlay">
+                        <Spinner animation="border" role="status">
+                            <span className="visually-hidden">Cargando...</span>
+                        </Spinner>
+                    </div>
+                </div>
+            ) : error ? (
+                <p>Error: {error}</p>
             ) : (
                 <ListGroup className="ver-secciones-list">
                     {secciones.map((seccion) => (
