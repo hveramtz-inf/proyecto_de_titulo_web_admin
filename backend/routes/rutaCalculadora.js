@@ -1,7 +1,9 @@
 const express = require('express');
-const Calculadora = require('../models/CalculadoraModel');
-
 const router = express.Router();
+const Calculadora = require('../models/CalculadoraModel.js');
+const FavoritosCalculadora = require('../models/FavoritosCalculadoraModel.js');
+const HistorialCalculadora = require('../models/HistorialModel.js');
+const VariableHistorial = require('../models/VariableHistorialModel.js');
 
 // Obtener todas las calculadoras
 router.get('/', async (req, res) => {
@@ -67,17 +69,35 @@ router.put('/:id', async (req, res) => {
 
 // Eliminar una calculadora
 router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    const transaction = await Calculadora.sequelize.transaction();
     try {
-        const calculadora = await Calculadora.findByPk(req.params.id);
-        if (calculadora) {
-            await calculadora.destroy();
-            res.json({ message: 'Calculadora eliminada' });
-        } else {
-            res.status(404).json({ error: 'Calculadora no encontrada' });
-        }
+      const calculadoraEliminar = await Calculadora.findByPk(id, { transaction });
+  
+      if (!calculadoraEliminar) {
+        return res.status(404).json({ message: 'Calculadora no encontrada' });
+      }
+  
+      // Eliminar favoritos asociados a la calculadora
+      await FavoritosCalculadora.destroy({ where: { idcalculadora: id }, transaction });
+  
+      // Eliminar historial y variables de historial asociados a la calculadora
+      const historiales = await HistorialCalculadora.findAll({ where: { idcalculadora: id }, transaction });
+      for (const historial of historiales) {
+        await VariableHistorial.destroy({ where: { idhistorial: historial.id }, transaction });
+        await historial.destroy({ transaction });
+      }
+  
+      // Eliminar la calculadora
+      await calculadoraEliminar.destroy({ transaction });
+  
+      await transaction.commit();
+      res.json({ message: 'Calculadora y registros relacionados eliminados correctamente' });
     } catch (error) {
-        res.status(500).json({ error: 'Error al eliminar la calculadora' });
+      await transaction.rollback();
+      console.error('Error al eliminar la calculadora y sus relaciones', error);
+      res.status(500).json({ message: 'Error al eliminar la calculadora y sus relaciones' });
     }
-});
+  });
 
 module.exports = router;

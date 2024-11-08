@@ -1,5 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const Docente = require('../models/DocenteModel');
 
 const router = express.Router();
@@ -31,14 +32,10 @@ router.get('/:id', async (req, res) => {
 
 router.post('/iniciosesion', async (req, res) => {
     try {
-        const docente = await Docente.findOne({
-            where: {
-                rut: req.body.rut,
-                contrasenia: req.body.contrasenia
-            }
-        });
-        if (docente) {
-            const token = jwt.sign({ id: docente.id }, secretKey, { expiresIn: '1m' });
+        const { rut, contrasenia } = req.body;
+        const docente = await Docente.findOne({ where: { rut } });
+        if (docente && await bcrypt.compare(contrasenia, docente.contrasenia)) {
+            const token = jwt.sign({ id: docente.id }, secretKey, { expiresIn: '1h' });
             res.json({ docente, token });
         } else {
             res.status(404).json({ error: 'Docente not found' });
@@ -51,7 +48,9 @@ router.post('/iniciosesion', async (req, res) => {
 // Create a new docente
 router.post('/', async (req, res) => {
     try {
-        const newDocente = await Docente.create(req.body);
+        const { rut, contrasenia, ...rest } = req.body;
+        const hashedPassword = await bcrypt.hash(contrasenia, 10);
+        const newDocente = await Docente.create({ rut, contrasenia: hashedPassword, ...rest });
         res.status(201).json(newDocente);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -61,7 +60,12 @@ router.post('/', async (req, res) => {
 // Update an existing docente
 router.put('/:id', async (req, res) => {
     try {
-        const [updated] = await Docente.update(req.body, {
+        const { contrasenia, ...rest } = req.body;
+        const updateData = { ...rest };
+        if (contrasenia) {
+            updateData.contrasenia = await bcrypt.hash(contrasenia, 10);
+        }
+        const [updated] = await Docente.update(updateData, {
             where: { id: req.params.id }
         });
         if (updated) {

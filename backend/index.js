@@ -8,7 +8,17 @@ const port = 3000;
 // Configura el middleware cors
 app.use(Cors());
 
-app.use(Express.json());
+app.use(Express.json({ limit: '50mb' }));
+app.use(Express.urlencoded({ limit: '50mb', extended: true }));
+
+// Aumentar el tiempo de espera de la solicitud
+app.use((req, res, next) => {
+  res.setTimeout(300000, () => { // 300 segundos
+    console.log('Request has timed out.');
+    res.sendStatus(408);
+  });
+  next();
+});
 
 // Importar las rutas
 const cursosRoutes = require('./routes/rutaCursos.js');
@@ -32,7 +42,7 @@ const verifyTokenRoute = require('./routes/verifyTokenRoute.js');
 
 // Usar las rutas
 app.use('/cursos', verifyToken, cursosRoutes);
-app.use('/clavepucv', verifyToken, clavepucvRoutes);
+app.use('/clavepucv', clavepucvRoutes);
 app.use('/secciones', verifyToken, seccionesRoutes);
 app.use('/cuestionarios', verifyToken, cuestionarioRoutes);
 app.use('/preguntas', verifyToken, preguntasRoutes);
@@ -47,10 +57,9 @@ app.use('/favoritosCuestionario', verifyToken, favoritosCuestionarioRoutes);
 app.use('/progresoCurso', verifyToken, progresoCursoRoutes);
 app.use('/seccionRevisada', verifyToken, seccionRevisadaRoutes);
 app.use('/docente', docenteRoutes); // Puedes proteger algunas rutas de docente si es necesario
-app.use('/verify-token',verifyTokenRoute);
+app.use('/verify-token', verifyTokenRoute);
 
-
-//rutas celular
+// Rutas para la aplicación móvil
 app.use('/movil/estudiantes', estudiantesRoutes);
 app.use('/movil/cursos', cursosRoutes);
 app.use('/movil/clavepucv', clavepucvRoutes);

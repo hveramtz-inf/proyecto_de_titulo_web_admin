@@ -1,0 +1,197 @@
+{
+  "cursos": [
+    {
+      "nombre": "Introducción a la Economía",
+      "descripcion": "Curso de introducción a los conceptos básicos de la economía.",
+      "ocultar": false,
+      "secciones": [
+        {
+          "titulo": "Definición de Economía",
+          "contenido": "La economía estudia cómo las personas y sociedades administran sus recursos limitados para satisfacer sus necesidades. El estudio de cómo los individuos administran los recursos escasos corresponde a Microeconomía, mientras que el estudio de cómo los países administran estos recursos corresponde a Macroeconomía.",
+          "linkvideoyoutube": "https://www.youtube.com/watch?v=example",
+          "cuestionarios": [
+            {
+              "titulo": "Cuestionario 1",
+              "ocultar": false,
+              "preguntas": [
+                {
+                  "pregunta": "¿Qué estudia la economía?",
+                  "respuestas": [
+                    "A) Cómo administrar recursos ilimitados",
+                    "B) Cómo las personas y sociedades administran recursos limitados",
+                    "C) Cómo los individuos satisfacen todas sus necesidades",
+                    "D) Cómo los países determinan los precios de los productos"
+                  ],
+                  "respuesta_correcta": "B"
+                },
+                {
+                  "pregunta": "La microeconomía estudia:",
+                  "respuestas": [
+                    "A) La administración de recursos a nivel de países",
+                    "B) La administración de recursos a nivel de individuos y empresas",
+                    "C) Las decisiones del gobierno sobre recursos",
+                    "D) El funcionamiento de los mercados internacionales"
+                  ],
+                  "respuesta_correcta": "B"
+                },
+                {
+                  "pregunta": "¿Cuál es el enfoque de la macroeconomía?",
+                  "respuestas": [
+                    "A) Recursos y decisiones a nivel nacional",
+                    "B) Las finanzas de empresas pequeñas",
+                    "C) Las decisiones de las personas sobre sus ingresos",
+                    "D) El análisis de los recursos individuales"
+                  ],
+                  "respuesta_correcta": "A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "titulo": "Costo de Oportunidad",
+          "contenido": "Corresponde a todo aquello a lo que se renuncia o dejamos de percibir al momento de tomar una elección. Los conceptos de escasez y elección son fundamentales, ya que indican que, debido a los recursos limitados, se deben hacer elecciones que implican un costo de oportunidad.",
+          "linkvideoyoutube": "https://www.youtube.com/watch?v=example",
+          "cuestionarios": [
+            {
+              "titulo": "Cuestionario 2",
+              "ocultar": false,
+              "preguntas": [
+                {
+                  "pregunta": "El costo de oportunidad se refiere a:",
+                  "respuestas": [
+                    "A) Los beneficios obtenidos de todas las opciones",
+                    "B) Lo que se pierde o se renuncia al tomar una decisión",
+                    "C) El costo monetario de cada elección",
+                    "D) La elección con menor beneficio"
+                  ],
+                  "respuesta_correcta": "B"
+                },
+                {
+                  "pregunta": "Si un país invierte en salud, su costo de oportunidad podría ser:",
+                  "respuestas": [
+                    "A) Mejorar la economía de mercado",
+                    "B) Dejar de invertir en otros sectores, como educación o defensa",
+                    "C) Reducir el precio de los productos básicos",
+                    "D) No tener costo alguno"
+                  ],
+                  "respuesta_correcta": "B"
+                },
+                {
+                  "pregunta": "¿Por qué es importante el concepto de costo de oportunidad en economía?",
+                  "respuestas": [
+                    "A) Porque permite la inversión sin limitaciones",
+                    "B) Porque ayuda a entender que los recursos son ilimitados",
+                    "C) Porque implica que cada elección renuncia a otras opciones",
+                    "D) Porque siempre produce un beneficio inmediato"
+                  ],
+                  "respuesta_correcta": "C"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "titulo": "Sistemas Económicos",
+          "contenido": "Los sistemas económicos son las distintas maneras en que las sociedades organizan sus recursos y toman decisiones sobre producción y distribución. Los sistemas principales son: economía de mercado, economía planificada y economía mixta.",
+          "linkvideoyoutube": "https://www.youtube.com/watch?v=example",
+          "cuestionarios": [
+            {
+              "titulo": "Cuestionario 3",
+              "ocultar": false,
+              "preguntas": [
+                {
+                  "pregunta": "¿Cuál es una característica de una economía de mercado?",
+                  "respuestas": [
+                    "A) El gobierno controla la producción",
+                    "B) La oferta y la demanda determinan la producción",
+                    "C) Solo existen empresas estatales",
+                    "D) No existen intercambios comerciales"
+                  ],
+                  "respuesta_correcta": "B"
+                },
+                {
+                  "pregunta": "En una economía planificada:",
+                  "respuestas": [
+                    "A) Las decisiones de producción se basan en el mercado",
+                    "B) El gobierno toma las decisiones de producción y distribución",
+                    "C) Los individuos deciden libremente sobre la producción",
+                    "D) La demanda siempre supera a la oferta"
+                  ],
+                  "respuesta_correcta": "B"
+                },
+                {
+                  "pregunta": "¿Qué caracteriza a una economía mixta?",
+                  "respuestas": [
+                    "A) La ausencia de empresas privadas",
+                    "B) La combinación de decisiones del mercado y del gobierno",
+                    "C) La planificación absoluta del gobierno",
+                    "D) Solo empresas privadas toman decisiones"
+                  ],
+                  "respuesta_correcta": "B"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "titulo": "Bienes y Servicios",
+          "contenido": "Los bienes son productos tangibles que se pueden almacenar y se subdividen en bienes durables y no durables, mientras que los servicios son actividades intangibles que no se pueden almacenar y se elaboran en el momento.",
+          "linkvideoyoutube": "https://www.youtube.com/watch?v=example",
+          "cuestionarios": [
+            {
+              "titulo": "Cuestionario 4",
+              "ocultar": false,
+              "preguntas": [
+                {
+                  "pregunta": "¿Qué diferencia a un bien durable de un bien no durable?",
+                  "respuestas": [
+                    "A) Los bienes durables son intangibles",
+                    "B) Los bienes durables se almacenan por más tiempo",
+                    "C) Los bienes no durables son más caros",
+                    "D) Los bienes no durables no se usan en la producción"
+                  ],
+                  "respuesta_correcta": "B"
+                },
+                {
+                  "pregunta": "Un servicio se caracteriza por ser:",
+                  "respuestas": [
+                    "A) Almacenado hasta su uso",
+                    "B) Tangible y almacenado",
+                    "C) Intangible y no almacenable",
+                    "D) Utilizado en la producción de otros bienes"
+                  ],
+                  "respuesta_correcta": "C"
+                },
+                {
+                  "pregunta": "¿Cuál de los siguientes es un bien final?",
+                  "respuestas": [
+                    "A) La harina utilizada para hacer pan",
+                    "B) El pan que compra el consumidor",
+                    "C) El servicio de entrega de comida",
+                    "D) El envío de materiales a una fábrica"
+                  ],
+                  "respuesta_correcta": "B"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "calculadoras": [
+    {
+      "nombre": "Calculadora 1",
+      "formula": "a + b",
+      "latexformula": "a + b",
+      "ocultar": false
+    },
+    {
+      "nombre": "Calculadora 2",
+      "formula": "c * d",
+      "latexformula": "c * d",
+      "ocultar": false
+    }
+  ]
+}

@@ -13,7 +13,7 @@ const ClavePucv = sequelize.define('ClavePucv', {
     },
     iddocente: {
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: true
     }
 }, {
     tableName: 'clavepucv',

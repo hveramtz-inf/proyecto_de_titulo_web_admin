@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Seccion = require('../models/SeccionesModel.js'); // Importa el modelo de Usuario
+const Seccion = require('../models/SeccionesModel.js');
+const Apunte = require('../models/ApunteModel.js');
+const SeccionRevisada = require('../models/SeccionRevisadaModel.js');
 
 // Ejemplo de una ruta que obtiene todos los usuarios
 router.get('/', async (req, res) => {
@@ -71,20 +73,41 @@ router.put('/:id', async (req, res) => {
 
 // Eliminar una sección
 router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  const transaction = await Seccion.sequelize.transaction();
   try {
-    const deleted = await Seccion.destroy({
-      where: { id: req.params.id }
+    // Eliminar apuntes asociados a la sección
+    await Apunte.destroy({
+      where: { seccionid: id },
+      transaction
     });
+
+    // Eliminar secciones revisadas asociadas a la sección
+    await SeccionRevisada.destroy({
+      where: { idseccion: id },
+      transaction
+    });
+
+    // Eliminar la sección
+    const deleted = await Seccion.destroy({
+      where: { id },
+      transaction
+    });
+
     if (deleted) {
+      await transaction.commit();
       res.status(204).json();
     } else {
+      await transaction.rollback();
       res.status(404).json({ error: 'Sección no encontrada' });
     }
   } catch (err) {
-    console.error('Error al eliminar la sección', err);
-    res.status(500).json({ error: 'Error al eliminar la sección' });
+    await transaction.rollback();
+    console.error('Error al eliminar la sección y sus relaciones', err);
+    res.status(500).json({ error: 'Error al eliminar la sección y sus relaciones' });
   }
 });
+
 
 
 

@@ -1,10 +1,10 @@
-const cuestionario = require('../models/CuestionariosModel.js');
-const PreguntaCuestionarioModel = require('../models/PreguntaCuestionarioModel.js');
-const RespuestaCuestionarioModel = require('../models/RespuestaCuestionarioModel.js');
-const Curso = require('../models/CursoModel.js');
-const Cuestionario = require('../models/CuestionariosModel.js');
 const express = require('express');
 const router = express.Router();
+const Cuestionario = require('../models/CuestionariosModel.js');
+const PreguntaCuestionario = require('../models/PreguntaCuestionarioModel.js');
+const RespuestaCuestionario = require('../models/RespuestaCuestionarioModel.js');
+const FavoritosCuestionario = require('../models/FavoritosCuestionarioModel.js');
+const PuntajeCuestionario = require('../models/PuntajeCuestionarioModel.js');
 
 
 // Create a new cuestionario
@@ -99,26 +99,38 @@ router.put('/:id', async (req, res) => {
 
 // Delete a cuestionario by ID
 router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    const transaction = await Cuestionario.sequelize.transaction();
     try {
-        const cuestionarioEliminar = await cuestionario.findByPk(req.params.id);
-
-        if (!cuestionarioEliminar) {
-            return res.status(404).json({ message: 'Cuestionario not found' });
-        }
-
-        // Eliminar preguntas relacionadas con el cuestionario
-        const preguntas = await PreguntaCuestionarioModel.findAll({ where: { idcuestionario: req.params.id } });
-
-        for (const pregunta of preguntas) {
-            // Eliminar respuestas relacionadas con la pregunta
-            await RespuestaCuestionarioModel.destroy({ where: { idpregunta: pregunta.id } });
-            await pregunta.destroy();
-        }
-
-        await cuestionarioEliminar.destroy();
-        res.json({ message: 'Cuestionario and related questions and answers deleted successfully' });
+      const cuestionarioEliminar = await Cuestionario.findByPk(id, { transaction });
+  
+      if (!cuestionarioEliminar) {
+        return res.status(404).json({ message: 'Cuestionario not found' });
+      }
+  
+      // Eliminar preguntas relacionadas con el cuestionario
+      const preguntas = await PreguntaCuestionario.findAll({ where: { idcuestionario: id }, transaction });
+  
+      for (const pregunta of preguntas) {
+        // Eliminar respuestas relacionadas con la pregunta
+        await RespuestaCuestionario.destroy({ where: { idpregunta: pregunta.id }, transaction });
+        await pregunta.destroy({ transaction });
+      }
+  
+      // Eliminar favoritos y puntajes asociados al cuestionario
+      await FavoritosCuestionario.destroy({ where: { idcuestionario: id }, transaction });
+      await PuntajeCuestionario.destroy({ where: { idcuestionario: id }, transaction });
+  
+      // Eliminar el cuestionario
+      await cuestionarioEliminar.destroy({ transaction });
+  
+      await transaction.commit();
+      res.json({ message: 'Cuestionario and related questions and answers deleted successfully' });
     } catch (err) {
-        res.status(500).json({ message: err.message });
+      await transaction.rollback();
+      console.error('Error al eliminar el cuestionario y sus relaciones', err);
+      res.status(500).json({ message: 'Error al eliminar el cuestionario y sus relaciones' });
     }
-});
+  });
+  
 module.exports = router;

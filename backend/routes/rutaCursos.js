@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const CursoModel = require('../models/CursoModel.js'); // Importa el modelo de Curso
+const CursoModel = require('../models/CursoModel.js');
 const SeccionModel = require('../models/SeccionesModel.js');
-const CuestionarioModel = require('../models/CuestionariosModel.js'); // Asegúrate de tener este modelo
-const PreguntaModel = require('../models/PreguntaCuestionarioModel.js'); // Asegúrate de tener este modelo
-const RespuestaCuestionario = require('../models/RespuestaCuestionarioModel.js'); // Asegúrate de tener este modelo
-const { route } = require('./rutaClavePucv.js');
+const CuestionarioModel = require('../models/CuestionariosModel.js');
+const PreguntaModel = require('../models/PreguntaCuestionarioModel.js');
+const RespuestaCuestionario = require('../models/RespuestaCuestionarioModel.js');
+const ApunteModel = require('../models/ApunteModel.js');
+const FavoritosCuestionario = require('../models/FavoritosCuestionarioModel.js');
+const PuntajeCuestionario = require('../models/PuntajeCuestionarioModel.js');
+const SeccionRevisada = require('../models/SeccionRevisadaModel.js');
+const ProgresoCurso = require('../models/ProgesoCursoModel.js');
 
 
 // Obtener todos los cursos
@@ -82,55 +86,99 @@ router.put('/:id', async (req, res) => {
 // Eliminar un curso por ID
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
+  const transaction = await CursoModel.sequelize.transaction();
   try {
     // Obtener los cuestionarios asociados al curso
     const cuestionarios = await CuestionarioModel.findAll({
-      where: { idcurso: id }
+      where: { idcurso: id },
+      transaction
     });
 
     // Eliminar respuestas asociadas a las preguntas de los cuestionarios
     for (const cuestionario of cuestionarios) {
       const preguntas = await PreguntaModel.findAll({
-        where: { idcuestionario: cuestionario.id }
+        where: { idcuestionario: cuestionario.id },
+        transaction
       });
 
       for (const pregunta of preguntas) {
         await RespuestaCuestionario.destroy({
-          where: { idpregunta: pregunta.id }
+          where: { idpregunta: pregunta.id },
+          transaction
         });
       }
 
       // Eliminar preguntas asociadas a los cuestionarios
       await PreguntaModel.destroy({
-        where: { idcuestionario: cuestionario.id }
+        where: { idcuestionario: cuestionario.id },
+        transaction
+      });
+
+      // Eliminar favoritos y puntajes asociados a los cuestionarios
+      await FavoritosCuestionario.destroy({
+        where: { idcuestionario: cuestionario.id },
+        transaction
+      });
+      await PuntajeCuestionario.destroy({
+        where: { idcuestionario: cuestionario.id },
+        transaction
       });
     }
 
     // Eliminar cuestionarios asociados al curso
     await CuestionarioModel.destroy({
-      where: { idcurso: id }
+      where: { idcurso: id },
+      transaction
     });
+
+    // Obtener las secciones asociadas al curso
+    const secciones = await SeccionModel.findAll({
+      where: { idcurso: id },
+      transaction
+    });
+
+    // Eliminar apuntes y secciones revisadas asociadas a las secciones
+    for (const seccion of secciones) {
+      await ApunteModel.destroy({
+        where: { seccionid: seccion.id },
+        transaction
+      });
+      await SeccionRevisada.destroy({
+        where: { idseccion: seccion.id },
+        transaction
+      });
+    }
 
     // Eliminar secciones asociadas al curso
     await SeccionModel.destroy({
-      where: { idcurso: id }
+      where: { idcurso: id },
+      transaction
+    });
+
+    // Eliminar progreso del curso
+    await ProgresoCurso.destroy({
+      where: { idcurso: id },
+      transaction
     });
 
     // Eliminar el curso
     const deleted = await CursoModel.destroy({
-      where: { id }
+      where: { id },
+      transaction
     });
 
     if (deleted) {
+      await transaction.commit();
       res.status(204).json();
     } else {
+      await transaction.rollback();
       res.status(404).json({ error: 'Curso no encontrado' });
     }
   } catch (err) {
-    console.error('Error al eliminar el curso', err);
-    res.status(500).json({ error: 'Error al eliminar el curso' });
+    await transaction.rollback();
+    console.error('Error al eliminar el curso y sus relaciones', err);
+    res.status(500).json({ error: 'Error al eliminar el curso y sus relaciones' });
   }
 });
-
 
 module.exports = router;
