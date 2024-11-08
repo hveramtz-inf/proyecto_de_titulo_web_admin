@@ -31,7 +31,6 @@ const docenteRoutes = require('./routes/rutaDocente.js');
 
 // Usar las rutas
 app.use('/cursos', verifyToken, cursosRoutes);
-app.use('/estudiantes', verifyToken, estudiantesRoutes);
 app.use('/clavepucv', verifyToken, clavepucvRoutes);
 app.use('/secciones', verifyToken, seccionesRoutes);
 app.use('/cuestionarios', verifyToken, cuestionarioRoutes);
@@ -47,6 +46,25 @@ app.use('/favoritosCuestionario', verifyToken, favoritosCuestionarioRoutes);
 app.use('/progresoCurso', verifyToken, progresoCursoRoutes);
 app.use('/seccionRevisada', verifyToken, seccionRevisadaRoutes);
 app.use('/docente', docenteRoutes); // Puedes proteger algunas rutas de docente si es necesario
+
+
+//rutas celular
+app.use('/estudiantes', estudiantesRoutes);
+app.use('/movil/cursos', cursosRoutes);
+app.use('/movil/clavepucv', clavepucvRoutes);
+app.use('/movil/secciones', seccionesRoutes);
+app.use('/movil/cuestionarios', cuestionarioRoutes);
+app.use('/movil/preguntas', preguntasRoutes);
+app.use('/movil/respuestas', respuestasRoutes);
+app.use('/movil/apuntes', apuntesRoutes);
+app.use('/movil/puntajeCuestionario', puntajeCuestionarioRoutes);
+app.use('/movil/calculadoras', calculadoraRoutes);
+app.use('/movil/historialCalculadora', historialRoutes);
+app.use('/movil/variableHistorial', variableHistorial);
+app.use('/movil/favoritosCalculadora', favoritosCalculadoraRoutes);
+app.use('/movil/favoritosCuestionario', favoritosCuestionarioRoutes);
+app.use('/movil/progresoCurso', progresoCursoRoutes);
+app.use('/movil/seccionRevisada', seccionRevisadaRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
