@@ -49,7 +49,7 @@ app.use('/docente', docenteRoutes); // Puedes proteger algunas rutas de docente 
 
 
 //rutas celular
-app.use('/estudiantes', estudiantesRoutes);
+app.use('/movil/estudiantes', estudiantesRoutes);
 app.use('/movil/cursos', cursosRoutes);
 app.use('/movil/clavepucv', clavepucvRoutes);
 app.use('/movil/secciones', seccionesRoutes);
