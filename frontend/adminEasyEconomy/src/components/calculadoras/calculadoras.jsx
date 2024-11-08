@@ -17,14 +17,20 @@ const Calculadoras = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (!claveCurso) {
+    const token = localStorage.getItem('token');
+    if (!claveCurso || !token) {
       navigate('/');
       return;
     }
-
+  
     const fetchCalculadoras = async () => {
       try {
-        const response = await fetch(`https://easy-economy.fly.dev/calculadoras/clavepucv/${claveCurso.id}`);
+        const token = localStorage.getItem('token');
+        const response = await fetch(`https://easy-economy.fly.dev/calculadoras/clavepucv/${claveCurso.id}`, {
+          headers: {
+            'Authorization': token,
+          },
+        });
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -37,7 +43,7 @@ const Calculadoras = () => {
         setLoading(false);
       }
     };
-
+  
     fetchCalculadoras();
   }, [claveCurso, navigate]);
 
@@ -48,15 +54,19 @@ const Calculadoras = () => {
   const handleDeleteCalculadora = async (id) => {
     setDeletingId(id);
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`https://easy-economy.fly.dev/calculadoras/${id}`, {
         method: 'DELETE',
+        headers: {
+          'Authorization': token,
+        },
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      setCalculadoras((prevCalculadoras) => prevCalculadoras.filter((calculadora) => calculadora.id !== id));
+      setCalculadoras(calculadoras.filter(calculadora => calculadora.id !== id));
     } catch (error) {
-      console.error('Error deleting data:', error);
+      console.error('Error deleting calculadora:', error);
     } finally {
       setDeletingId(null);
     }

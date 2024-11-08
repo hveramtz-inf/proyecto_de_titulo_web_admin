@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { BlockMath } from 'react-katex';
@@ -16,6 +16,13 @@ const AgregarCalculadora = () => {
   const { claveCurso } = React.useContext(ClaveCursoContext);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!claveCurso || !token) {
+      navigate('/');
+    }
+  }, [claveCurso, navigate]);
+
   const handleNombreChange = (e) => {
     setNombre(e.target.value);
   };
@@ -28,18 +35,23 @@ const AgregarCalculadora = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.post('https://easy-economy.fly.dev/calculadoras', {
         nombre,
         formula,
         latexformula: latexFormula,
         idclavepucv: claveCurso.id,
         ocultar
+      }, {
+        headers: {
+          'Authorization': token,
+        },
       });
       console.log('Calculadora agregada:', response.data);
+      navigate('/home#Calculadoras');
     } catch (error) {
       console.error('Error al agregar la calculadora:', error);
     }
-    navigate('/home#Calculadoras');
   };
 
   const handleVolver = () => {

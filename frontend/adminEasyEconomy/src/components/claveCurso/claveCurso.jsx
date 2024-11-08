@@ -19,14 +19,21 @@ const ClaveCurso = () => {
   const { setClaveCurso } = useContext(ClaveCursoContext); // Usa el contexto ClaveCurso
 
   useEffect(() => {
-    if (!docente) {
+    const token = localStorage.getItem('token');
+    if (!docente || !token) {
+      console.log('No hay docente');
       navigate('/');
       return;
     }
 
     const fetchCursos = async () => {
+      const token = localStorage.getItem('token');
       try {
-        const response = await axios.get(`https://easy-economy.fly.dev/clavepucv/docente/${docente.id}`);
+        const response = await axios.get(`https://easy-economy.fly.dev/clavepucv/docente/${docente.id}`, {
+          headers: {
+            'Authorization': token,
+          },
+        });
         setCursos(response.data);
         setLoading(false);
       } catch (error) {
@@ -45,6 +52,7 @@ const ClaveCurso = () => {
 
   const handleCerrarSesion = () => {
     setDocente(null); // Establece el contexto de Docente a null
+    localStorage.removeItem('token'); // Elimina el token del almacenamiento local
     navigate('/'); // Redirige a la ruta de inicio de sesión
   };
 

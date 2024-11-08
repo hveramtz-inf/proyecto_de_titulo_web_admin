@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import './agregarCuestionario.css';
+import { useEffect } from 'react';
 
 function AgregarCuestionario() {
     const { cursoId } = useParams();
@@ -9,6 +10,13 @@ function AgregarCuestionario() {
     const [titulo, setTitulo] = useState('');
     const [ocultar, setOcultar] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/');
+        }
+    }, [navigate]);
 
     const agregarPregunta = () => {
         setPreguntas([...preguntas, { texto: '', respuestas: [{ texto: '', correcta: false }] }]);
@@ -43,7 +51,7 @@ function AgregarCuestionario() {
         setPreguntas(nuevasPreguntas);
     };
 
-    const handleSubmit = async (e) => {
+        const handleSubmit = async (e) => {
         e.preventDefault();
         const cuestionario = {
             titulo,
@@ -55,57 +63,61 @@ function AgregarCuestionario() {
                 }))
             }))
         };
-
+    
         try {
+            const token = localStorage.getItem('token');
             // Crear el cuestionario
             const responseCuestionario = await fetch(`https://easy-economy.fly.dev/cuestionarios`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
                 },
                 body: JSON.stringify({ titulo: cuestionario.titulo, idcurso: cursoId, ocultar: ocultar }) // Incluir el cursoId y ocultar
             });
-
+    
             if (!responseCuestionario.ok) {
                 throw new Error('Error al agregar el cuestionario');
             }
-
+    
             const dataCuestionario = await responseCuestionario.json();
             const cuestionarioId = dataCuestionario.id;
-
+    
             // Crear las preguntas y respuestas asociadas
             for (const pregunta of cuestionario.preguntas) {
                 const responsePregunta = await fetch(`https://easy-economy.fly.dev/preguntas`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': token,
                     },
                     body: JSON.stringify({ idcuestionario: cuestionarioId, pregunta: pregunta.textoPregunta })
                 });
-
+    
                 if (!responsePregunta.ok) {
                     throw new Error('Error al agregar la pregunta');
                 }
-
+    
                 const dataPregunta = await responsePregunta.json();
                 const preguntaId = dataPregunta.id;
-
+    
                 // Crear las respuestas asociadas a la pregunta
                 for (const respuesta of pregunta.respuestas) {
                     const responseRespuesta = await fetch(`https://easy-economy.fly.dev/respuestas`, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Authorization': token,
                         },
                         body: JSON.stringify({ idpregunta: preguntaId, respuesta: respuesta.textoRespuesta, valor: respuesta.valor })
                     });
-
+    
                     if (!responseRespuesta.ok) {
                         throw new Error('Error al agregar la respuesta');
                     }
                 }
             }
-
+    
             console.log('Cuestionario agregado con éxito');
             navigate('/home#Cuestionarios');
         } catch (error) {

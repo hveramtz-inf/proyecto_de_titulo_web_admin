@@ -1,7 +1,9 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const Docente = require('../models/DocenteModel');
 
 const router = express.Router();
+const secretKey = 'your_secret_key'; // Cambia esto por una clave secreta segura
 
 // Get all docentes
 router.get('/', async (req, res) => {
@@ -36,7 +38,8 @@ router.post('/iniciosesion', async (req, res) => {
             }
         });
         if (docente) {
-            res.json(docente);
+            const token = jwt.sign({ id: docente.id }, secretKey, { expiresIn: '1h' });
+            res.json({ docente, token });
         } else {
             res.status(404).json({ error: 'Docente not found' });
         }

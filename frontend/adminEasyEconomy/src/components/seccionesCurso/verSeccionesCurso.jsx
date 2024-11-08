@@ -18,12 +18,17 @@ const VerSeccionesCurso = () => {
         const fetchSecciones = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`https://easy-economy.fly.dev/secciones/curso/${cursoId}`); // Cambia esta URL por la de tu API
+                const token = localStorage.getItem('token');
+                const response = await fetch(`https://easy-economy.fly.dev/secciones/curso/${cursoId}`, {
+                    headers: {
+                        'Authorization': token,
+                    },
+                });
                 if (!response.ok) {
                     throw new Error('Error al obtener las secciones');
                 }
                 const seccionesData = await response.json();
-                console.log('Datos recibidos de la API:', seccionesData); // Agrega este console.log
+                console.log('Datos recibidos de la API:', seccionesData);
                 setSecciones(seccionesData);
             } catch (error) {
                 setError(error.message);
@@ -64,8 +69,12 @@ const VerSeccionesCurso = () => {
         if (confirmDelete === true) {
             console.log(`Eliminar seccion con ID: ${seccionId}`);
             try {
+                const token = localStorage.getItem('token');
                 const response = await fetch(`https://easy-economy.fly.dev/secciones/${seccionId}`, {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': token,
+                    },
                 });
                 if (!response.ok) {
                     throw new Error('Error al eliminar la seccion');

@@ -17,20 +17,29 @@ const Cursos = () => {
   const { claveCurso } = useContext(ClaveCursoContext);
 
   useEffect(() => {
-    if (!claveCurso) {
+    const token = localStorage.getItem('token');
+    if (!token || !claveCurso) {
       navigate('/');
       return;
     }
-
-    axios.get(`https://easy-economy.fly.dev/cursos/clavepucv/${claveCurso.id}`)
-      .then(response => {
+  
+    const fetchCursos = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.get(`https://easy-economy.fly.dev/cursos/clavepucv/${claveCurso.id}`, {
+          headers: {
+            'Authorization': token,
+          },
+        });
         setCursos(response.data);
         setLoading(false); // Desactivar el estado de carga
-      })
-      .catch(error => {
+      } catch (error) {
         setError('Error fetching cursos');
         setLoading(false); // Desactivar el estado de carga
-      });
+      }
+    };
+  
+    fetchCursos();
   }, [claveCurso, navigate]);
 
   const handleCreate = () => {
@@ -46,8 +55,13 @@ const Cursos = () => {
     console.log(`Eliminar curso con ID: ${cursoId}`);
     setDeletingId(cursoId);
     try {
-      const response = await fetch(`https://easy-economy.fly.dev/cursos/${cursoId}`, { method: 'DELETE' });
-      if (response.ok) {
+      const token = localStorage.getItem('token');
+      const response = await axios.delete(`https://easy-economy.fly.dev/cursos/${cursoId}`, {
+        headers: {
+          'Authorization': token,
+        },
+      });
+      if (response.status === 200) {
         setCursos(cursos.filter(curso => curso.id !== cursoId));
       } else {
         setError('Error deleting curso');
@@ -103,7 +117,6 @@ const Cursos = () => {
         </div>
         <div className="spinner-overlay">
           <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
           </Spinner>
         </div>
       </div>

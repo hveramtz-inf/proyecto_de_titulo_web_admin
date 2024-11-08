@@ -20,11 +20,16 @@ const AgregarSeccionCurso = () => {
         } else {
             setError('');
             try {
+                const token = localStorage.getItem('token');
                 const response = await axios.post(`https://easy-economy.fly.dev/secciones/`, { 
                     titulo: titulo, 
                     contenido: contenido, 
                     linkvideoyoutube: linkYoutube || null,
                     idcurso: cursoId
+                }, {
+                    headers: {
+                        'Authorization': token,
+                    },
                 });
                 console.log('Formulario enviado', response.data);
                 setSuccess('Sección agregada exitosamente');

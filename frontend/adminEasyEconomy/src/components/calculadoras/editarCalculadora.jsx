@@ -17,9 +17,18 @@ const EditarCalculadora = () => {
   const { id } = useParams(); // Obtener el ID de la calculadora desde los parámetros de la URL
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!id || !token) {
+      navigate('/');
+    }
     const fetchCalculadora = async () => {
       try {
-        const response = await axios.get(`https://easy-economy.fly.dev/calculadoras/${id}`);
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`https://easy-economy.fly.dev/calculadoras/${id}`, {
+          headers: {
+            'Authorization': token,
+          },
+        });
         const { nombre, formula, latexformula, ocultar } = response.data;
         setNombre(nombre);
         setFormula(formula);
@@ -29,7 +38,7 @@ const EditarCalculadora = () => {
         console.error('Error al obtener los datos de la calculadora:', error);
       }
     };
-
+  
     fetchCalculadora();
   }, [id]);
 
@@ -45,17 +54,22 @@ const EditarCalculadora = () => {
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.put(`https://easy-economy.fly.dev/calculadoras/${id}`, {
         nombre,
         formula,
         latexformula: latexFormula,
         ocultar
+      }, {
+        headers: {
+          'Authorization': token,
+        },
       });
       console.log('Calculadora actualizada:', response.data);
+      navigate('/home#Calculadoras');
     } catch (error) {
       console.error('Error al actualizar la calculadora:', error);
     }
-    navigate('/home#Calculadoras');
   };
 
   const handleVolver = () => {

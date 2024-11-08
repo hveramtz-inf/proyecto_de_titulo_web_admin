@@ -15,42 +15,54 @@ function EditarSeccionCurso() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`https://easy-economy.fly.dev/secciones/${seccionId}`)
-            .then(response => {
+        const fetchSeccion = async () => {
+            const token = localStorage.getItem('token');
+            try {
+                const response = await axios.get(`https://easy-economy.fly.dev/secciones/${seccionId}`, {
+                    headers: {
+                        'Authorization': token,
+                    },
+                });
                 setSeccion({
                     titulo: response.data.titulo,
                     contenido: response.data.contenido,
                     linkvideoyoutube: response.data.linkvideoyoutube
                 });
                 setLoading(false);
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('There was an error fetching the seccion data!', error);
                 setLoading(false);
-            });
+            }
+        };
+
+        fetchSeccion();
     }, [cursoId, seccionId]);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        if (seccion.titulo === '' || seccion.descripcion === '') {
+        if (seccion.titulo === '' || seccion.contenido === '') {
             setError('Todos los campos deben estar completos.');
             return;
         }
 
-        axios.put(`https://easy-economy.fly.dev/secciones/${seccionId}`, {
-            titulo: seccion.titulo,
-            descripcion: seccion.descripcion,
-            contenido: seccion.contenido
-        })
-            .then(response => {
-                console.log('seccion updated successfully:', response.data);
-                setError('');
-                navigate(`/secciones/${cursoId}`);
-            })
-            .catch(error => {
-                console.error('There was an error updating the seccion!', error);
-                setError('Hubo un error al actualizar la sección.');
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.put(`https://easy-economy.fly.dev/secciones/${seccionId}`, {
+                titulo: seccion.titulo,
+                contenido: seccion.contenido,
+                linkvideoyoutube: seccion.linkvideoyoutube
+            }, {
+                headers: {
+                    'Authorization': token,
+                },
             });
+            console.log('seccion updated successfully:', response.data);
+            setError('');
+            navigate(`/secciones/${cursoId}`);
+        } catch (error) {
+            console.error('There was an error updating the seccion!', error);
+            setError('Hubo un error al actualizar la sección.');
+        }
     };
 
     const handleChange = (event) => {

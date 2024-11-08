@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import './agregarCurso.css'; // Importa el archivo CSS
 import { ClaveCursoContext } from '../../context/ClaveCursoContext';
+import { useEffect } from 'react';
 
 const AgregarCurso = () => {
   const [titulo, setTitulo] = useState('');
@@ -15,6 +16,14 @@ const AgregarCurso = () => {
   const location = useLocation();
   const { claveCurso } = useContext(ClaveCursoContext);
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/');
+    }
+  }, [navigate]);
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (titulo.trim() === '' || descripcion.trim() === '') {
@@ -22,11 +31,16 @@ const AgregarCurso = () => {
     } else {
       setError('');
       try {
+        const token = localStorage.getItem('token');
         const response = await axios.post('https://easy-economy.fly.dev/cursos', {
           nombre: titulo,
           descripcion: descripcion,
           ocultar: ocultar,
           clavepucvid: claveCurso.id
+        }, {
+          headers: {
+            'Authorization': token,
+          },
         });
         setSuccess('Curso agregado exitosamente');
         console.log('Formulario enviado', response.data);

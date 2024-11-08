@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
-import './inicioSesionDocente.css'; // Importa el archivo CSS
-import { DocenteContext } from './../../context/DocenteContext'; // Importa el contexto del usuario
+import './inicioSesionDocente.css';
+import { DocenteContext } from './../../context/DocenteContext';
 
 function InicioSesionDocente() {
   const [rut, setRut] = useState('');
@@ -12,30 +12,10 @@ function InicioSesionDocente() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const { setDocente } = useContext(DocenteContext); // Usa el contexto del usuario
+  const { setDocente } = useContext(DocenteContext);
   const navigate = useNavigate();
 
-  const formatRut = (value) => {
-    // Eliminar todos los caracteres que no sean números
-    const cleaned = value.replace(/\D/g, '');
-
-    // Aplicar el formato
-    const formatted = cleaned.replace(/^(\d{1,2})(\d{3})(\d{3})(\d{1})$/, '$1.$2.$3-$4');
-
-    return formatted;
-  };
-
-  const handleRutChange = (e) => {
-    const value = e.target.value;
-    const formattedValue = formatRut(value);
-    setRut(formattedValue);
-  };
-
-  const handleContraseniaChange = (e) => {
-    setContrasenia(e.target.value);
-  };
-
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -47,17 +27,16 @@ function InicioSesionDocente() {
         },
         body: JSON.stringify({ rut, contrasenia }),
       });
-
+  
       if (!response.ok) {
         throw new Error('Error en la solicitud');
       }
-
+  
       const data = await response.json();
-      setDocente(data); // Almacena los datos del usuario en el contexto
+      setDocente(data.docente);
+      localStorage.setItem('token', data.token);
       setSuccess(true);
-      setTimeout(() => {
-        navigate('/claveCurso'); // Redirige a la ruta /claveCurso
-      }, 1000);
+      navigate('/claveCurso'); // Redirigir inmediatamente
     } catch (error) {
       console.error('Error:', error);
       setError('Rut o contraseña incorrectos');
@@ -75,9 +54,8 @@ function InicioSesionDocente() {
             type="text"
             placeholder="12.34.678-9"
             value={rut}
-            onChange={handleRutChange}
+            onChange={(e) => setRut(e.target.value)}
           />
-          <Form.Text className="text-muted"></Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -86,7 +64,7 @@ function InicioSesionDocente() {
             type="password"
             placeholder="Contraseña"
             value={contrasenia}
-            onChange={handleContraseniaChange}
+            onChange={(e) => setContrasenia(e.target.value)}
           />
         </Form.Group>
         <Button
@@ -97,7 +75,7 @@ function InicioSesionDocente() {
           {loading ? (
             <Spinner animation="border" size="sm" />
           ) : success ? (
-            <span>&#10003; Inicio Correcto</span> // Símbolo de ticket
+            <span>&#10003; Inicio Correcto</span>
           ) : (
             'Iniciar Sesión'
           )}

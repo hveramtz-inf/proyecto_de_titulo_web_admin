@@ -18,7 +18,13 @@ function NavBar({ onSelect, claveCurso, className }) {
   };
 
   const handleCerrarSesion = () => {
+    // Eliminar el token del almacenamiento local
+    localStorage.removeItem('token');
+    
+    // Restablecer el estado del docente a null
     setDocente(null);
+    
+    // Redirigir a la página de inicio de sesión
     navigate('/');
   };
 

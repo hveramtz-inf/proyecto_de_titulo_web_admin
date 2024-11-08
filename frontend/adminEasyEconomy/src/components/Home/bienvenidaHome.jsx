@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ClaveCursoContext } from '../../context/ClaveCursoContext';
 import { DocenteContext } from '../../context/DocenteContext';
 import Card from 'react-bootstrap/Card';
@@ -7,6 +8,14 @@ import './bienvenidaHome.css';
 function BienvenidaHome() {
   const { claveCurso } = React.useContext(ClaveCursoContext);
   const { docente } = React.useContext(DocenteContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   return (
     <div className="bienvenida-container">

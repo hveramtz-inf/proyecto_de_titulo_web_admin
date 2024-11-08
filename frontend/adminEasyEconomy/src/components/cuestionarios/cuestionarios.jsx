@@ -14,28 +14,39 @@ const Cuestionarios = () => {
   const { claveCurso } = useContext(ClaveCursoContext); // Usa el contexto ClaveCurso
 
   useEffect(() => {
-    if (!claveCurso) {
+    const token = localStorage.getItem('token');
+    if (!token || !claveCurso) {
       navigate('/');
       return;
     }
-
+  
     const fetchData = async () => {
       try {
-        const responseCursos = await fetch(`https://easy-economy.fly.dev/cursos/clavepucv/${claveCurso.id}`);
+        const token = localStorage.getItem('token');
+  
+        const responseCursos = await fetch(`https://easy-economy.fly.dev/cursos/clavepucv/${claveCurso.id}`, {
+          headers: {
+            'Authorization': token,
+          },
+        });
         const dataCursos = await responseCursos.json();
         setCursos(dataCursos);
-
-        const responseCuestionarios = await fetch(`https://easy-economy.fly.dev/cuestionarios/clavepucv/${claveCurso.id}`);
+  
+        const responseCuestionarios = await fetch(`https://easy-economy.fly.dev/cuestionarios/clavepucv/${claveCurso.id}`, {
+          headers: {
+            'Authorization': token,
+          },
+        });
         const dataCuestionarios = await responseCuestionarios.json();
         setCuestionarios(dataCuestionarios);
-
+  
         setLoading(false);
       } catch (error) {
         setError(error);
         setLoading(false);
       }
     };
-
+  
     fetchData();
   }, [claveCurso, navigate]);
 
@@ -50,8 +61,12 @@ const Cuestionarios = () => {
   const handleDelete = async (cuestionarioId) => {
     setDeletingId(cuestionarioId);
     try {
+      const token = localStorage.getItem('token');
       await fetch(`https://easy-economy.fly.dev/cuestionarios/${cuestionarioId}`, {
         method: 'DELETE',
+        headers: {
+          'Authorization': token,
+        },
       });
       setCuestionarios(cuestionarios.filter(cuestionario => cuestionario.id !== cuestionarioId));
     } catch (error) {

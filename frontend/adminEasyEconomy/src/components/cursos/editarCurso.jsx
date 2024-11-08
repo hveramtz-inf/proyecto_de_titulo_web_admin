@@ -17,15 +17,29 @@ const EditarCurso = () => {
   const { claveCurso } = useContext(ClaveCursoContext);
 
   useEffect(() => {
-    axios.get(`https://easy-economy.fly.dev/cursos/${cursoId}`)
-      .then(response => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/');
+      return;
+    }
+
+    const fetchCurso = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.get(`https://easy-economy.fly.dev/cursos/${cursoId}`, {
+          headers: {
+            'Authorization': token,
+          },
+        });
         setTitulo(response.data.nombre);
         setDescripcion(response.data.descripcion);
         setOcultar(response.data.ocultar);
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('There was an error fetching the course data!', error);
-      });
+      }
+    };
+  
+    fetchCurso();
   }, [cursoId]);
 
   const handleSubmit = async (e) => {
@@ -35,11 +49,16 @@ const EditarCurso = () => {
     } else {
       setError('');
       try {
+        const token = localStorage.getItem('token');
         const response = await axios.put(`https://easy-economy.fly.dev/cursos/${cursoId}`, {
           nombre: titulo,
           descripcion: descripcion,
           ocultar: ocultar,
           clavepucvid: claveCurso.id
+        }, {
+          headers: {
+            'Authorization': token,
+          },
         });
         setSuccess('Curso actualizado exitosamente');
         console.log('Formulario enviado', response.data);
