@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const Docente = require('../models/DocenteModel');
+const Docente = require('../../models/DocenteModel');
 
 const router = express.Router();
 const secretKey = 'your_secret_key'; // Cambia esto por una clave secreta segura

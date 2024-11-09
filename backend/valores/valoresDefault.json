@@ -182,15 +182,15 @@
   ],
   "calculadoras": [
     {
-      "nombre": "Calculadora 1",
-      "formula": "a + b",
-      "latexformula": "a + b",
+      "nombre": "Demanda",
+      "formula": "Qd = a - b*P",
+      "latexformula": "Qd = a-b*P",
       "ocultar": false
     },
     {
-      "nombre": "Calculadora 2",
-      "formula": "c * d",
-      "latexformula": "c * d",
+      "nombre": "Oferta",
+      "formula": "Qs = c + d*P",
+      "latexformula": "Qs = c+d*P",
       "ocultar": false
     }
   ]

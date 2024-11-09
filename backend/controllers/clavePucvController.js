@@ -1,72 +1,68 @@
-const express = require('express');
-const router = express.Router();
-const { Op } = require('sequelize'); // Importa Op desde Sequelize
-const ClavePucv = require('../models/clavePucvModel.js'); // Asegúrate de que la ruta sea correcta
+const ClavePucv = require('../models/clavePucvModel.js');
 const Curso = require('../models/CursoModel.js');
 const Seccion = require('../models/SeccionesModel.js');
 const Cuestionario = require('../models/CuestionariosModel.js');
 const PreguntaCuestionario = require('../models/PreguntaCuestionarioModel.js');
 const RespuestaCuestionario = require('../models/RespuestaCuestionarioModel.js');
-const Calculadora = require('../models/CalculadoraModel.js');
 const Apunte = require('../models/ApunteModel.js');
 const FavoritosCuestionario = require('../models/FavoritosCuestionarioModel.js');
 const PuntajeCuestionario = require('../models/PuntajeCuestionarioModel.js');
 const SeccionRevisada = require('../models/SeccionRevisadaModel.js');
 const ProgresoCurso = require('../models/ProgesoCursoModel.js');
+const Calculadora = require('../models/CalculadoraModel.js');
 const FavoritosCalculadora = require('../models/FavoritosCalculadoraModel.js');
 const HistorialCalculadora = require('../models/HistorialModel.js');
 const VariableHistorial = require('../models/VariableHistorialModel.js');
-const defaultData = require('../valores/valoresDefault.json'); // Importa el JSON con los datos predeterminados
+const { Op } = require('sequelize');
 
-// Ejemplo de una ruta que obtiene todas las claves
-router.get('/', async (req, res) => {
+// Obtener todas las claves PUCV
+exports.getAllClavesPucv = async (req, res) => {
   try {
     const claves = await ClavePucv.findAll();
     res.json(claves);
   } catch (err) {
-    console.error('Error al obtener las claves', err);
-    res.status(500).json({ error: 'Error al obtener las claves' });
+    console.error('Error al obtener las claves PUCV', err);
+    res.status(500).json({ error: 'Error al obtener las claves PUCV' });
   }
-});
+};
 
-// Obtener un registro por claveCurso
-router.get('/:claveCurso', async (req, res) => {
+// Obtener una clave PUCV por ID
+exports.getClavePucvById = async (req, res) => {
   try {
-    const clavepucv = await ClavePucv.findOne({
-      where: { clave: req.params.claveCurso }
-    });
-    if (clavepucv) {
-      res.json(clavepucv);
+    const clave = await ClavePucv.findByPk(req.params.id);
+    if (clave) {
+      res.json(clave);
     } else {
-      res.status(404).json({ error: 'Registro no encontrado' });
+      res.status(404).json({ error: 'Clave PUCV no encontrada' });
     }
   } catch (err) {
-    console.error('Error al obtener el registro', err);
-    res.status(500).json({ error: 'Error al obtener el registro' });
+    console.error('Error al obtener la clave PUCV', err);
+    res.status(500).json({ error: 'Error al obtener la clave PUCV' });
   }
-});
+};
 
-router.get('/docente/:idDocente', async (req, res) => {
+// Obtener claves PUCV por docente
+exports.getClavesPucvByDocente = async (req, res) => {
   try {
     const claves = await ClavePucv.findAll({
       where: { iddocente: req.params.idDocente }
     });
     res.json(claves);
   } catch (err) {
-    console.error('Error al obtener las claves', err);
-    res.status(500).json({ error: 'Error al obtener las claves' });
+    console.error('Error al obtener las claves PUCV', err);
+    res.status(500).json({ error: 'Error al obtener las claves PUCV' });
   }
-});
+};
 
-// Crear un nuevo registro
-router.post('/', async (req, res) => {
+// Crear una nueva clave PUCV (requiere autenticación)
+exports.createClavePucv = async (req, res) => {
   const transaction = await ClavePucv.sequelize.transaction();
   const startTime = Date.now();
   try {
     const { clave, ...rest } = req.body; // Asegúrate de que el campo clave esté en el cuerpo de la solicitud
     console.log('Iniciando creación de ClavePucv');
-    const nuevoClavePucv = await ClavePucv.create({ clave, ...rest }, { transaction });
-    console.log('ClavePucv creada:', nuevoClavePucv.id);
+    const nuevaClavePucv = await ClavePucv.create({ clave, ...rest }, { transaction });
+    console.log('ClavePucv creada:', nuevaClavePucv.id);
 
     // Crear cursos predeterminados
     for (const cursoData of defaultData.cursos) {
@@ -74,7 +70,7 @@ router.post('/', async (req, res) => {
         nombre: cursoData.nombre,
         descripcion: cursoData.descripcion,
         ocultar: cursoData.ocultar,
-        clavepucvid: nuevoClavePucv.id
+        clavepucvid: nuevaClavePucv.id
       }, { transaction });
       console.log('Curso creado:', nuevoCurso.id);
 
@@ -125,7 +121,7 @@ router.post('/', async (req, res) => {
         formula: calculadoraData.formula,
         latexformula: calculadoraData.latexformula,
         ocultar: calculadoraData.ocultar,
-        idclavepucv: nuevoClavePucv.id
+        idclavepucv: nuevaClavePucv.id
       }, { transaction });
       console.log('Calculadora creada:', calculadoraData.nombre);
     }
@@ -133,16 +129,16 @@ router.post('/', async (req, res) => {
     await transaction.commit();
     const endTime = Date.now();
     console.log(`Tiempo de ejecución: ${(endTime - startTime) / 1000} segundos`);
-    res.status(201).json(nuevoClavePucv);
+    res.status(201).json(nuevaClavePucv);
   } catch (err) {
     await transaction.rollback();
-    console.error('Error al crear el registro', err);
-    res.status(500).json({ error: 'Error al crear el registro' });
+    console.error('Error al crear la clave PUCV', err);
+    res.status(500).json({ error: 'Error al crear la clave PUCV' });
   }
-});
+};
 
-// Actualizar un registro por ID
-router.put('/:id', async (req, res) => {
+// Actualizar una clave PUCV por ID (requiere autenticación)
+exports.updateClavePucv = async (req, res) => {
   try {
     const [updated] = await ClavePucv.update(req.body, {
       where: { id: req.params.id }
@@ -151,24 +147,22 @@ router.put('/:id', async (req, res) => {
       const updatedClavePucv = await ClavePucv.findByPk(req.params.id);
       res.json(updatedClavePucv);
     } else {
-      res.status(404).json({ error: 'Registro no encontrado' });
+      res.status(404).json({ error: 'Clave PUCV no encontrada' });
     }
   } catch (err) {
-    console.error('Error al actualizar el registro', err);
-    res.status(500).json({ error: 'Error al actualizar el registro' });
+    console.error('Error al actualizar la clave PUCV', err);
+    res.status(500).json({ error: 'Error al actualizar la clave PUCV' });
   }
-});
+};
 
-// Eliminar un registro por ID
-router.delete('/:id', async (req, res) => {
+// Eliminar una clave PUCV por ID (requiere autenticación)
+exports.deleteClavePucv = async (req, res) => {
+  const { id } = req.params;
   const transaction = await ClavePucv.sequelize.transaction();
-  const startTime = Date.now();
   try {
-    const clavePucvId = req.params.id;
-    console.log('Iniciando eliminación de ClavePucv:', clavePucvId);
+    const startTime = Date.now();
 
-    // Obtener todos los IDs relacionados
-    const cursos = await Curso.findAll({ where: { clavepucvid: clavePucvId }, transaction });
+    const cursos = await Curso.findAll({ where: { clavepucvid: id }, transaction });
     const cursoIds = cursos.map(curso => curso.id);
 
     const secciones = await Seccion.findAll({ where: { idcurso: { [Op.in]: cursoIds } }, transaction });
@@ -180,7 +174,7 @@ router.delete('/:id', async (req, res) => {
     const preguntas = await PreguntaCuestionario.findAll({ where: { idcuestionario: { [Op.in]: cuestionarioIds } }, transaction });
     const preguntaIds = preguntas.map(pregunta => pregunta.id);
 
-    const calculadoras = await Calculadora.findAll({ where: { idclavepucv: clavePucvId }, transaction });
+    const calculadoras = await Calculadora.findAll({ where: { idclavepucv: id }, transaction });
     const calculadoraIds = calculadoras.map(calculadora => calculadora.id);
 
     // Eliminar registros en el orden correcto usando bulkDelete
@@ -198,9 +192,9 @@ router.delete('/:id', async (req, res) => {
     await HistorialCalculadora.destroy({ where: { idcalculadora: { [Op.in]: calculadoraIds } }, transaction });
     await VariableHistorial.destroy({ where: { idhistorial: { [Op.in]: calculadoraIds } }, transaction });
     await Calculadora.destroy({ where: { id: { [Op.in]: calculadoraIds } }, transaction });
-    await ClavePucv.destroy({ where: { id: clavePucvId }, transaction });
+    await ClavePucv.destroy({ where: { id }, transaction });
 
-    console.log('ClavePucv eliminada:', clavePucvId);
+    console.log('ClavePucv eliminada:', id);
 
     await transaction.commit();
     const endTime = Date.now();
@@ -208,9 +202,7 @@ router.delete('/:id', async (req, res) => {
     res.status(204).json();
   } catch (err) {
     await transaction.rollback();
-    console.error('Error al eliminar el registro y sus relaciones', err);
-    res.status(500).json({ error: 'Error al eliminar el registro y sus relaciones' });
+    console.error('Error al eliminar la clave PUCV y sus relaciones', err);
+    res.status(500).json({ error: 'Error al eliminar la clave PUCV y sus relaciones' });
   }
-});
-
-module.exports = router;
+};

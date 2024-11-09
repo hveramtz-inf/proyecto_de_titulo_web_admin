@@ -6,7 +6,7 @@ import { BlockMath } from 'react-katex';
 import 'katex/dist/katex.min.css';
 import './agregarCalculadora.css';
 import { ClaveCursoContext } from '../../context/ClaveCursoContext';
-import { parse } from 'mathjs';
+import { parse, re } from 'mathjs';
 
 const AgregarCalculadora = () => {
   const [nombre, setNombre] = useState('');
@@ -24,9 +24,13 @@ const AgregarCalculadora = () => {
   const transformToLatex = (input) => {
     try {
       const node = parse(input);
-      return node.toTex();
+      let latex = node.toTex();
+      latex = latex.replace(/\\mathrm{([a-zA-Z0-9_]+)}/g, '$1')
+      latex = latex.replace(/([a-zA-Z0-9]+)_{([a-zA-Z0-9]+)}/g, '$1_{\\$2}');
+      return latex;
     } catch (error) {
       console.error('Error al convertir a LaTeX:', error);
+      setError('La fórmula ingresada es inválida');
       return input; // Devuelve el input original en caso de error
     }
   };
@@ -34,7 +38,11 @@ const AgregarCalculadora = () => {
   const handleFormulaChange = (e) => {
     const input = e.target.value;
     setFormula(input);
-    setFormulaLatex(transformToLatex(input));
+    setError(''); // Limpiar cualquier error previo
+    const latex = transformToLatex(input);
+    if (latex !== input) {
+      setFormulaLatex(latex);
+    }
   };
 
   const handleSubmit = async (e) => {

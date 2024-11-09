@@ -1,9 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const PreguntaCuestionario = require('../models/PreguntaCuestionarioModel.js'); // Asegúrate de que la ruta sea correcta
+const PreguntaCuestionario = require('../models/PreguntaCuestionarioModel.js');
 
 // Obtener todas las preguntas
-router.get('/', async (req, res) => {
+exports.getAllPreguntas = async (req, res) => {
   try {
     const preguntas = await PreguntaCuestionario.findAll();
     res.json(preguntas);
@@ -11,10 +9,10 @@ router.get('/', async (req, res) => {
     console.error('Error al obtener las preguntas', err);
     res.status(500).json({ error: 'Error al obtener las preguntas' });
   }
-});
+};
 
 // Obtener una pregunta por ID
-router.get('/:id', async (req, res) => {
+exports.getPreguntaById = async (req, res) => {
   try {
     const pregunta = await PreguntaCuestionario.findByPk(req.params.id);
     if (pregunta) {
@@ -26,10 +24,10 @@ router.get('/:id', async (req, res) => {
     console.error('Error al obtener la pregunta', err);
     res.status(500).json({ error: 'Error al obtener la pregunta' });
   }
-});
+};
 
 // Obtener preguntas por idcuestionario
-router.get('/cuestionario/:id', async (req, res) => {
+exports.getPreguntasByCuestionarioId = async (req, res) => {
   try {
     const preguntas = await PreguntaCuestionario.findAll({
       where: { idcuestionario: req.params.id }
@@ -39,10 +37,10 @@ router.get('/cuestionario/:id', async (req, res) => {
     console.error('Error al obtener las preguntas', err);
     res.status(500).json({ error: 'Error al obtener las preguntas' });
   }
-});
+};
 
-// Crear una nueva pregunta
-router.post('/', async (req, res) => {
+// Crear una nueva pregunta (requiere autenticación)
+exports.createPregunta = async (req, res) => {
   try {
     const nuevaPregunta = await PreguntaCuestionario.create(req.body);
     res.status(201).json(nuevaPregunta);
@@ -50,10 +48,10 @@ router.post('/', async (req, res) => {
     console.error('Error al crear la pregunta', err);
     res.status(500).json({ error: 'Error al crear la pregunta' });
   }
-});
+};
 
-// Actualizar una pregunta por ID
-router.put('/:id', async (req, res) => {
+// Actualizar una pregunta por ID (requiere autenticación)
+exports.updatePregunta = async (req, res) => {
   try {
     const [updated] = await PreguntaCuestionario.update(req.body, {
       where: { id: req.params.id }
@@ -68,10 +66,10 @@ router.put('/:id', async (req, res) => {
     console.error('Error al actualizar la pregunta', err);
     res.status(500).json({ error: 'Error al actualizar la pregunta' });
   }
-});
+};
 
-// Eliminar una pregunta por ID
-router.delete('/:id', async (req, res) => {
+// Eliminar una pregunta por ID (requiere autenticación)
+exports.deletePregunta = async (req, res) => {
   try {
     const deleted = await PreguntaCuestionario.destroy({
       where: { id: req.params.id }
@@ -85,6 +83,4 @@ router.delete('/:id', async (req, res) => {
     console.error('Error al eliminar la pregunta', err);
     res.status(500).json({ error: 'Error al eliminar la pregunta' });
   }
-});
-
-module.exports = router;
+};
