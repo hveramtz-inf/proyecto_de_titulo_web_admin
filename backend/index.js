@@ -42,7 +42,7 @@ const verifyTokenRoute = require('./routes/verifyTokenRoute.js');
 
 // Usar las rutas
 app.use('/cursos', verifyToken, cursosRoutes);
-app.use('/clavepucv', clavepucvRoutes);
+app.use('/clavepucv',verifyToken, clavepucvRoutes);
 app.use('/secciones', verifyToken, seccionesRoutes);
 app.use('/cuestionarios', verifyToken, cuestionarioRoutes);
 app.use('/preguntas', verifyToken, preguntasRoutes);

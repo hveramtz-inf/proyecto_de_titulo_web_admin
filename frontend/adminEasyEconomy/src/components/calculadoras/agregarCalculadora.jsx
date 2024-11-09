@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BlockMath } from 'react-katex';
 import 'katex/dist/katex.min.css';
 import './agregarCalculadora.css';
+import { ClaveCursoContext } from '../../context/ClaveCursoContext';
+import { parse } from 'mathjs';
 
 const AgregarCalculadora = () => {
   const [nombre, setNombre] = useState('');
@@ -13,10 +15,27 @@ const AgregarCalculadora = () => {
   const [aceptarDatos, setAceptarDatos] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false); // Estado para manejar el spinner
+  const { claveCurso } = useContext(ClaveCursoContext);
+  const [formulaLatex, setFormulaLatex] = useState('');
   const navigate = useNavigate();
 
   const handleNombreChange = (e) => setNombre(e.target.value);
-  const handleFormulaChange = (e) => setFormula(e.target.value);
+
+  const transformToLatex = (input) => {
+    try {
+      const node = parse(input);
+      return node.toTex();
+    } catch (error) {
+      console.error('Error al convertir a LaTeX:', error);
+      return input; // Devuelve el input original en caso de error
+    }
+  };
+
+  const handleFormulaChange = (e) => {
+    const input = e.target.value;
+    setFormula(input);
+    setFormulaLatex(transformToLatex(input));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,6 +55,8 @@ const AgregarCalculadora = () => {
         nombre,
         formula,
         ocultar,
+        latexformula: formulaLatex,
+        idclavepucv: claveCurso.id,
       }, {
         headers: {
           'Authorization': token,
@@ -102,7 +123,7 @@ const AgregarCalculadora = () => {
 
       <div className="latex-preview">
         <h2>Vista previa de la fórmula en LaTeX</h2>
-        <BlockMath math={formula} />
+        <BlockMath math={formulaLatex} />
       </div>
     </div>
   );

@@ -35,7 +35,7 @@ router.post('/iniciosesion', async (req, res) => {
         const { rut, contrasenia } = req.body;
         const docente = await Docente.findOne({ where: { rut } });
         if (docente && await bcrypt.compare(contrasenia, docente.contrasenia)) {
-            const token = jwt.sign({ id: docente.id }, secretKey, { expiresIn: '1h' });
+            const token = jwt.sign({ id: docente.id }, secretKey, { expiresIn: '20m' });
             res.json({ docente, token });
         } else {
             res.status(404).json({ error: 'Docente not found' });

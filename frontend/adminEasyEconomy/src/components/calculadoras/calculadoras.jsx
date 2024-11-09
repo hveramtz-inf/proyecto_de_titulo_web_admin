@@ -52,6 +52,11 @@ const Calculadoras = () => {
   };
 
   const handleDeleteCalculadora = async (id) => {
+    const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar esta calculadora?. Esta acción eliminara tambien los historiales de los alumnos.');
+    if (!confirmDelete) {
+      return;
+    }
+
     setDeletingId(id);
     try {
       const token = localStorage.getItem('token');
