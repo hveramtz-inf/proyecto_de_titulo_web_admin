@@ -61,8 +61,9 @@ const Cursos = () => {
           headers: {
             'Authorization': token,
           },
+          timeout: 10000, // Aumentar el tiempo de espera a 10 segundos
         });
-        if (response.status === 200) {
+        if (response.status === 204) {
           // Realizar una nueva solicitud fetch para obtener la lista actualizada de cursos
           const updatedResponse = await axios.get(`https://easy-economy.fly.dev/cursos/clavepucv/${claveCurso.id}`, {
             headers: {
@@ -71,10 +72,10 @@ const Cursos = () => {
           });
           setCursos(updatedResponse.data);
         } else {
-          setError('Error deleting curso');
+          setError(`Error deleting curso: ${response.statusText}`);
         }
       } catch (error) {
-        setError('Error deleting curso');
+        setError(`Error deleting curso: ${error.message}`);
       } finally {
         setDeletingId(null);
       }

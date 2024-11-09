@@ -169,7 +169,7 @@ router.delete('/:id', async (req, res) => {
 
     if (deleted) {
       await transaction.commit();
-      res.status(204).json();
+      res.status(204).json({ message: 'Curso eliminado correctamente' }); // Asegúrate de enviar una respuesta adecuada
     } else {
       await transaction.rollback();
       res.status(404).json({ error: 'Curso no encontrado' });
