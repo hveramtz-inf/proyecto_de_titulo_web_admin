@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for easy-economy-lingering-bird-9020 on 2024-11-09T17:07:59-03:00
+# fly.toml app configuration file generated for easy-economy on 2024-11-09T18:01:48-03:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'easy-economy-lingering-bird-9020'
+app = 'easy-economy'
 primary_region = 'scl'
 
 [build]
