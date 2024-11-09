@@ -5,12 +5,13 @@ const PreguntaCuestionario = require('../models/PreguntaCuestionarioModel.js');
 const RespuestaCuestionario = require('../models/RespuestaCuestionarioModel.js');
 const FavoritosCuestionario = require('../models/FavoritosCuestionarioModel.js');
 const PuntajeCuestionario = require('../models/PuntajeCuestionarioModel.js');
+const Curso = require('../models/CursoModel.js');
 
 
 // Create a new cuestionario
 router.post('/', async (req, res) => {
     try {
-        const newCuestionario = new cuestionario(req.body);
+        const newCuestionario = new Cuestionario(req.body);
         const savedCuestionario = await newCuestionario.save();
         res.status(201).json(savedCuestionario);
     } catch (err) {
@@ -21,7 +22,7 @@ router.post('/', async (req, res) => {
 // Get all cuestionarios
 router.get('/', async (req, res) => {
     try {
-        const cuestionarios = await cuestionario.findAll();
+        const cuestionarios = await Cuestionario.findAll();
         res.json(cuestionarios);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -31,7 +32,7 @@ router.get('/', async (req, res) => {
 // Get a single cuestionario by ID
 router.get('/:id', async (req, res) => {
     try {
-        const cuestionarios = await cuestionario.findByPk(req.params.id);
+        const cuestionarios = await Cuestionario.findByPk(req.params.id);
         if (!cuestionarios) return res.status(404).json({ message: 'Cuestionario not found' });
         res.json(cuestionarios);
     } catch (err) {
@@ -41,7 +42,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/estudiante/:idestudiante', async (req, res) => {
     try {
-        const cuestionarios = await cuestionario.findAll({ idestudiante: req.params.idestudiante });
+        const cuestionarios = await Cuestionario.findAll({ idestudiante: req.params.idestudiante });
         res.json(cuestionarios);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -66,7 +67,7 @@ router.get('/clavepucv/:clavepucv', async (req, res) => {
 
 router.get('/curso/:idcurso', async (req, res) => {
     try {
-        const cuestionarios = await cuestionario.findAll({ idcurso: req.params.idcurso });
+        const cuestionarios = await Cuestionario.findAll({ idcurso: req.params.idcurso });
         res.json(cuestionarios);
     } catch (err) {
         res.status(500).json({ message: err.message });
