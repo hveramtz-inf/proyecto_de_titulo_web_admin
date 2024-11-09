@@ -184,13 +184,43 @@
     {
       "nombre": "Demanda",
       "formula": "Qd = a - b*P",
-      "latexformula": "Qd = a-b*P",
+      "latexformula": "Q_d = a - b P",
       "ocultar": false
     },
     {
       "nombre": "Oferta",
       "formula": "Qs = c + d*P",
-      "latexformula": "Qs = c+d*P",
+      "latexformula": "Q_s = c + d P",
+      "ocultar": false
+    },
+    {
+      "nombre": "Elasticidad Precio de la Oferta",
+      "formula": "Es = (dQs / dP) * (P / Qs)",
+      "latexformula": "E_s = \\frac{dQ_s}{dP} \\cdot \\frac{P}{Q_s}",
+      "ocultar": false
+    },
+    {
+      "nombre": "Elasticidad Precio de la Demanda",
+      "formula": "Ed = (dQd / dP) * (P / Qd)",
+      "latexformula": "E_d = \\frac{dQ_d}{dP} \\cdot \\frac{P}{Q_d}",
+      "ocultar": false
+    },
+    {
+      "nombre": "Precio de Equilibrio",
+      "formula": "P* = (a - c) / (b + d)",
+      "latexformula": "P^* = \\frac{a - c}{b + d}",
+      "ocultar": false
+    },
+    {
+      "nombre": "Ingreso Total",
+      "formula": "IT = P * Q",
+      "latexformula": "IT = P \\cdot Q",
+      "ocultar": false
+    },
+    {
+      "nombre": "Elasticidad Ingreso",
+      "formula": "Ei = (dQd / dI) * (I / Qd)",
+      "latexformula": "E_i = \\frac{dQ_d}{dI} \\cdot \\frac{I}{Q_d}",
       "ocultar": false
     }
   ]

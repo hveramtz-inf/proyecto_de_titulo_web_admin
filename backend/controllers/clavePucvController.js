@@ -13,6 +13,7 @@ const Calculadora = require('../models/CalculadoraModel.js');
 const FavoritosCalculadora = require('../models/FavoritosCalculadoraModel.js');
 const HistorialCalculadora = require('../models/HistorialModel.js');
 const VariableHistorial = require('../models/VariableHistorialModel.js');
+const defaultData = require('../valores/valoresDefault.json');
 const { Op } = require('sequelize');
 
 // Obtener todas las claves PUCV
