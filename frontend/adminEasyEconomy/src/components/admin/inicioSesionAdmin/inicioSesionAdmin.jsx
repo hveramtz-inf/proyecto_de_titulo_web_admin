@@ -27,7 +27,8 @@ function InicioSesionAdmin() {
             }
 
             const data = response.data;
-            // Aquí puedes manejar el token o cualquier dato que recibas en la respuesta
+            // Guardar el token en localStorage
+            localStorage.setItem('token', data.token);
             navigate('/homeAdmin');
         } catch (error) {
             setError('Fallo al iniciar sesión. Por favor, verifica tus credenciales.');
