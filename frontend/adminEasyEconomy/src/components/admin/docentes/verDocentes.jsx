@@ -4,7 +4,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import TokenVerifier from './TokenVerifier';
+import TokenVerifier from '../../TokenVerifier';
 
 function VerDocentes() {
   const [docentes, setDocentes] = useState([]);
@@ -12,7 +12,7 @@ function VerDocentes() {
 
   useEffect(() => {
     // Fetch docentes data from API
-    axios.get('/api/docentes', {
+    axios.get('https://easy-economy.fly.dev/docente', {
       headers: {
         'Authorization': localStorage.getItem('token'),
       },
@@ -31,7 +31,7 @@ function VerDocentes() {
 
   const handleDelete = (id) => {
     if (window.confirm('¿Estás seguro de que deseas eliminar este docente?')) {
-      axios.delete(`/api/docentes/${id}`, {
+      axios.delete(`https://easy-economy.fly.dev/docente/${id}`, {
         headers: {
           'Authorization': localStorage.getItem('token'),
         },

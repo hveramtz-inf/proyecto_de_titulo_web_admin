@@ -36,7 +36,7 @@ const TokenVerifier = ({ children }) => {
       }
     };
 
-    if (location.pathname !== '/') {
+    if (location.pathname !== '/' && location.pathname !== '/inicioSesionAdmin') {
       const interval = setInterval(checkTokenValidity, 60000); // Verificar cada 60 segundos
 
       // Verificar inmediatamente al cargar la aplicación

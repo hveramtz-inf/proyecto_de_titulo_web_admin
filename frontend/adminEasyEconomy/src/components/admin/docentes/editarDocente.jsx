@@ -13,12 +13,11 @@ function EditarDocente() {
 
   useEffect(() => {
     // Fetch docente data by ID
-    axios.get(`/api/docentes/${id}`)
+    axios.get(`https://easy-economy.fly.dev/docente/${id}`)
       .then(response => {
-        const { rut, nombre, contrasenia } = response.data;
+        const { rut, nombre } = response.data;
         setRut(rut);
         setNombre(nombre);
-        setContraseña(contrasenia);
       })
       .catch(error => {
         console.error('There was an error fetching the docente data!', error);
@@ -32,7 +31,7 @@ function EditarDocente() {
       return;
     }
 
-    axios.put(`/api/docentes/${id}`, { Rut, Nombre, Contraseña })
+    axios.put(`https://easy-economy.fly.dev/docente/${id}`, { Rut, Nombre, contrasenia: Contraseña })
       .then(response => {
         alert('Docente actualizado exitosamente');
         navigate('/homeAdmin#Docentes');

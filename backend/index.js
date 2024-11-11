@@ -47,17 +47,20 @@ const progresoCursoMobileRoutes = require('./routes/mobile/rutaProgresoCurso.js'
 const puntajeCuestionarioMobileRoutes = require('./routes/mobile/rutaPuntajeCuestionario.js');
 const secccionRevisadaMobileRoutes = require('./routes/mobile/rutaSeccionRevisada.js');
 const variablesHistorialMobileRoutes = require('./routes/mobile/rutaVariableHistorial.js');
+const adminRoutes = require('./routes/web/rutaAdmin.js');
 
 
 // rutas para la aplicación web
 app.use('/cursos', cursosRoutes);
 app.use('/docente', docenteRoutes); // Puedes proteger algunas rutas de docente si es necesario
+app.use('/estudiante', estudiantesMobileRoutes);
 app.use('/clavepucv', clavepucvRoutes);
 app.use('/secciones', seccionesRoutes);
 app.use('/cuestionarios', cuestionarioRoutes);
 app.use('/preguntas', preguntasRoutes);
 app.use('/respuestas', respuestasRoutes);
 app.use('/calculadoras', calculadoraRoutes);
+app.use('/admin', adminRoutes);
 app.use('/verify-token', verifyTokenRoute);
 
 // Rutas para la aplicación móvil

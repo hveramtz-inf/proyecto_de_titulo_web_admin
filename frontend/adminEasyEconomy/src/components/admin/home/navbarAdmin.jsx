@@ -11,13 +11,13 @@ function NavBarAdmin({ onSelect }) {
     <div>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container fluid>
-          <Navbar.Brand href="#">AdminEasyEconomy</Navbar.Brand>
+          <Navbar.Brand href="#Homeadmin">AdminEasyEconomy</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
-              <Nav.Link as={Link} to="#" onClick={() => onSelect('ClavePucv')}>ClavePucv</Nav.Link>
-              <Nav.Link as={Link} to="#" onClick={() => onSelect('Docentes')}>Docentes</Nav.Link>
-              <Nav.Link as={Link} to="#" onClick={() => onSelect('Estudiantes')}>Estudiantes</Nav.Link>
+              <Nav.Link as={Link} to="#ClavePucv" onClick={() => onSelect('ClavePucv')}>ClavePucv</Nav.Link>
+              <Nav.Link as={Link} to="#Docentes" onClick={() => onSelect('Docentes')}>Docentes</Nav.Link>
+              <Nav.Link as={Link} to="#Estudiantes" onClick={() => onSelect('Estudiantes')}>Estudiantes</Nav.Link>
             </Nav>
             <Form className="d-flex">
               <Form.Control

@@ -11,7 +11,7 @@ function VerEstudiantes() {
 
   useEffect(() => {
     // Fetch students data from API
-    axios.get('/api/estudiantes')
+    axios.get('https://easy-economy.fly.dev/estudiante')
       .then(response => {
         setEstudiantes(response.data);
       })
@@ -45,13 +45,13 @@ function VerEstudiantes() {
       <Button variant="success" onClick={handleAdd} className="mb-3">Agregar Estudiante</Button>
       <ListGroup>
         {estudiantes.map(estudiante => (
-          <ListGroup.Item key={estudiante.id}>
+          <ListGroup.Item key={estudiante.idestudiante}>
             <Card>
               <Card.Body>
                 <Card.Title>{estudiante.nombre}</Card.Title>
                 <Card.Text>{estudiante.rut}</Card.Text>
-                <Button variant="primary" onClick={() => handleEdit(estudiante.id)}>Editar</Button>
-                <Button variant="danger" onClick={() => handleDelete(estudiante.id)}>Eliminar</Button>
+                <Button variant="primary" onClick={() => handleEdit(estudiante.idestudiante)}>Editar</Button>
+                <Button variant="danger" onClick={() => handleDelete(estudiante.idestudiante)}>Eliminar</Button>
               </Card.Body>
             </Card>
           </ListGroup.Item>

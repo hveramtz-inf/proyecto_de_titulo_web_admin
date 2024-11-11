@@ -15,6 +15,12 @@ import Calculadoras from '../components/calculadoras/calculadoras.jsx';
 import AgregarCalculadora from '../components/calculadoras/agregarCalculadora.jsx';
 import EditarCalculadora from '../components/calculadoras/editarCalculadora.jsx';
 import InicioSesionDocente from '../components/inicioSecionDocente/inicioSesionDocente.jsx';
+import InicioSesionAdmin from '../components/admin/inicioSesionAdmin/inicioSesionAdmin.jsx'
+// administrador
+import HomeAdmin from '../components/admin/home/homeAdmin.jsx'
+import EditarDocente from '../components/admin/docentes/editarDocente.jsx'
+import EditarEstudiante from '../components/admin/estudiantes/editarEstudiante.jsx'
+import EditarClavePucv from '../components/admin/clavePucv/editarClavePucv.jsx'
 
 const AppRoutes = () => (
   <Routes>
@@ -34,6 +40,14 @@ const AppRoutes = () => (
     <Route path="/calculadoras" element={<Calculadoras />} />
     <Route path="/calculadoras/crear" element={<AgregarCalculadora />} />
     <Route path="/calculadoras/editar/:id" element={<EditarCalculadora />} />
+
+    /* rutas admin */
+    <Route path="/inicioSesionAdmin" element={<InicioSesionAdmin />} />
+    <Route path="/homeAdmin" element={<HomeAdmin />} />
+    <Route path="/editarDocente/:id" element={<EditarDocente />} />
+    <Route path="/editarEstudiante/:id" element={<EditarEstudiante />} />
+    <Route path="/editarClavePucv/:id" element={<EditarClavePucv />} />
+
   </Routes>
 );
 

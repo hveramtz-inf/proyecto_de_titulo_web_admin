@@ -12,7 +12,7 @@ function VerClavesPucv() {
 
   useEffect(() => {
     // Fetch claves PUCV data from API
-    axios.get('/api/clavesPucv')
+    axios.get('https://easy-economy.fly.dev/clavePucv')
       .then(response => {
         setClavesPucv(response.data);
       })
@@ -21,7 +21,7 @@ function VerClavesPucv() {
       });
 
     // Fetch docentes data from API
-    axios.get('/api/docentes')
+    axios.get('https://easy-economy.fly.dev/docente')
       .then(response => {
         setDocentes(response.data);
       })
@@ -58,7 +58,7 @@ function VerClavesPucv() {
           <ListGroup.Item key={cursopucv.id}>
             <Card>
               <Card.Body>
-                <Card.Title>{cursopucv.nombre}</Card.Title>
+                <Card.Title>{cursopucv.clave}</Card.Title>
                 <Card.Text>
                   {docentes.find(docente => docente.id === cursopucv.iddocente)?.nombre || 'Docente no asignado'}
                 </Card.Text>

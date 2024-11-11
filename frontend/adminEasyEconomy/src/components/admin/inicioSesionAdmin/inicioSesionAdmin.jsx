@@ -18,7 +18,7 @@ function InicioSesionAdmin() {
         setLoading(true);
         try {
             const response = await axios.post('https://easy-economy.fly.dev/admin/iniciosesion', {
-                id,
+                username : id,
                 contrasenia
             });
 

@@ -16,7 +16,7 @@ function EditarEstudiante() {
 
   useEffect(() => {
     // Fetch ClavePucv options from API
-    axios.get('/api/clavePucv')
+    axios.get('https://easy-economy.fly.dev/clavePucv')
       .then(response => {
         setClavePucvOptions(response.data);
       })
@@ -25,9 +25,9 @@ function EditarEstudiante() {
       });
 
     // Fetch student data by ID
-    axios.get(`/api/estudiantes/${id}`)
+    axios.get(`https://easy-economy.fly.dev/estudiante/${id}`)
       .then(response => {
-        const { rut, nombre, contrasenia, clavePucv } = response.data;
+        const { rut, nombre, clavePucv } = response.data;
         setRut(rut);
         setNombre(nombre);
         setContraseña(contrasenia);
@@ -45,7 +45,7 @@ function EditarEstudiante() {
       return;
     }
 
-    axios.put(`/api/estudiantes/${id}`, { Rut, Nombre, Contraseña, ClavePucv })
+    axios.put(`https://easy-economy.fly.dev/estudiante/${id}`, { rut:Rut, nombre: Nombre,contrasenia: Contraseña, clavepucv:ClavePucv })
       .then(response => {
         alert('Estudiante actualizado exitosamente');
         navigate('/homeAdmin#Estudiantes');
@@ -97,7 +97,7 @@ function EditarEstudiante() {
           >
             <option value="">Seleccione un curso</option>
             {clavePucvOptions.map(option => (
-              <option key={option.id} value={option.id}>{option.nombre}</option>
+              <option key={option.id} value={option.id}>{option.clave}</option>
             ))}
           </Form.Select>
         </FormGroup>
