@@ -4,8 +4,8 @@ const clavePucvController = require('../../controllers/clavePucvController.js');
 const verifyToken = require('../../middlewares/authMiddleware.js');
 
 // Rutas que no requieren autenticación
-router.get('/', clavePucvController.getAllClavesPucv);
-router.get('/:id', clavePucvController.getClavePucvById);
+router.get('/',verifyToken, clavePucvController.getAllClavesPucv);
+router.get('/:id',verifyToken, clavePucvController.getClavePucvById);
 
 
 // Rutas que requieren autenticación

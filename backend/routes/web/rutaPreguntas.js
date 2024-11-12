@@ -4,9 +4,9 @@ const preguntaController = require('../../controllers/preguntaController.js');
 const verifyToken = require('../../middlewares/authMiddleware.js');
 
 // Rutas que no requieren autenticación
-router.get('/', preguntaController.getAllPreguntas);
-router.get('/:id', preguntaController.getPreguntaById);
-router.get('/cuestionario/:id', preguntaController.getPreguntasByCuestionarioId);
+router.get('/',verifyToken, preguntaController.getAllPreguntas);
+router.get('/:id',verifyToken, preguntaController.getPreguntaById);
+router.get('/cuestionario/:id',verifyToken, preguntaController.getPreguntasByCuestionarioId);
 
 // Rutas que requieren autenticación
 router.post('/', verifyToken, preguntaController.createPregunta);

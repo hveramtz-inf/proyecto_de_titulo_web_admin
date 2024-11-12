@@ -4,9 +4,9 @@ const calculadoraController = require('../../controllers/calculadoraController.j
 const verifyToken = require('../../middlewares/authMiddleware.js');
 
 // Rutas que no requieren autenticación
-router.get('/', calculadoraController.getAllCalculadoras);
-router.get('/:id', calculadoraController.getCalculadoraById);
-router.get('/clavepucv/:id', calculadoraController.getCalculadorasByClavePucv);
+router.get('/',verifyToken, calculadoraController.getAllCalculadoras);
+router.get('/:id',verifyToken, calculadoraController.getCalculadoraById);
+router.get('/clavepucv/:id',verifyToken, calculadoraController.getCalculadorasByClavePucv);
 
 // Rutas que requieren autenticación
 router.post('/', verifyToken, calculadoraController.createCalculadora);

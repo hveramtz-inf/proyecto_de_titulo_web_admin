@@ -4,10 +4,10 @@ const respuestaController = require('../../controllers/respuestaController.js');
 const verifyToken = require('../../middlewares/authMiddleware.js');
 
 // Rutas que no requieren autenticación
-router.get('/', respuestaController.getAllRespuestas);
-router.get('/:id', respuestaController.getRespuestaById);
-router.get('/pregunta/:id', respuestaController.getRespuestasByPreguntaId);
-router.get('/clavepucv/:clave', respuestaController.getRespuestasByClavePucv);
+router.get('/',verifyToken, respuestaController.getAllRespuestas);
+router.get('/:id',verifyToken, respuestaController.getRespuestaById);
+router.get('/pregunta/:id',verifyToken, respuestaController.getRespuestasByPreguntaId);
+router.get('/clavepucv/:clave',verifyToken, respuestaController.getRespuestasByClavePucv);
 
 // Rutas que requieren autenticación
 router.post('/', verifyToken, respuestaController.createRespuesta);

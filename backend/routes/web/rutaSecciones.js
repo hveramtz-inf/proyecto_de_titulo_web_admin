@@ -4,9 +4,9 @@ const seccionController = require('../../controllers/seccionesController.js');
 const verifyToken = require('../../middlewares/authMiddleware.js');
 
 // Rutas que no requieren autenticación
-router.get('/', seccionController.getAllSecciones);
-router.get('/curso/:id', seccionController.getSeccionesByCursoId);
-router.get('/:id', seccionController.getSeccionById);
+router.get('/',verifyToken, seccionController.getAllSecciones);
+router.get('/curso/:id',verifyToken, seccionController.getSeccionesByCursoId);
+router.get('/:id',verifyToken, seccionController.getSeccionById);
 
 // Rutas que requieren autenticación
 router.post('/', verifyToken, seccionController.createSeccion);

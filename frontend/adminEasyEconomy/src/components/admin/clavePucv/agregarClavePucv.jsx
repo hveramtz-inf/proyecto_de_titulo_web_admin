@@ -2,22 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
 
 function AgregarClavePucv() {
   const [clave, setClave] = useState('');
   const [docente, setDocente] = useState('');
   const [docentes, setDocentes] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch docentes data from API
-    axios.get('/api/docentes')
+    axios.get('https://easy-economy.fly.dev/docente')
       .then(response => {
-        setDocentes(response.data);
+        if (Array.isArray(response.data)) {
+          setDocentes(response.data);
+        } else {
+          console.error('Expected an array but got:', response.data);
+          setDocentes([]);
+        }
       })
       .catch(error => {
         console.error('There was an error fetching the docentes data!', error);
+        setDocentes([]);
       });
   }, []);
 
@@ -28,13 +36,23 @@ function AgregarClavePucv() {
       return;
     }
 
-    axios.post('/api/clavesPucv', { clave, iddocente: docente })
+    setLoading(true);
+    const token = localStorage.getItem('token');
+
+    axios.post('https://easy-economy.fly.dev/clavePucv', { clave, iddocente: docente }, {
+      headers: {
+        'Authorization': `${token}`
+      }
+    })
       .then(response => {
         alert('Clave PUCV agregada exitosamente');
         navigate('/homeAdmin#ClavesPucv');
       })
       .catch(error => {
         console.error('There was an error adding the clave PUCV!', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -59,14 +77,14 @@ function AgregarClavePucv() {
             onChange={(e) => setDocente(e.target.value)}
           >
             <option value="">Seleccione un docente</option>
-            {docentes.map(docente => (
+            {Array.isArray(docentes) && docentes.map(docente => (
               <option key={docente.id} value={docente.id}>{docente.nombre}</option>
             ))}
           </Form.Select>
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Agregar Clave PUCV
+        <Button variant="primary" type="submit" disabled={loading}>
+          {loading ? <Spinner animation="border" size="sm" /> : 'Agregar Clave PUCV'}
         </Button>
       </Form>
     </div>

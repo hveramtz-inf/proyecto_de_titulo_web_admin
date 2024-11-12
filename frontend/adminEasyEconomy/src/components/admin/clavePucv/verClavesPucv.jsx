@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
 
 function VerClavesPucv() {
   const [clavesPucv, setClavesPucv] = useState([]);
   const [docentes, setDocentes] = useState([]);
+  const [loading, setLoading] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,12 +38,21 @@ function VerClavesPucv() {
 
   const handleDelete = (id) => {
     if (window.confirm('¿Estás seguro de que deseas eliminar esta clave PUCV?')) {
-      axios.delete(`/api/clavesPucv/${id}`)
+      const token = localStorage.getItem('token');
+      setLoading(prevState => ({ ...prevState, [id]: true }));
+      axios.delete(`https://easy-economy.fly.dev/clavePucv/${id}`, {
+        headers: {
+          'Authorization': `${token}`
+        }
+      })
         .then(response => {
           setClavesPucv(clavesPucv.filter(cursopucv => cursopucv.id !== id));
         })
         .catch(error => {
           console.error('There was an error deleting the clave PUCV!', error);
+        })
+        .finally(() => {
+          setLoading(prevState => ({ ...prevState, [id]: false }));
         });
     }
   };
@@ -62,8 +73,12 @@ function VerClavesPucv() {
                 <Card.Text>
                   {docentes.find(docente => docente.id === cursopucv.iddocente)?.nombre || 'Docente no asignado'}
                 </Card.Text>
-                <Button variant="primary" onClick={() => handleEdit(cursopucv.id)}>Editar</Button>
-                <Button variant="danger" onClick={() => handleDelete(cursopucv.id)}>Eliminar</Button>
+                <Button variant="primary" onClick={() => handleEdit(cursopucv.id)} disabled={loading[cursopucv.id]}>
+                  Editar
+                </Button>
+                <Button variant="danger" onClick={() => handleDelete(cursopucv.id)} disabled={loading[cursopucv.id]}>
+                  {loading[cursopucv.id] ? <Spinner animation="border" size="sm" /> : 'Eliminar'}
+                </Button>
               </Card.Body>
             </Card>
           </ListGroup.Item>

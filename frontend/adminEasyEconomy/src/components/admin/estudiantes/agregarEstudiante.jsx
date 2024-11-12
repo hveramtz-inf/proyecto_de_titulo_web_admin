@@ -15,7 +15,7 @@ function AgregarEstudiante() {
 
   useEffect(() => {
     // Fetch ClavePucv options from API
-    axios.get('/api/clavePucv')
+    axios.get('https://easy-economy.fly.dev/clavePucv')
       .then(response => {
         setClavePucvOptions(response.data);
       })
@@ -24,6 +24,23 @@ function AgregarEstudiante() {
       });
   }, []);
 
+  const formatRut = (value) => {
+    // Eliminar caracteres no numéricos y convertir a mayúsculas
+    let rut = value.replace(/[^0-9kK]/g, '').toUpperCase();
+
+    // Agregar puntos y guión
+    if (rut.length > 1) {
+      rut = rut.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '-' + rut.slice(-1);
+    }
+
+    return rut;
+  };
+
+  const handleRutChange = (e) => {
+    const formattedRut = formatRut(e.target.value);
+    setRut(formattedRut);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!Rut || !Nombre || !Contraseña || !ClavePucv) {
@@ -31,7 +48,7 @@ function AgregarEstudiante() {
       return;
     }
 
-    axios.post('/api/agregarEstudiante', { Rut, Nombre, Contraseña, ClavePucv })
+    axios.post('https://easy-economy.fly.dev/estudiante', { rut:Rut, nombre:Nombre, contrasenia:Contraseña, clavepucv:ClavePucv })
       .then(response => {
         alert('Estudiante agregado exitosamente');
         navigate('/homeAdmin#Estudiantes');
@@ -60,7 +77,7 @@ function AgregarEstudiante() {
             type="text"
             placeholder="12.345.678-9"
             value={Rut}
-            onChange={(e) => setRut(e.target.value)}
+            onChange={handleRutChange}
           />
         </Form.Group>
 

@@ -21,6 +21,9 @@ import HomeAdmin from '../components/admin/home/homeAdmin.jsx'
 import EditarDocente from '../components/admin/docentes/editarDocente.jsx'
 import EditarEstudiante from '../components/admin/estudiantes/editarEstudiante.jsx'
 import EditarClavePucv from '../components/admin/clavePucv/editarClavePucv.jsx'
+import AgregarDocente from '../components/admin/docentes/agregarDocente.jsx'
+import AgregarEstudiante from '../components/admin/estudiantes/agregarEstudiante.jsx'
+import AgregarClavePucv from '../components/admin/clavePucv/agregarClavePucv.jsx';
 
 const AppRoutes = () => (
   <Routes>
@@ -47,7 +50,9 @@ const AppRoutes = () => (
     <Route path="/editarDocente/:id" element={<EditarDocente />} />
     <Route path="/editarEstudiante/:id" element={<EditarEstudiante />} />
     <Route path="/editarClavePucv/:id" element={<EditarClavePucv />} />
-
+    <Route path="/agregarDocente" element={<AgregarDocente />} />
+    <Route path="/agregarEstudiante" element={<AgregarEstudiante />} />
+    <Route path="/agregarClavePucv" element={< AgregarClavePucv/>} />
   </Routes>
 );
 

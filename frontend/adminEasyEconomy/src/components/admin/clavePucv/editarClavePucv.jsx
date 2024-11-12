@@ -13,7 +13,7 @@ function EditarClavePucv() {
 
   useEffect(() => {
     // Fetch clave PUCV data by ID
-    axios.get(`/api/clavesPucv/${id}`)
+    axios.get(`https://easy-economy.fly.dev/clavesPucv/${id}`)
       .then(response => {
         const { clave, iddocente } = response.data;
         setClave(clave);
@@ -24,7 +24,7 @@ function EditarClavePucv() {
       });
 
     // Fetch docentes data from API
-    axios.get('/api/docentes')
+    axios.get('https://easy-economy.fly.dev/docente')
       .then(response => {
         setDocentes(response.data);
       })
@@ -40,7 +40,7 @@ function EditarClavePucv() {
       return;
     }
 
-    axios.put(`/api/clavesPucv/${id}`, { clave, iddocente: docente })
+    axios.put(`https://easy-economy.fly.dev/clavesPucv/${id}`, { clave, iddocente: docente })
       .then(response => {
         alert('Clave PUCV actualizada exitosamente');
         navigate('/homeAdmin#ClavesPucv');

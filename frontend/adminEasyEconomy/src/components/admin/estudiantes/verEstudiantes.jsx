@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
 
 function VerEstudiantes() {
   const [estudiantes, setEstudiantes] = useState([]);
+  const [loading, setLoading] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,12 +28,16 @@ function VerEstudiantes() {
 
   const handleDelete = (id) => {
     if (window.confirm('¿Estás seguro de que deseas eliminar este estudiante?')) {
-      axios.delete(`/api/estudiantes/${id}`)
+      setLoading(prevState => ({ ...prevState, [id]: true }));
+      axios.delete(`https://easy-economy.fly.dev/estudiante/${id}`)
         .then(response => {
           setEstudiantes(estudiantes.filter(estudiante => estudiante.id !== id));
         })
         .catch(error => {
           console.error('There was an error deleting the student!', error);
+        })
+        .finally(() => {
+          setLoading(prevState => ({ ...prevState, [id]: false }));
         });
     }
   };
@@ -50,8 +56,12 @@ function VerEstudiantes() {
               <Card.Body>
                 <Card.Title>{estudiante.nombre}</Card.Title>
                 <Card.Text>{estudiante.rut}</Card.Text>
-                <Button variant="primary" onClick={() => handleEdit(estudiante.idestudiante)}>Editar</Button>
-                <Button variant="danger" onClick={() => handleDelete(estudiante.idestudiante)}>Eliminar</Button>
+                <Button variant="primary" onClick={() => handleEdit(estudiante.idestudiante)} disabled={loading[estudiante.idestudiante]}>
+                  Editar
+                </Button>
+                <Button variant="danger" onClick={() => handleDelete(estudiante.idestudiante)} disabled={loading[estudiante.idestudiante]}>
+                  {loading[estudiante.idestudiante] ? <Spinner animation="border" size="sm" /> : 'Eliminar'}
+                </Button>
               </Card.Body>
             </Card>
           </ListGroup.Item>

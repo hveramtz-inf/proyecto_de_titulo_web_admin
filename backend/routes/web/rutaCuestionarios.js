@@ -4,10 +4,10 @@ const cuestionarioController = require('../../controllers/cuestionariosControlle
 const verifyToken = require('../../middlewares/authMiddleware.js');
 
 // Rutas que no requieren autenticación
-router.get('/', cuestionarioController.getAllCuestionarios);
-router.get('/:id', cuestionarioController.getCuestionarioById);
-router.get('/estudiante/:idestudiante', cuestionarioController.getCuestionariosByEstudianteId);
-router.get('/clavepucv/:clavepucv', cuestionarioController.getCuestionariosByClavePucv);
+router.get('/',verifyToken, cuestionarioController.getAllCuestionarios);
+router.get('/:id',verifyToken, cuestionarioController.getCuestionarioById);
+router.get('/estudiante/:idestudiante',verifyToken, cuestionarioController.getCuestionariosByEstudianteId);
+router.get('/clavepucv/:clavepucv',verifyToken, cuestionarioController.getCuestionariosByClavePucv);
 
 // Rutas que requieren autenticación
 router.post('/', verifyToken, cuestionarioController.createCuestionario);
