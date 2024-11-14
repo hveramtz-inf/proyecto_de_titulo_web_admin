@@ -85,7 +85,6 @@ const Cuestionarios = () => {
     }
   };
 
-
   if (loading) {
     return (
       <div className="cuestionarios-container">
@@ -172,7 +171,7 @@ const Cuestionarios = () => {
                               {cuestionario.ocultar ? 'Este Cuestionario está oculto' : 'Este Cuestionario está visible'}
                             </Card.Text>
                             <div className="cuestionario-item-buttons">
-                              <Button variant="warning" onClick={() => handleEdit(cuestionario.id)}>Editar</Button>
+                              <Button variant="warning" onClick={() => handleEdit(cuestionario.id)} disabled={deletingId === cuestionario.id}>Editar</Button>
                               <Button 
                                 variant="danger" 
                                 onClick={() => handleDelete(cuestionario.id)}

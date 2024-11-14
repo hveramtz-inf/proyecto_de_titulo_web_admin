@@ -13,6 +13,7 @@ const VerSeccionesCurso = () => {
     const [secciones, setSecciones] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [deletingId, setDeletingId] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -55,6 +56,7 @@ const VerSeccionesCurso = () => {
         const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar esta sección?, Se eliminara todos sus datos, los apuntes de los alumnos, progresos, etc.');
         if (confirmDelete === true) {
             console.log(`Eliminar seccion con ID: ${seccionId}`);
+            setDeletingId(seccionId);
             try {
                 const token = localStorage.getItem('token');
                 const response = await fetch(`https://easy-economy.fly.dev/secciones/${seccionId}`, {
@@ -70,6 +72,8 @@ const VerSeccionesCurso = () => {
                 setSecciones(secciones.filter(seccion => seccion.id !== seccionId));
             } catch (error) {
                 console.error('Error al eliminar la seccion:', error);
+            } finally {
+                setDeletingId(null);
             }
         }
     }
@@ -111,8 +115,8 @@ const VerSeccionesCurso = () => {
                                 <div><strong>Titulo:</strong> {seccion.titulo}</div>
                             </div>
                             <ButtonGroup className="ver-secciones-list-item-buttons">
-                                <Button variant="warning" onClick={() => handleEdit(seccion.id)}>Editar</Button>
-                                <Button variant="danger" onClick={() => handleDelete(seccion.id)}>Eliminar</Button>
+                                <Button variant="warning" onClick={() => handleEdit(seccion.id)} disabled={deletingId === seccion.id}>Editar</Button>
+                                <Button variant="danger" onClick={() => handleDelete(seccion.id)} disabled={deletingId === seccion.id}>Eliminar</Button>
                             </ButtonGroup>
                         </ListGroup.Item>
                     ))}

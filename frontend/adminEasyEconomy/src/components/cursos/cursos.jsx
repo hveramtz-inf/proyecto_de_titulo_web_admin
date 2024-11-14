@@ -162,8 +162,8 @@ const Cursos = () => {
                   </Card.Text>
                 </Card.Body>
                 <Card.Body className="cursos-list-item-buttons">
-                  <Button variant="primary" onClick={() => handleViewSections(curso.id)}>Ver Secciones</Button>
-                  <Button variant="warning" onClick={() => handleEdit(curso.id)}>Editar</Button>
+                  <Button variant="primary" onClick={() => handleViewSections(curso.id)} disabled={deletingId === curso.id}>Ver Secciones</Button>
+                  <Button variant="warning" onClick={() => handleEdit(curso.id)} disabled={deletingId === curso.id}>Editar</Button>
                   <Button 
                     variant="danger" 
                     onClick={() => handleDelete(curso.id)}
