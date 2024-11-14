@@ -27,6 +27,7 @@
 18. **Agregar Calculadora**: El docente podrá crear una calculadora, evitando espacios en la fórmula de entrada, por ejemplo: "x = y a * b", para que funcione correctamente en la aplicación móvil.
 19. **Editar Calculadora**: El docente podrá editar la calculadora que desee.
 20. **Eliminar Calculadora**: El docente podrá eliminar la calculadora que considere pertinente, lo que eliminará todos los datos relacionados.
+21. **Ocultar Calculadora**: El docente podra ocultar la calculadora que desee y considere pertinente.
 
 ## Requisitos No Funcionales
 1. **Rendimiento**: La aplicación debe cargar rápidamente y ser capaz de manejar múltiples interacciones simultáneas sin demoras significativas.
