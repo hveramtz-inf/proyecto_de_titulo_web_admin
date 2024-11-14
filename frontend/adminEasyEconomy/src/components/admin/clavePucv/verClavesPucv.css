@@ -1,0 +1,45 @@
+/* frontend/adminEasyEconomy/src/components/admin/clavePucv/verClavesPucv.css */
+
+.ver-claves-pucv-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f8f9fa; /* Color de fondo */
+  min-height: 100vh; /* Altura mínima de la ventana */
+}
+
+.ver-claves-pucv-button {
+  margin-bottom: 20px;
+}
+
+.ver-claves-pucv-list {
+  width: 100%;
+  max-width: 1200px; /* Ancho máximo del contenido */
+}
+
+.ver-claves-pucv-card {
+  margin-bottom: 20px;
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.ver-claves-pucv-card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ver-claves-pucv-card-title {
+  margin-bottom: 0;
+}
+
+.ver-claves-pucv-card-text {
+  margin-bottom: 0;
+}
+
+.ver-claves-pucv-card-buttons {
+  display: flex;
+  gap: 10px;
+}

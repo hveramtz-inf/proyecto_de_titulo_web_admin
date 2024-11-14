@@ -1,12 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
 function NavBarAdmin({ onSelect }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/inicioSesionAdmin');
+  };
+
   return (
     <div>
       <Navbar expand="lg" className="bg-body-tertiary">
@@ -19,15 +25,7 @@ function NavBarAdmin({ onSelect }) {
               <Nav.Link as={Link} to="#Docentes" onClick={() => onSelect('Docentes')}>Docentes</Nav.Link>
               <Nav.Link as={Link} to="#Estudiantes" onClick={() => onSelect('Estudiantes')}>Estudiantes</Nav.Link>
             </Nav>
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-              />
-              <Button variant="outline-success">Search</Button>
-            </Form>
+            <Button variant="outline-danger" onClick={handleLogout}>Cerrar Sesión</Button>
           </Navbar.Collapse>
         </Container>
       </Navbar>

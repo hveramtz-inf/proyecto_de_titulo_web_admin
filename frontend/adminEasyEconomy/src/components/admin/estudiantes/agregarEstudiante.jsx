@@ -4,6 +4,7 @@ import FormGroup from 'react-bootstrap/esm/FormGroup';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './agregarEstudiante.css';
 
 function AgregarEstudiante() {
   const [Rut, setRut] = useState('');
@@ -12,10 +13,17 @@ function AgregarEstudiante() {
   const [ClavePucv, setClavePucv] = useState('');
   const [clavePucvOptions, setClavePucvOptions] = useState([]);
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+
     // Fetch ClavePucv options from API
-    axios.get('https://easy-economy.fly.dev/clavePucv')
+    axios.get('https://easy-economy.fly.dev/clavepucv', {
+      headers: {
+        'Authorization': token,
+      },
+    })
       .then(response => {
         setClavePucvOptions(response.data);
       })
@@ -48,7 +56,13 @@ function AgregarEstudiante() {
       return;
     }
 
-    axios.post('https://easy-economy.fly.dev/estudiante', { rut:Rut, nombre:Nombre, contrasenia:Contraseña, clavepucv:ClavePucv })
+    const token = localStorage.getItem('token');
+
+    axios.post('https://easy-economy.fly.dev/estudiante', { rut: Rut, nombre: Nombre, contrasenia: Contraseña, clavepucv: ClavePucv }, {
+      headers: {
+        'Authorization': token,
+      },
+    })
       .then(response => {
         alert('Estudiante agregado exitosamente');
         navigate('/homeAdmin#Estudiantes');
@@ -58,9 +72,13 @@ function AgregarEstudiante() {
       });
   };
 
+  const handleBack = () => {
+    navigate('/homeAdmin#Estudiantes');
+  };
+
   return (
-    <div>
-      <Form onSubmit={handleSubmit}>
+    <div className="agregar-estudiante-container">
+      <Form onSubmit={handleSubmit} className="agregar-estudiante-form">
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Nombre del Estudiante</Form.Label>
           <Form.Control
@@ -104,8 +122,11 @@ function AgregarEstudiante() {
             ))}
           </Form.Select>
         </FormGroup>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" className="mt-3">
           Agregar Alumno
+        </Button>
+        <Button variant="secondary" onClick={handleBack} className="mt-3">
+          Volver
         </Button>
       </Form>
     </div>

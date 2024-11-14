@@ -20,12 +20,15 @@
 }
 
 .calculadora-card {
-  width: 30rem;
+  width: auto; /* Permite que el contenedor crezca automáticamente */
+  min-width: 30rem; /* Ancho mínimo */
+  max-width: 100%; /* Ancho máximo */
   margin-bottom: 20px;
   background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco con 80% de opacidad */
   border-radius: 10px; /* Opcional: agrega bordes redondeados */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: agrega una sombra para darle profundidad */
   position: relative; /* Necesario para posicionar el spinner absolutamente */
+  overflow: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
 }
 
 .card {
@@ -42,6 +45,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10; /* Asegura que el spinner esté sobre los placeholders */
+}
+
+.card-text {
+  overflow: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
+  word-wrap: break-word; /* Permite que las palabras largas se dividan y ajusten al contenedor */
+  white-space: pre-wrap; /* Mantiene los espacios en blanco y permite el ajuste de línea */
 }
 
 /* Estilos para móviles */

@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './agregarDocente.css';
 
 function AgregarDocente() {
   const [Rut, setRut] = useState('');
@@ -34,7 +35,13 @@ function AgregarDocente() {
       return;
     }
 
-    axios.post('https://easy-economy.fly.dev/docente', { rut: Rut, nombre: Nombre, contrasenia: Contraseña })
+    const token = localStorage.getItem('token');
+
+    axios.post('https://easy-economy.fly.dev/docente', { rut: Rut, nombre: Nombre, contrasenia: Contraseña }, {
+      headers: {
+        'Authorization': token,
+      },
+    })
       .then(response => {
         alert('Docente agregado exitosamente');
         navigate('/homeAdmin#Docentes');
@@ -44,9 +51,13 @@ function AgregarDocente() {
       });
   };
 
+  const handleBack = () => {
+    navigate('/homeAdmin#Docentes');
+  };
+
   return (
-    <div>
-      <Form onSubmit={handleSubmit}>
+    <div className="agregar-docente-container">
+      <Form onSubmit={handleSubmit} className="agregar-docente-form">
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Nombre del Docente</Form.Label>
           <Form.Control
@@ -79,6 +90,9 @@ function AgregarDocente() {
 
         <Button variant="primary" type="submit">
           Agregar Docente
+        </Button>
+        <Button variant="secondary" onClick={handleBack} className="mt-3">
+          Volver
         </Button>
       </Form>
     </div>

@@ -1,0 +1,45 @@
+/* frontend/adminEasyEconomy/src/components/admin/docentes/verDocentes.css */
+
+.ver-docentes-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f8f9fa; /* Color de fondo */
+  min-height: 100vh; /* Altura mínima de la ventana */
+}
+
+.ver-docentes-button {
+  margin-bottom: 20px;
+}
+
+.ver-docentes-list {
+  width: 100%;
+  max-width: 1200px; /* Ancho máximo del contenido */
+}
+
+.ver-docentes-card {
+  margin-bottom: 20px;
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.ver-docentes-card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ver-docentes-card-title {
+  margin-bottom: 0;
+}
+
+.ver-docentes-card-text {
+  margin-bottom: 0;
+}
+
+.ver-docentes-card-buttons {
+  display: flex;
+  gap: 10px;
+}

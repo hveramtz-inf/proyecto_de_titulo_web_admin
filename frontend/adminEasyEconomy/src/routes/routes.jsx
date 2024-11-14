@@ -20,7 +20,7 @@ import InicioSesionAdmin from '../components/admin/inicioSesionAdmin/inicioSesio
 import HomeAdmin from '../components/admin/home/homeAdmin.jsx'
 import EditarDocente from '../components/admin/docentes/editarDocente.jsx'
 import EditarEstudiante from '../components/admin/estudiantes/editarEstudiante.jsx'
-import EditarClavePucv from '../components/admin/clavePucv/editarClavePucv.jsx'
+import EditarClavePucv from '../components/admin/clavePucv/editarClavePucv.jsx';
 import AgregarDocente from '../components/admin/docentes/agregarDocente.jsx'
 import AgregarEstudiante from '../components/admin/estudiantes/agregarEstudiante.jsx'
 import AgregarClavePucv from '../components/admin/clavePucv/agregarClavePucv.jsx';

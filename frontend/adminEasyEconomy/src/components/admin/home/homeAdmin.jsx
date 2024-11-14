@@ -1,14 +1,14 @@
-import React, { useState, useEffect} from 'react';
-import NavBarAdmin from './NavbarAdmin';
+import React, { useState, useEffect } from 'react';
+import NavBarAdmin from './navbarAdmin';
 import VerClaverPucv from '../clavePucv/verClavesPucv';
 import VerDocentes from '../docentes/verDocentes';
 import VerEstudiantes from '../estudiantes/verEstudiantes';
 import { useLocation } from 'react-router-dom';
+import './homeAdmin.css';
 
 function HomeAdmin() {
   const [selectedOption, setSelectedOption] = useState('');
   const location = useLocation();
-  
 
   useEffect(() => {
     const hash = location.hash.replace('#', '');
@@ -21,14 +21,15 @@ function HomeAdmin() {
     setSelectedOption(option);
   };
 
-
   return (
-    <div>
-      <NavBarAdmin onSelect={handleNavBarSelection} />
+    <div className="home-admin-container">
+      <div className="navbar-container">
+        <NavBarAdmin onSelect={handleNavBarSelection} />
+      </div>
       <div className="content">
         {selectedOption === 'ClavePucv' && <VerClaverPucv />}
-        {selectedOption === 'Docentes' && < VerDocentes/>}
-        {selectedOption === 'Estudiantes' && < VerEstudiantes/>}
+        {selectedOption === 'Docentes' && <VerDocentes />}
+        {selectedOption === 'Estudiantes' && <VerEstudiantes />}
       </div>
     </div>
   );

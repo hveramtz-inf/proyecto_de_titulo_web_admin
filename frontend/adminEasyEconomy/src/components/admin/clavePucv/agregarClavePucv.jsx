@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
+import './agregarClavePucv.css';
 
 function AgregarClavePucv() {
   const [clave, setClave] = useState('');
@@ -14,7 +15,12 @@ function AgregarClavePucv() {
 
   useEffect(() => {
     // Fetch docentes data from API
-    axios.get('https://easy-economy.fly.dev/docente')
+    const token = localStorage.getItem('token');
+    axios.get('https://easy-economy.fly.dev/docente', {
+      headers: {
+        'Authorization': token,
+      },
+    })
       .then(response => {
         if (Array.isArray(response.data)) {
           setDocentes(response.data);
@@ -41,12 +47,12 @@ function AgregarClavePucv() {
 
     axios.post('https://easy-economy.fly.dev/clavePucv', { clave, iddocente: docente }, {
       headers: {
-        'Authorization': `${token}`
-      }
+        'Authorization': token,
+      },
     })
       .then(response => {
         alert('Clave PUCV agregada exitosamente');
-        navigate('/homeAdmin#ClavesPucv');
+        navigate('/homeAdmin#ClavePucv');
       })
       .catch(error => {
         console.error('There was an error adding the clave PUCV!', error);
@@ -56,9 +62,13 @@ function AgregarClavePucv() {
       });
   };
 
+  const handleBack = () => {
+    navigate('/homeAdmin#ClavePucv');
+  };
+
   return (
-    <div>
-      <Form onSubmit={handleSubmit}>
+    <div className="agregar-clave-pucv-container">
+      <Form onSubmit={handleSubmit} className="agregar-clave-pucv-form">
         <Form.Group className="mb-3" controlId="formBasicClave">
           <Form.Label>Clave</Form.Label>
           <Form.Control
@@ -85,6 +95,9 @@ function AgregarClavePucv() {
 
         <Button variant="primary" type="submit" disabled={loading}>
           {loading ? <Spinner animation="border" size="sm" /> : 'Agregar Clave PUCV'}
+        </Button>
+        <Button variant="secondary" onClick={handleBack} className="mt-3">
+          Volver
         </Button>
       </Form>
     </div>

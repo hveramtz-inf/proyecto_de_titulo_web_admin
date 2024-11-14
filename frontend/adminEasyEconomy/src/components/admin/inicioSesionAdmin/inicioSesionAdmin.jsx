@@ -4,6 +4,7 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
+import './inicioSesionAdmin.css';
 
 function InicioSesionAdmin() {
     const [id, setId] = useState('');
@@ -18,7 +19,7 @@ function InicioSesionAdmin() {
         setLoading(true);
         try {
             const response = await axios.post('https://easy-economy.fly.dev/admin/iniciosesion', {
-                username : id,
+                username: id,
                 contrasenia
             });
 
@@ -37,8 +38,8 @@ function InicioSesionAdmin() {
     };
 
     return (
-        <div>
-            <Form onSubmit={handleSubmit}>
+        <div className="inicio-sesion-container">
+            <Form onSubmit={handleSubmit} className="inicio-sesion-form">
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>ID</Form.Label>
