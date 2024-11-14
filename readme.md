@@ -1,39 +1,53 @@
-# easy-economy
+# easy-economy web admin y docente
 
 ## Descripción
-**easy-economy** es una aplicación móvil diseñada para ayudar a los estudiantes de informática a comprender y aplicar conceptos económicos esenciales. A través de métodos de aprendizaje interactivos como simulaciones, problemas prácticos y gamificación, los estudiantes pueden explorar temas económicos de una manera atractiva y accesible. La aplicación integra diversos enfoques pedagógicos para fortalecer el aprendizaje autónomo, colaborativo y basado en problemas.
+**easy-economy web admin y docente** es una aplicación web diseñada para el uso de los docentes, en este caso tenemos 2 roles, el rol de la administracion de la PUCV la cual tiene el poder de Crear, editar y elimiar: ClavesPucv, Docentes y Alumnos, al no tener o existir una api de la PUCV para reducir tiempos y costos se tubo que optar por ingreso de datos manual por un ente. A su vez el rol de docente el cual tiene el control de los cursos, sus secciones; que puede añadir contenido y un link de youtube opcional, ademas de añadir cuestionarios y calculadoras para facilitar el uso de comprension y aprendizaje de los alumnos
 
 ## Integrantes
-- Nombre del Integrante 1
-- Nombre del Integrante 2
-- Nombre del Integrante 3
+- Hector German Vera Martinez
 
 ## Requisitos Funcionales
-1. **Simulaciones Interactivas**: Los estudiantes podrán interactuar con simulaciones que ilustran conceptos económicos clave, como el interés compuesto, la clasificación de costos y más.
-2. **Gamificación**: La aplicación incluirá elementos de juego (como desafíos, recompensas y niveles) para fomentar el compromiso de los estudiantes.
-3. **Evaluación Continua**: La aplicación permitirá la realización de evaluaciones formativas para proporcionar retroalimentación continua a los estudiantes durante su aprendizaje.
-4. **Listas de Favoritos**: Los estudiantes podrán agregar cuestionarios y calculadoras a una lista de favoritos para facilitar el acceso a recursos importantes.
-5. **Simulador de Decisiones Económicas**: Los estudiantes podrán tomar decisiones basadas en escenarios económicos reales para desarrollar habilidades de resolución de problemas.
+1. **Inicio de Sesión del Docente**: El docente tendrá que iniciar sesión con su RUT y contraseña para poder acceder.
+2. **Selección de ClavePucv**: El docente podrá acceder a la ClavePucv de su interés que ya está asignada por el ente de administración.
+3. **Visualización de Cursos**: El docente podrá visualizar todos los cursos que tiene asignados en su ClavePucv.
+4. **Agregar Curso**: El docente podrá agregar un curso para separar los contenidos.
+5. **Editar Curso**: El docente podrá editar el contenido del curso.
+6. **Eliminar Curso**: El docente tendrá el poder de eliminar todos los datos relacionados con el curso, incluyendo los datos creados por los alumnos, eliminando así cualquier rastro del curso en la base de datos.
+7. **Ocultar Curso**: El docente tendrá la opción de ocultar un curso, lo que también ocultará sus secciones para evitar eliminar el curso.
+8. **Visualización de Secciones de Curso**: El docente podrá acceder a las secciones del curso.
+9. **Agregar Sección en Curso**: El docente tendrá la opción de agregar una sección al curso con contenido tipo texto de una descripción breve del tema y la opción de agregar un link de YouTube de apoyo.
+10. **Editar Sección de Curso**: El docente tendrá la opción de editar la sección del curso.
+11. **Eliminar Sección de Curso**: El docente tendrá la opción de eliminar una sección, lo que eliminará todo lo relacionado con la sección.
+12. **Visualización de Cuestionarios**: El docente podrá ver los cuestionarios asociados a los cursos.
+13. **Agregar Cuestionario**: El docente podrá agregar un cuestionario a un curso, incluyendo las preguntas y las respuestas que desee.
+14. **Editar Cuestionario**: El docente podrá editar el cuestionario cuando lo desee.
+15. **Eliminar Cuestionario**: El docente podrá eliminar el cuestionario, lo que eliminará todos los datos relacionados con él.
+16. **Ocultar Cuestionario**: El docente podrá ocultar el cuestionario que desee y considere pertinente para no mostrar al estudiante.
+17. **Visualización de Calculadoras**: El docente podrá ver las calculadoras que estén relacionadas con su ClavePucv.
+18. **Agregar Calculadora**: El docente podrá crear una calculadora, evitando espacios en la fórmula de entrada, por ejemplo: "x = y a * b", para que funcione correctamente en la aplicación móvil.
+19. **Editar Calculadora**: El docente podrá editar la calculadora que desee.
+20. **Eliminar Calculadora**: El docente podrá eliminar la calculadora que considere pertinente, lo que eliminará todos los datos relacionados.
 
 ## Requisitos No Funcionales
 1. **Rendimiento**: La aplicación debe cargar rápidamente y ser capaz de manejar múltiples interacciones simultáneas sin demoras significativas.
-2. **Seguridad**: La seguridad de los datos del usuario debe ser garantizada, especialmente en lo relacionado con la autenticación y almacenamiento de contraseñas.
-3. **Compatibilidad**: La aplicación debe ser compatible con versiones de Android desde 5.0 en adelante.
+2. **Seguridad**: La seguridad de los datos del usuario debe ser garantizada, especialmente en lo relacionado con la autenticación y almacenamiento de contraseñas que estaran encriptadas y el funcionamiento de un token de duracion de 20 minutos, este para las consultas a la base de datos y la navegacion dentro de la aplicacion.
+3. **Compatibilidad**: La aplicación debe estar apta para el uso de aplicaciones de escritorio y mobiles.
 4. **Escalabilidad**: La arquitectura del sistema debe permitir la expansión de nuevas funcionalidades y un aumento en la cantidad de usuarios.
 5. **Usabilidad**: La aplicación debe ser intuitiva, con una interfaz amigable y fácil de navegar para los estudiantes.
 
 ## Tecnologías Utilizadas
-- **Firebase**: Para autenticación y almacenamiento de datos en tiempo real.
+- **Firebase**: Para el despliegue del hosting de la aplicacion web.
 - **Node.js**: Para la implementación de la API REST.
-- **PostgreSQL**: Para la gestión de datos de los usuarios y resultados.
-- **Android Studio**: Para el desarrollo de la aplicación móvil.
+- **Neon.tech**: Para la gestión de datos datos.
+- **React.js**: Para el desarrollo de la aplicación.
+- **Boostrap**: Para aumentar la velocidad de Desarrollo
 - **Fly.io**: Para el despliegue de la API y servicios backend.
+- **Sequelize y Axios**: Para las consultas API y servicios de backend.
 
 ## Instalación
-1. Clonar el repositorio:
-    ```bash
-    git clone https://github.com/usuario/easy-economy.git
-    ```
-2. Abrir el proyecto en Android Studio.
-3. Configurar las dependencias necesarias en el archivo `build.gradle`.
+1. Clonar el repositorio
+2. Abrir el proyecto en Visual Studio.
+3. Abrir 2 terminales; una para el frontend y otro para el backend.
 4. Para el backend, configurar el entorno y las credenciales de Firebase y Neon.tech.
+5. Para el acceso de docente las credenciales son 123456789 y la contraseña: contrasenia123.
+6. Para el acceso de admin la credenciales son abcd y contraseña: contrasenia123.
