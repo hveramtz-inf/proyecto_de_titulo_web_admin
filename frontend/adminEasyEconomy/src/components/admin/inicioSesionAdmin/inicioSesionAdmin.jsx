@@ -30,7 +30,7 @@ function InicioSesionAdmin() {
             const data = response.data;
             // Guardar el token en localStorage
             localStorage.setItem('token', data.token);
-            navigate('/homeAdmin');
+            navigate('/homeAdmin#ClavePucv');
         } catch (error) {
             setError('Fallo al iniciar sesión. Por favor, verifica tus credenciales.');
         }

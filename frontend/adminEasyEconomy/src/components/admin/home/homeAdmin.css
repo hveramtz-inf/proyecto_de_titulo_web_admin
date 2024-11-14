@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #f8f9fa1f; /* Color de fondo */
+  background-color: #f8f9fa23; /* Color de fondo */
   min-height: 100vh; /* Altura mínima de la ventana */
 }
 
@@ -14,11 +14,11 @@
   margin-bottom: 20px;
 }
 
-.content {
+.content-admin {
   width: 100%;
   max-width: 1200px; /* Ancho máximo del contenido */
   background-color: #ffffff; /* Fondo blanco */
   border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.856); /* Sombra */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
   padding: 20px;
 }

@@ -222,6 +222,30 @@
       "formula": "Ei = (dQd / dI) * (I / Qd)",
       "latexformula": "E_i = \\frac{dQ_d}{dI} \\cdot \\frac{I}{Q_d}",
       "ocultar": false
+    },
+    {
+      "nombre": "Tasa de desempleo",
+      "formula": "Desempleo = (desocupados/fuerzadetrabajo)*100",
+      "latexformula": "Desempleo = (desocupados/fuerzadetrabajo)*100",
+      "ocultar": false
+    },
+    {
+      "nombre": "Deflactor implícito del PIB",
+      "formula": "Deflactor PIB_t = (PIB nominal_t/ PIB real_t)*100",
+      "latexformula": "Deflactor PIB_t = (PIB nominal_t/ PIB real_t)*100",
+      "ocultar": false
+    },
+    {
+      "nombre": "PIB nominal",
+      "formula": "PIB nominal periodo \"t\" = (P_1t*Q_1t)+(P_2t*Q_2t)+(P_3t*Q_3t)",
+      "latexformula": "PIB nominal periodo \"t\" = (P_1t*Q_1t)+(P_2t*Q_2t)+(P_3t*Q_3t)",
+      "ocultar": false
+    },
+    {
+      "nombre": "PIB nominal",
+      "formula": "PIB nominal periodo \"t\" = (P_1t*Q_1t)+(P_2t*Q_2t)+(P_3t*Q_3t)",
+      "latexformula": "PIB nominal periodo \"t\" = (P_1t*Q_1t)+(P_2t*Q_2t)+(P_3t*Q_3t)",
+      "ocultar": false
     }
   ]
 }

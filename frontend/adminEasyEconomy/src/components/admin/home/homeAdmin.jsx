@@ -26,7 +26,7 @@ function HomeAdmin() {
       <div className="navbar-container">
         <NavBarAdmin onSelect={handleNavBarSelection} />
       </div>
-      <div className="content">
+      <div className="content-admin">
         {selectedOption === 'ClavePucv' && <VerClaverPucv />}
         {selectedOption === 'Docentes' && <VerDocentes />}
         {selectedOption === 'Estudiantes' && <VerEstudiantes />}

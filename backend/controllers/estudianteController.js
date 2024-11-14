@@ -1,5 +1,13 @@
 const bcrypt = require('bcrypt');
 const EstudianteModel = require('../models/EstudianteModel.js');
+const FavoritosCalculadora = require('../models/FavoritosCalculadoraModel');
+const FavoritosCuestionario = require('../models/FavoritosCuestionarioModel');
+const HistorialCalculadora = require('../models/HistorialModel');
+const ProgresoCurso = require('../models/ProgesoCursoModel.js');
+const PuntajeCuestionario = require('../models/PuntajeCuestionarioModel');
+const SeccionRevisada = require('../models/SeccionRevisadaModel');
+const VariableHistorial = require('../models/VariableHistorialModel');
+const Apunte = require('../models/ApunteModel');
 
 // Obtener todos los estudiantes
 exports.getAllEstudiantes = async (req, res) => {
@@ -79,16 +87,35 @@ exports.updateEstudiante = async (req, res) => {
 
 // Eliminar un estudiante
 exports.deleteEstudiante = async (req, res) => {
+  const transaction = await db.transaction();
   try {
+    const { id } = req.params;
+
+    // Eliminar registros relacionados
+    await FavoritosCalculadora.destroy({ where: { idestudiante: id }, transaction });
+    await FavoritosCuestionario.destroy({ where: { idestudiante: id }, transaction });
+    await HistorialCalculadora.destroy({ where: { idestudiante: id }, transaction });
+    await ProgresoCurso.destroy({ where: { idestudiante: id }, transaction });
+    await PuntajeCuestionario.destroy({ where: { idestudiante: id }, transaction });
+    await SeccionRevisada.destroy({ where: { idestudiante: id }, transaction });
+    await VariableHistorial.destroy({ where: { idhistorial: id }, transaction });
+    await Apunte.destroy({ where: { idestudiante: id }, transaction });
+
+    // Eliminar el estudiante
     const deleted = await EstudianteModel.destroy({
-      where: { idestudiante: req.params.id }
+      where: { idestudiante: id },
+      transaction
     });
+
     if (deleted) {
+      await transaction.commit();
       res.status(204).json();
     } else {
+      await transaction.rollback();
       res.status(404).json({ error: 'Estudiante no encontrado' });
     }
   } catch (error) {
+    await transaction.rollback();
     res.status(500).json({ error: error.message });
   }
 };
