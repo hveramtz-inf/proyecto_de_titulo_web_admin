@@ -27,7 +27,34 @@
 18. **Agregar Calculadora**: El docente podrá crear una calculadora, evitando espacios en la fórmula de entrada, por ejemplo: "x = y a * b", para que funcione correctamente en la aplicación móvil.
 19. **Editar Calculadora**: El docente podrá editar la calculadora que desee.
 20. **Eliminar Calculadora**: El docente podrá eliminar la calculadora que considere pertinente, lo que eliminará todos los datos relacionados.
-21. **Ocultar Calculadora**: El docente podra ocultar la calculadora que desee y considere pertinente.
+21. **Ocultar Calculadora**: El docente podrá ocultar la calculadora que desee y considere pertinente.
+
+22. **Inicio de Sesión del Administrador**: El administrador tendrá que ingresar con sus credenciales.
+
+23. **Ver ClavePucv**: El administrador podrá ver todas las ClavePucv en el sistema.
+
+24. **Crear ClavePucv**: El administrador podrá crear una ClavePucv y agregar un docente para que la imparta. Además, cargará datos por defecto al crear la ClavePucv: cursos, secciones, cuestionarios, calculadoras.
+
+25. **Editar ClavePucv**: El administrador podrá editar la ClavePucv que considere pertinente.
+
+26. **Eliminar ClavePucv**: El administrador podrá eliminar la ClavePucv que desee, eliminando todos los datos relacionados con la ClavePucv.
+
+27. **Ver Docentes**: El administrador podrá ver todos los docentes en el sistema.
+
+28. **Crear Docente**: El administrador podrá crear un docente y asignarle una ClavePucv. Además, cargará datos por defecto al crear la ClavePucv: cursos, secciones, cuestionarios, calculadoras.
+
+29. **Editar Docente**: El administrador podrá editar los datos del docente que considere pertinente.
+
+30. **Eliminar Docente**: El administrador podrá eliminar el docente que desee, eliminando todos los datos relacionados con el docente.
+
+31. **Ver Alumnos**: El administrador podrá ver todos los alumnos en el sistema.
+
+32. **Crear Alumno**: El administrador podrá crear un alumno y asignarle una ClavePucv. Además, cargará datos por defecto al crear la ClavePucv: cursos, secciones, cuestionarios, calculadoras.
+
+33. **Editar Alumno**: El administrador podrá editar los datos del alumno que considere pertinente.
+
+34. **Eliminar Alumno**: El administrador podrá eliminar el alumno que desee, eliminando todos los datos relacionados con el alumno.
+
 
 ## Requisitos No Funcionales
 1. **Rendimiento**: La aplicación debe cargar rápidamente y ser capaz de manejar múltiples interacciones simultáneas sin demoras significativas.
