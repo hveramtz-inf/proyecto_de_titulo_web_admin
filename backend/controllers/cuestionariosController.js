@@ -2,7 +2,8 @@ const Cuestionario = require('../models/CuestionariosModel.js');
 const Curso = require('../models/CursoModel.js');
 const PreguntaCuestionario = require('../models/PreguntaCuestionarioModel.js');
 const RespuestaCuestionario = require('../models/RespuestaCuestionarioModel.js');
-const PuntajeCuestionario = require('../models/PuntajeCuestionarioModel');
+const PuntajeCuestionario = require('../models/PuntajeCuestionarioModel.js');
+const FavoritosCuestionario = require('../models/FavoritosCuestionarioModel.js');
 
 // Obtener todos los cuestionarios
 exports.getAllCuestionarios = async (req, res) => {
@@ -104,6 +105,9 @@ exports.deleteCuestionario = async (req, res) => {
 
     // Eliminar puntajes asociados al cuestionario
     await PuntajeCuestionario.destroy({ where: { idcuestionario: id }, transaction });
+
+    // Eliminar favoritos asociados al cuestionario
+    await FavoritosCuestionario.destroy({ where: { idcuestionario: id }, transaction });
 
     // Eliminar el cuestionario
     const deleted = await Cuestionario.destroy({ where: { id }, transaction });

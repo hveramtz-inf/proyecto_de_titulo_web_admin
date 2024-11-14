@@ -59,17 +59,23 @@ const Cuestionarios = () => {
   };
 
   const handleDelete = async (cuestionarioId) => {
-    const confirmDelete = window.confirm('Se va a eliminar todo lo relacionado con este cuestionario, incluyendo las preguntas, respuestas y puntajes de los alumnnos asociados ¿Estás seguro?');
+    const confirmDelete = window.confirm('Se va a eliminar todo lo relacionado con este cuestionario, incluyendo las preguntas, respuestas y puntajes de los alumnos asociados. ¿Estás seguro?');
     if (confirmDelete) {
       setDeletingId(cuestionarioId);
       try {
         const token = localStorage.getItem('token');
-        await fetch(`https://easy-economy.fly.dev/cuestionarios/${cuestionarioId}`, {
+        if (!token) {
+          throw new Error('No token provided');
+        }
+        const response = await fetch(`https://easy-economy.fly.dev/cuestionarios/${cuestionarioId}`, {
           method: 'DELETE',
           headers: {
-            'Authorization': token,
+            'Authorization': `${token}`,
           },
         });
+        if (!response.ok) {
+          throw new Error('Failed to delete cuestionario');
+        }
         setCuestionarios(cuestionarios.filter(cuestionario => cuestionario.id !== cuestionarioId));
       } catch (error) {
         setError(error);
