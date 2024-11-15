@@ -31,6 +31,7 @@
 ### 4.0 Calculadoras
 4.1 **Visualización de Calculadoras**: El docente podrá ver las calculadoras que estén relacionadas con su ClavePucv.
 4.2 **Agregar Calculadora**: El docente podrá crear una calculadora, evitando espacios en la fórmula de entrada, por ejemplo: "x = y a * b", para que funcione correctamente en la aplicación móvil.
+4.2.1 **Visualizacion previa de formula en latex**: El sistema mostrara en la interfaz una vista previa de como se vera la formula en formato latex para al alumno y en la Visualizacion de Calculadoras.
 4.3 **Editar Calculadora**: El docente podrá editar la calculadora que desee.
 4.4 **Eliminar Calculadora**: El docente podrá eliminar la calculadora que considere pertinente, lo que eliminará todos los datos relacionados.
 4.5 **Ocultar Calculadora**: El docente podrá ocultar la calculadora que desee y considere pertinente.
@@ -74,6 +75,6 @@
 1. Clonar el repositorio.
 2. Abrir el proyecto en Visual Studio.
 3. Abrir 2 terminales; una para el frontend y otra para el backend.
-4. Para el backend, configurar el entorno y las credenciales de Firebase y Neon.tech.
-5. Para el acceso de docente, las credenciales son RUT: 123456789 y contraseña: contrasenia123.
-6. Para el acceso de admin, las credenciales son usuario: abcd y contraseña: contrasenia123.
+4. Para el backend, configurar el entorno y las credenciales de Firebase y Neon.tech (se enviaran las invitaciones por el correo institucional).
+5. Para el acceso de docente ruta base '/', las credenciales son RUT: 123456789 y contraseña: contrasenia123.
+6. Para el acceso de admin ruta base '/inicioSesionAdmin', las credenciales son usuario: abcd y contraseña: contrasenia123.
