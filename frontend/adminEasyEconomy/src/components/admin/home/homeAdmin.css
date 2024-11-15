@@ -17,8 +17,29 @@
 .content-admin {
   width: 100%;
   max-width: 1200px; /* Ancho máximo del contenido */
-  background-color: #ffffff; /* Fondo blanco */
+  background-color: #ffffff38; /* Fondo blanco */
   border-radius: 10px; /* Bordes redondeados */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
   padding: 20px;
+}
+
+/* Estilos responsivos para dispositivos móviles */
+@media (max-width: 768px) {
+  .home-admin-container {
+    padding: 10px;
+  }
+
+  .content-admin {
+    padding: 10px;
+    box-shadow: none; /* Eliminar sombra en dispositivos móviles */
+  }
+
+  .navbar-container {
+    margin-bottom: 10px;
+  }
+
+  .content-admin {
+    max-width: 100%; /* Ancho máximo del contenido */
+    padding: 10px; /* Reducir el padding */
+  }
 }
