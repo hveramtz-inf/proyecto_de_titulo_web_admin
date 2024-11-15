@@ -78,3 +78,4 @@
 4. Para el backend, configurar el entorno y las credenciales de Firebase y Neon.tech (se enviaran las invitaciones por el correo institucional).
 5. Para el acceso de docente ruta base '/', las credenciales son RUT: 123456789 y contraseña: contrasenia123.
 6. Para el acceso de admin ruta base '/inicioSesionAdmin', las credenciales son usuario: abcd y contraseña: contrasenia123.
+7. Para Ver el hosting de la aplicacion web funcionando esta en el siguiente link https://easyeconomy-d48d6.web.app/ .
